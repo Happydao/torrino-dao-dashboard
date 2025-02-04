@@ -12,6 +12,8 @@ jobs:
     steps:
       - name: Checkout repository
         uses: actions/checkout@v3
+        with:
+          token: ${{ secrets.G_TOKEN }} # Usa il token personalizzato
 
       - name: Set up Node.js
         uses: actions/setup-node@v3
@@ -33,8 +35,8 @@ jobs:
           if [[ -n $(git status --porcelain) ]]; then
             git add data.json
             git commit -m "Update NFT data"
-            # Usa il Personal Access Token (G_TOKEN) per fare push
-            echo "${{ secrets.G_TOKEN }}" | git remote set-url origin https://x-access-token:${{ secrets.G_TOKEN }}@github.com/Happydao/torrino-dao-dashboard.git
+            # Imposta l'URL remoto con il token
+            git remote set-url origin https://x-access-token:${{ secrets.G_TOKEN }}@github.com/Happydao/torrino-dao-dashboard.git
             git push origin main
           else
             echo "No changes to commit"
