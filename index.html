@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Torrino DAO NFT Data</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 20px;
+      padding: 0;
+    }
+    h1 {
+      text-align: center;
+    }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 20px;
+    }
+    table, th, td {
+      border: 1px solid #ddd;
+    }
+    th, td {
+      padding: 12px;
+      text-align: left;
+    }
+    th {
+      background-color: #f4f4f4;
+    }
+    tr:nth-child(even) {
+      background-color: #f9f9f9;
+    }
+    tr:hover {
+      background-color: #f1f1f1;
+    }
+  </style>
+</head>
+<body>
+
+<h1>Torrino DAO NFT Data</h1>
+
+<table id="nftData">
+  <thead>
+    <tr>
+      <th>ID</th>
+      <th>Name</th>
+      <th>Owner</th>
+      <th>Attributes</th>
+    </tr>
+  </thead>
+  <tbody>
+    <!-- Dati verranno inseriti qui -->
+  </tbody>
+</table>
+
+<script>
+  // Simula i dati generati dal tuo script
+  const nftData = [
+    { id: 1, name: "NFT #1", owner: "Alice", attributes: ["Red", "Large"] },
+    { id: 2, name: "NFT #2", owner: "Bob", attributes: ["Blue", "Small"] },
+    { id: 3, name: "NFT #3", owner: "Charlie", attributes: ["Green", "Medium"] }
+  ];
+
+  // Funzione per aggiungere i dati alla tabella
+  function populateTable(data) {
+    const tableBody = document.querySelector("#nftData tbody");
+    data.forEach(item => {
+      const row = document.createElement("tr");
+
+      // ID
+      const idCell = document.createElement("td");
+      idCell.textContent = item.id;
+      row.appendChild(idCell);
+
+      // Name
+      const nameCell = document.createElement("td");
+      nameCell.textContent = item.name;
+      row.appendChild(nameCell);
+
+      // Owner
+      const ownerCell = document.createElement("td");
+      ownerCell.textContent = item.owner;
+      row.appendChild(ownerCell);
+
+      // Attributes
+      const attributesCell = document.createElement("td");
+      attributesCell.textContent = item.attributes.join(", ");
+      row.appendChild(attributesCell);
+
+      tableBody.appendChild(row);
+    });
+  }
+
+  // Popola la tabella con i dati
+  populateTable(nftData);
+</script>
+
+</body>
+</html>
