@@ -43,10 +43,8 @@
 <table id="nftData">
   <thead>
     <tr>
-      <th>ID</th>
-      <th>Name</th>
-      <th>Owner</th>
-      <th>Attributes</th>
+      <th>Metrica</th>
+      <th>Valore</th>
     </tr>
   </thead>
   <tbody>
@@ -55,45 +53,52 @@
 </table>
 
 <script>
-  // Simula i dati generati dal tuo script
-  const nftData = [
-    { id: 1, name: "NFT #1", owner: "Alice", attributes: ["Red", "Large"] },
-    { id: 2, name: "NFT #2", owner: "Bob", attributes: ["Blue", "Small"] },
-    { id: 3, name: "NFT #3", owner: "Charlie", attributes: ["Green", "Medium"] }
-  ];
+  // Funzione per caricare i dati da data.json
+  async function fetchNFTData() {
+    try {
+      const response = await fetch('data.json');
+      const data = await response.json();
 
-  // Funzione per aggiungere i dati alla tabella
-  function populateTable(data) {
-    const tableBody = document.querySelector("#nftData tbody");
-    data.forEach(item => {
-      const row = document.createElement("tr");
+      // Ottieni il corpo della tabella
+      const tableBody = document.querySelector("#nftData tbody");
 
-      // ID
-      const idCell = document.createElement("td");
-      idCell.textContent = item.id;
-      row.appendChild(idCell);
+      // Array di righe da aggiungere alla tabella
+      const rows = [
+        { metric: "Ultimo aggiornamento", value: data.lastUpdated },
+        { metric: "Tesoreria Totale", value: `$${data.treasuryValue}` },
+        { metric: "Tesoreria Gen 1 (90%)", value: `$${data.treasuryGen1}` },
+        { metric: "Tesoreria Gen 2 (10%)", value: `$${data.treasuryGen2}` },
+        { metric: "Prezzo SOL Attuale", value: `$${data.solPrice}` },
+        { metric: "Valore NFT Gen 1 (USD)", value: `$${data.nftGen1Value}` },
+        { metric: "Valore NFT Gen 1 (SOL)", value: `${data.nftGen1ValueSol} SOL` },
+        { metric: "Valore NFT Gen 2 (USD)", value: `$${data.nftGen2Value}` },
+        { metric: "Valore NFT Gen 2 (SOL)", value: `${data.nftGen2ValueSol} SOL` },
+        { metric: "Prezzo Listing Gen 1 (USD)", value: `$${data.gen1ListingPrice}` },
+        { metric: "Sconto Gen 1", value: `${data.gen1Discount}%` },
+        { metric: "Prezzo Listing Gen 2 (USD)", value: `$${data.gen2ListingPrice}` },
+        { metric: "Sconto Gen 2", value: `${data.gen2Discount}%` }
+      ];
 
-      // Name
-      const nameCell = document.createElement("td");
-      nameCell.textContent = item.name;
-      row.appendChild(nameCell);
+      // Aggiungi le righe alla tabella
+      rows.forEach(row => {
+        const tr = document.createElement("tr");
+        const metricCell = document.createElement("td");
+        const valueCell = document.createElement("td");
 
-      // Owner
-      const ownerCell = document.createElement("td");
-      ownerCell.textContent = item.owner;
-      row.appendChild(ownerCell);
+        metricCell.textContent = row.metric;
+        valueCell.textContent = row.value;
 
-      // Attributes
-      const attributesCell = document.createElement("td");
-      attributesCell.textContent = item.attributes.join(", ");
-      row.appendChild(attributesCell);
-
-      tableBody.appendChild(row);
-    });
+        tr.appendChild(metricCell);
+        tr.appendChild(valueCell);
+        tableBody.appendChild(tr);
+      });
+    } catch (error) {
+      console.error("Errore durante il caricamento dei dati:", error);
+    }
   }
 
-  // Popola la tabella con i dati
-  populateTable(nftData);
+  // Carica i dati quando la pagina viene caricata
+  fetchNFTData();
 </script>
 
 </body>
