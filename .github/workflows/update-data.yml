@@ -1,0 +1,38 @@
+name: Update NFT Data
+
+on:
+  schedule:
+    - cron: '0 0 * * *' # Ogni giorno alle 00:00 UTC
+
+jobs:
+  update-data:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: '18'
+
+      - name: Install dependencies
+        run: npm install puppeteer axios
+
+      - name: Run the script
+        run: node scripts/full_nft_gist_2.0.js
+        env:
+          TENSOR_API_KEY: ${{ secrets.TENSOR_API_KEY }}
+
+      - name: Commit and push changes
+        run: |
+          git config --local user.email "action@github.com"
+          git config --local user.name "GitHub Action"
+          if [[ -n $(git status --porcelain) ]]; then
+            git add data.json
+            git commit -m "Update NFT data"
+            git push origin main
+          else
+            echo "No changes to commit"
+          fi
