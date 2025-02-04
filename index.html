@@ -1,178 +1,145 @@
 <!DOCTYPE html>
 <html lang="it">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Torrino DAO NFT Data</title>
-  <style>
-    body {
-      font-family: 'Arial', sans-serif;
-      background-color: #121212;
-      color: #e0e0e0;
-      margin: 20px;
-      padding: 0;
-    }
-    h1 {
-      text-align: center;
-      font-size: 2em;
-      margin-bottom: 10px;
-    }
-    .container {
-      max-width: 800px;
-      margin: auto;
-      background-color: #1e1e1e;
-      padding: 20px;
-      border-radius: 10px;
-      box-shadow: 0 0 10px rgba(255, 255, 255, 0.1);
-    }
-    .data-section {
-      padding: 10px 0;
-      border-bottom: 1px solid #333;
-    }
-    .data-section:last-child {
-      border-bottom: none;
-    }
-    .data-title {
-      font-size: 1.2em;
-      margin-bottom: 5px;
-    }
-    .highlight {
-      font-size: 1.1em;
-      font-weight: bold;
-      color: #ffcc00;
-    }
-    .discount {
-      color: #ff6666;
-      font-weight: bold;
-    }
-    .buy-links {
-      margin-top: 15px;
-      text-align: center;
-    }
-    .buy-links a {
-      display: inline-block;
-      margin: 5px;
-      padding: 10px 15px;
-      background-color: #ffcc00;
-      color: #121212;
-      text-decoration: none;
-      font-weight: bold;
-      border-radius: 5px;
-      transition: 0.3s;
-    }
-    .buy-links a:hover {
-      background-color: #ff9900;
-    }
-    .chart-container {
-      margin-top: 30px;
-      text-align: center;
-    }
-    canvas {
-      max-width: 100%;
-      background-color: #fff;
-      border-radius: 5px;
-    }
-  </style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Torrino DAO NFT Data</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            background-color: #009de0; /* Colore blu del logo */
+            color: #ffffff;
+            margin: 20px;
+            padding: 0;
+        }
+        .container {
+            max-width: 800px;
+            margin: auto;
+            background-color: rgba(255, 255, 255, 0.1);
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(255, 255, 255, 0.2);
+        }
+        h1 {
+            text-align: center;
+            font-size: 2em;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 15px;
+        }
+        .logo {
+            width: 50px;
+            height: 50px;
+        }
+        .data-section {
+            padding: 10px 0;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.3);
+        }
+        .data-section:last-child {
+            border-bottom: none;
+        }
+        .highlight {
+            font-size: 1.2em;
+            font-weight: bold;
+            color: #ffcc00;
+        }
+        .discount {
+            color: #ff6666;
+            font-weight: bold;
+        }
+        .purchase-container {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+        .buy-button {
+            background-color: #ffcc00;
+            color: #121212;
+            text-decoration: none;
+            font-weight: bold;
+            padding: 5px 10px;
+            border-radius: 5px;
+            transition: 0.3s;
+            display: inline-block;
+        }
+        .buy-button:hover {
+            background-color: #ff9900;
+        }
+    </style>
 </head>
 <body>
 
-  <div class="container">
-    <h1>📊 Torrino DAO NFT Data</h1>
+    <div class="container">
+        <h1>
+            <img src="torrinodao.jpeg" alt="Torrino DAO Logo" class="logo">
+            📊 Torrino DAO NFT Data
+        </h1>
 
-    <div class="data-section">
-      <p class="data-title">🕒 Ultimo aggiornamento:</p>
-      <p class="highlight" id="lastUpdated">Caricamento...</p>
+        <div class="data-section">
+            <p>🕒 <b>Ultimo aggiornamento:</b> <span id="lastUpdated">Caricamento...</span></p>
+        </div>
+
+        <div class="data-section">
+            <p><b>💰 Tesoreria Totale:</b> <span class="highlight" id="treasuryValue"></span></p>
+            <p>🔹 Gen 1 Tesoreria (90%): <span id="treasuryGen1"></span></p>
+            <p>🔸 Gen 2 Tesoreria (10%): <span id="treasuryGen2"></span></p>
+            <p>🔹 Prezzo SOL attuale: <span id="solPrice"></span></p>
+        </div>
+
+        <div class="data-section">
+            <p><b>🖼️ Valore reale attuale NFT:</b></p>
+            <p>🔹 Torrino DAO (Gen 1): <span id="nftGen1Value"></span> (<span id="nftGen1ValueSol"></span>)</p>
+            <p>🔸 Solnauta (Gen 2): <span id="nftGen2Value"></span> (<span id="nftGen2ValueSol"></span>)</p>
+        </div>
+
+        <div class="data-section">
+            <p><b>📢 Analisi degli sconti sugli NFT:</b></p>
+            <p>📉 <b>Torrino DAO (Gen 1):</b> <span id="gen1ListingPrice"></span></p>
+            <div class="purchase-container">
+                <p class="discount">➡️ Differenza rispetto al valore reale: <span id="gen1Discount"></span>%</p>
+                <a href="https://www.tensor.trade/trade/torrino_dao" target="_blank" class="buy-button">🛒 Acquista</a>
+            </div>
+            <p>📉 <b>Solnauta (Gen 2):</b> <span id="gen2ListingPrice"></span></p>
+            <div class="purchase-container">
+                <p class="discount">➡️ Differenza rispetto al valore reale: <span id="gen2Discount"></span>%</p>
+                <a href="https://www.tensor.trade/trade/solnauta" target="_blank" class="buy-button">🛒 Acquista</a>
+            </div>
+        </div>
+
+        <p><i>💡 Uno sconto elevato potrebbe indicare un'opportunità d'acquisto interessante, ma è sempre consigliabile valutare altri fattori di mercato.</i></p>
+
     </div>
 
-    <div class="data-section">
-      <p class="data-title">💰 Tesoreria Totale:</p>
-      <p class="highlight" id="treasuryValue"></p>
-      <p>🔹 Gen 1 Tesoreria (90%): <span id="treasuryGen1"></span></p>
-      <p>🔸 Gen 2 Tesoreria (10%): <span id="treasuryGen2"></span></p>
-      <p>🔹 Prezzo SOL attuale: <span id="solPrice"></span></p>
-    </div>
+    <script>
+        async function fetchData() {
+            try {
+                const response = await fetch('data.json');
+                const data = await response.json();
 
-    <div class="data-section">
-      <p class="data-title">🖼️ Valore reale attuale NFT:</p>
-      <p>🔹 Torrino DAO (Gen 1): <span id="nftGen1Value"></span> (<span id="nftGen1ValueSol"></span>)</p>
-      <p>🔸 Solnauta (Gen 2): <span id="nftGen2Value"></span> (<span id="nftGen2ValueSol"></span>)</p>
-    </div>
+                document.getElementById("lastUpdated").textContent = data.latest.lastUpdated;
+                document.getElementById("treasuryValue").textContent = `$${data.latest.treasuryValue}`;
+                document.getElementById("treasuryGen1").textContent = `$${data.latest.treasuryGen1}`;
+                document.getElementById("treasuryGen2").textContent = `$${data.latest.treasuryGen2}`;
+                document.getElementById("solPrice").textContent = `$${data.latest.solPrice}`;
 
-    <div class="data-section">
-      <p class="data-title">📢 Analisi degli sconti sugli NFT:</p>
-      <p>📉 <b>Torrino DAO (Gen 1):</b> <span id="gen1ListingPrice"></span></p>
-      <p class="discount">➡️ Differenza rispetto al valore reale: <span id="gen1Discount"></span></p>
-      <p>📉 <b>Solnauta (Gen 2):</b> <span id="gen2ListingPrice"></span></p>
-      <p class="discount">➡️ Differenza rispetto al valore reale: <span id="gen2Discount"></span></p>
-    </div>
+                document.getElementById("nftGen1Value").textContent = `$${data.latest.nftGen1Value}`;
+                document.getElementById("nftGen1ValueSol").textContent = `${data.latest.nftGen1ValueSol} SOL`;
+                document.getElementById("nftGen2Value").textContent = `$${data.latest.nftGen2Value}`;
+                document.getElementById("nftGen2ValueSol").textContent = `${data.latest.nftGen2ValueSol} SOL`;
 
-    <p><i>💡 Uno sconto elevato potrebbe indicare un'opportunità d'acquisto interessante, ma è sempre consigliabile valutare altri fattori di mercato.</i></p>
+                document.getElementById("gen1ListingPrice").textContent = `$${data.latest.gen1ListingPrice}`;
+                document.getElementById("gen1Discount").textContent = `${data.latest.gen1Discount}%`;
+                document.getElementById("gen2ListingPrice").textContent = `$${data.latest.gen2ListingPrice}`;
+                document.getElementById("gen2Discount").textContent = `${data.latest.gen2Discount}%`;
 
-    <div class="buy-links">
-      <a href="https://www.tensor.trade/trade/torrino_dao" target="_blank">🛒 Acquista Torrino DAO</a>
-      <a href="https://www.tensor.trade/trade/solnauta" target="_blank">🛒 Acquista Solnauta</a>
-    </div>
-
-    <div class="chart-container">
-      <h2>📈 Andamento del Valore</h2>
-      <canvas id="chartNFT"></canvas>
-    </div>
-  </div>
-
-  <script>
-    async function fetchNFTData() {
-      try {
-        const response = await fetch('data.json');
-        const data = await response.json();
-
-        document.getElementById("lastUpdated").textContent = data.lastUpdated;
-        document.getElementById("treasuryValue").textContent = `$${data.treasuryValue}`;
-        document.getElementById("treasuryGen1").textContent = `$${data.treasuryGen1}`;
-        document.getElementById("treasuryGen2").textContent = `$${data.treasuryGen2}`;
-        document.getElementById("solPrice").textContent = `$${data.solPrice}`;
-
-        document.getElementById("nftGen1Value").textContent = `$${data.nftGen1Value}`;
-        document.getElementById("nftGen1ValueSol").textContent = `${data.nftGen1ValueSol} SOL`;
-        document.getElementById("nftGen2Value").textContent = `$${data.nftGen2Value}`;
-        document.getElementById("nftGen2ValueSol").textContent = `${data.nftGen2ValueSol} SOL`;
-
-        document.getElementById("gen1ListingPrice").textContent = `$${data.gen1ListingPrice}`;
-        document.getElementById("gen1Discount").textContent = `-${data.gen1Discount}%`;
-        document.getElementById("gen2ListingPrice").textContent = `$${data.gen2ListingPrice}`;
-        document.getElementById("gen2Discount").textContent = `-${data.gen2Discount}%`;
-
-        renderChart(data);
-      } catch (error) {
-        console.error("Errore nel caricamento dei dati:", error);
-      }
-    }
-
-    function renderChart(data) {
-      const ctx = document.getElementById('chartNFT').getContext('2d');
-      new Chart(ctx, {
-        type: 'line',
-        data: {
-          labels: ["Gen 1", "Gen 2"],
-          datasets: [{
-            label: "Valore NFT (USD)",
-            data: [data.nftGen1Value, data.nftGen2Value],
-            borderColor: "#ffcc00",
-            borderWidth: 2,
-            fill: false
-          }]
-        },
-        options: {
-          responsive: true,
-          scales: {
-            y: { beginAtZero: true }
-          }
+            } catch (error) {
+                console.error("Errore nel caricamento dei dati:", error);
+            }
         }
-      });
-    }
 
-    fetchNFTData();
-  </script>
-  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+        fetchData();
+    </script>
 
 </body>
 </html>
