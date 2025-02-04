@@ -23,7 +23,7 @@ jobs:
         run: npm install puppeteer axios
 
       - name: Run the script
-        run: node scripts/full_nft_gist_2.0.js
+        run: node node scripts/data_update.js
         env:
           TENSOR_API_KEY: ${{ secrets.TENSOR_API_KEY }}
 
