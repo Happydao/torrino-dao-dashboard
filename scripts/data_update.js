@@ -10,6 +10,7 @@ async function getTreasuryValue() {
     });
     const page = await browser.newPage();
     await page.setUserAgent('Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/119.0.0.0 Safari/537.36');
+    
     console.log("🔄 Apro Step Finance...");
     await page.goto('https://app.step.finance/en/dashboard?watching=EKjb5grMX19c3cAZa5LQjqksDpqqVLTGZrswh79WkPdD', {
         waitUntil: 'networkidle2',
@@ -17,10 +18,12 @@ async function getTreasuryValue() {
     });
     console.log("⏳ Aspetto il caricamento completo...");
     await new Promise(resolve => setTimeout(resolve, 30000));
+
     console.log("📥 Estrazione del valore...");
     const portfolioValue = await page.evaluate(() => {
         return document.title.split('|')[0].trim().replace('$', '').replace(' USD', '');
     });
+
     await browser.close();
     console.log(`✅ Valore della tesoreria estratto: $${portfolioValue}`);
     return parseFloat(portfolioValue.replace(/,/g, ''));
@@ -44,15 +47,13 @@ async function calculateNFTValues(treasuryValue) {
     if (isNaN(treasuryValue)) {
         throw new Error("❌ Errore: impossibile leggere il valore della tesoreria.");
     }
-    const treasuryGen1 = treasuryValue * 0.90; // 90% per Gen 1
-    const treasuryGen2 = treasuryValue * 0.10; // 10% per Gen 2
+    const treasuryGen1 = treasuryValue * 0.90;
+    const treasuryGen2 = treasuryValue * 0.10;
     const nftGen1Count = 500;
     const nftGen2Count = 888;
     const nftGen1Value = treasuryGen1 / nftGen1Count;
     const nftGen2Value = treasuryGen2 / nftGen2Count;
     const solPrice = await getSolPrice();
-    const nftGen1ValueSol = solPrice ? (nftGen1Value / solPrice) : null;
-    const nftGen2ValueSol = solPrice ? (nftGen2Value / solPrice) : null;
     return {
         treasuryValue,
         treasuryGen1,
@@ -60,8 +61,8 @@ async function calculateNFTValues(treasuryValue) {
         nftGen1Value,
         nftGen2Value,
         solPrice,
-        nftGen1ValueSol,
-        nftGen2ValueSol
+        nftGen1ValueSol: solPrice ? (nftGen1Value / solPrice).toFixed(2) : null,
+        nftGen2ValueSol: solPrice ? (nftGen2Value / solPrice).toFixed(2) : null
     };
 }
 
@@ -74,13 +75,11 @@ async function getGen1ListingPrice() {
                 'x-tensor-api-key': process.env.TENSOR_API_KEY,
             },
         });
-        const priceInLamport = response.data.mints[0].listing.price; // Prezzo in lamport
-        const solPrice = priceInLamport / 1000000000; // Conversione da lamport a sol
-        const royalties = solPrice * 0.06;
-        const priceWithRoyalties = solPrice + royalties;
-        return priceWithRoyalties;
+        const priceInLamport = response.data.mints[0].listing.price;
+        const solPrice = priceInLamport / 1000000000;
+        return solPrice + (solPrice * 0.06); // Aggiunge royalties
     } catch (error) {
-        console.error('Errore durante il recupero del prezzo di listing di Gen 1:', error);
+        console.error('❌ Errore nel recupero del prezzo di listing di Gen 1:', error);
         return null;
     }
 }
@@ -94,24 +93,13 @@ async function getGen2ListingPrice() {
                 'x-tensor-api-key': process.env.TENSOR_API_KEY,
             },
         });
-        const priceInLamport = response.data.mints[0].listing.price; // Prezzo in lamport
-        const solPrice = priceInLamport / 1000000000; // Conversione da lamport a sol
-        const royalties = solPrice * 0.06;
-        const priceWithRoyalties = solPrice + royalties;
-        return priceWithRoyalties;
+        const priceInLamport = response.data.mints[0].listing.price;
+        const solPrice = priceInLamport / 1000000000;
+        return solPrice + (solPrice * 0.06); // Aggiunge royalties
     } catch (error) {
-        console.error('Errore durante il recupero del prezzo di listing di Gen 2:', error);
+        console.error('❌ Errore nel recupero del prezzo di listing di Gen 2:', error);
         return null;
     }
-}
-
-// 🔹 Funzione per calcolare la percentuale di sconto
-function calculateDiscount(listingPrice, nftValue) {
-    if (listingPrice && nftValue) {
-        const discount = ((listingPrice - nftValue) / nftValue) * 100;
-        return discount.toFixed(2);
-    }
-    return 'Errore';
 }
 
 // 🔹 Funzione per salvare i dati in un file JSON
@@ -120,8 +108,8 @@ async function saveDataToFile(data) {
     const formattedDate = now.toLocaleString("it-IT", { timeZone: "Europe/Rome" });
     const gen1ListingPrice = await getGen1ListingPrice();
     const gen2ListingPrice = await getGen2ListingPrice();
-    const gen1Discount = gen1ListingPrice ? calculateDiscount(gen1ListingPrice * data.solPrice, data.nftGen1Value) : 'Errore';
-    const gen2Discount = gen2ListingPrice ? calculateDiscount(gen2ListingPrice * data.solPrice, data.nftGen2Value) : 'Errore';
+    const gen1ListingPriceUSD = gen1ListingPrice ? (gen1ListingPrice * data.solPrice).toFixed(2) : 'Errore';
+    const gen2ListingPriceUSD = gen2ListingPrice ? (gen2ListingPrice * data.solPrice).toFixed(2) : 'Errore';
 
     const output = {
         lastUpdated: formattedDate,
@@ -130,13 +118,15 @@ async function saveDataToFile(data) {
         treasuryGen2: Math.round(data.treasuryGen2),
         solPrice: Math.round(data.solPrice),
         nftGen1Value: Math.round(data.nftGen1Value),
-        nftGen1ValueSol: data.nftGen1ValueSol ? data.nftGen1ValueSol.toFixed(2) : 'Errore',
+        nftGen1ValueSol: data.nftGen1ValueSol ? data.nftGen1ValueSol : 'Errore',
         nftGen2Value: Math.round(data.nftGen2Value),
-        nftGen2ValueSol: data.nftGen2ValueSol ? data.nftGen2ValueSol.toFixed(2) : 'Errore',
-        gen1ListingPrice: gen1ListingPrice ? (gen1ListingPrice * data.solPrice).toFixed(2) : 'Errore',
-        gen2ListingPrice: gen2ListingPrice ? (gen2ListingPrice * data.solPrice).toFixed(2) : 'Errore',
-        gen1Discount,
-        gen2Discount
+        nftGen2ValueSol: data.nftGen2ValueSol ? data.nftGen2ValueSol : 'Errore',
+        gen1ListingPrice: gen1ListingPriceUSD,
+        gen1ListingPriceSol: gen1ListingPrice ? gen1ListingPrice.toFixed(2) : 'Errore',
+        gen2ListingPrice: gen2ListingPriceUSD,
+        gen2ListingPriceSol: gen2ListingPrice ? gen2ListingPrice.toFixed(2) : 'Errore',
+        gen1Discount: gen1ListingPrice ? (((gen1ListingPrice * data.solPrice - data.nftGen1Value) / data.nftGen1Value) * 100).toFixed(2) : 'Errore',
+        gen2Discount: gen2ListingPrice ? (((gen2ListingPrice * data.solPrice - data.nftGen2Value) / data.nftGen2Value) * 100).toFixed(2) : 'Errore'
     };
 
     fs.writeFileSync('data.json', JSON.stringify(output, null, 2));
