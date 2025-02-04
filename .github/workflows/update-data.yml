@@ -23,7 +23,7 @@ jobs:
         run: npm install puppeteer axios
 
       - name: Run the script
-        run: node node scripts/data_update.js
+        run: node scripts/data_update.js
         env:
           TENSOR_API_KEY: ${{ secrets.TENSOR_API_KEY }}
 
