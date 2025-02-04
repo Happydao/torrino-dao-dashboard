@@ -2,7 +2,7 @@ name: Update NFT Data
 
 on:
   schedule:
-    - cron: '0 0 * * *' # Ogni giorno alle 00:00 UTC
+    - cron: '0 * * * *' # Ogni ora (al minuto 0 di ogni ora)
   workflow_dispatch: # Permette l'avvio manuale
 
 jobs:
