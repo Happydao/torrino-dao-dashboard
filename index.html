@@ -96,13 +96,6 @@
 
     <div class="data-section">
       <p><b>📢 Analisi degli sconti sugli NFT:</b></p>
-      <p>I prezzi di listing degli NFT sono confrontati con il loro valore reale basato sulla tesoreria.</p>
-      <p>Se il prezzo di listing è inferiore al valore reale, l'NFT è considerato "in sconto".</p>
-      <p>Questo può rappresentare un'opportunità di acquisto vantaggiosa rispetto alla valutazione attuale della tesoreria.</p>
-    </div>
-
-    <div class="data-section">
-      <p><b>🔻 Prezzi di listing attuali e sconto rispetto al valore reale:</b></p>
       <p>📉 <b>Torrino DAO (Gen 1):</b> <span id="gen1ListingPrice"></span></p>
       <p class="discount">➡️ Differenza rispetto al valore reale: <span id="gen1Discount"></span></p>
       <p>📉 <b>Solnauta (Gen 2):</b> <span id="gen2ListingPrice"></span></p>
@@ -126,6 +119,9 @@
     async function fetchNFTData() {
       try {
         const response = await fetch('data.json');
+        if (!response.ok) {
+          throw new Error(`HTTP error! Status: ${response.status}`);
+        }
         const data = await response.json();
 
         document.getElementById("lastUpdated").textContent = data.lastUpdated;
@@ -139,9 +135,9 @@
         document.getElementById("nftGen2Value").textContent = `$${data.nftGen2Value}`;
         document.getElementById("nftGen2ValueSol").textContent = `${data.nftGen2ValueSol} SOL`;
 
-        document.getElementById("gen1ListingPrice").textContent = $${data.gen1ListingPrice} (${data.gen1ListingPriceSol} SOL);
+        document.getElementById("gen1ListingPrice").textContent = `$${data.gen1ListingPrice} (${data.gen1ListingPriceSol} SOL)`;
         document.getElementById("gen1Discount").textContent = `${data.gen1Discount}%`;
-        document.getElementById("gen2ListingPrice").textContent = $${data.gen2ListingPrice} (${data.gen2ListingPriceSol} SOL);
+        document.getElementById("gen2ListingPrice").textContent = `$${data.gen2ListingPrice} (${data.gen2ListingPriceSol} SOL)`;
         document.getElementById("gen2Discount").textContent = `${data.gen2Discount}%`;
 
       } catch (error) {
