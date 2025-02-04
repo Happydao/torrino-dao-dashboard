@@ -3,7 +3,9 @@ name: Update NFT Data
 on:
   schedule:
     - cron: '0 0 * * *' # Ogni giorno alle 00:00 UTC
-
+  # Consente l'avvio manuale del workflow
+  workflow_dispatch: 
+  
 jobs:
   update-data:
     runs-on: ubuntu-latest
