@@ -14,10 +14,10 @@ async function getTreasuryValue() {
     console.log("🔄 Apro Step Finance...");
     await page.goto('https://app.step.finance/en/dashboard?watching=EKjb5grMX19c3cAZa5LQjqksDpqqVLTGZrswh79WkPdD', {
         waitUntil: 'networkidle2',
-        timeout: 90000
+        timeout: 120000
     });
     console.log("⏳ Aspetto il caricamento completo...");
-    await new Promise(resolve => setTimeout(resolve, 30000));
+    await new Promise(resolve => setTimeout(resolve, 90000));
 
     console.log("📥 Estrazione del valore...");
     const portfolioValue = await page.evaluate(() => {
