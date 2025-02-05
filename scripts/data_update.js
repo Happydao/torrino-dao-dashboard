@@ -18,7 +18,7 @@ async function getTreasuryValue() {
     });
 
     console.log("⏳ Aspetto il caricamento completo...");
-    await page.waitForTimeout(90000);
+    await new Promise(resolve => setTimeout(resolve, 90000));
 
     console.log("📥 Estrazione del valore della tesoreria...");
     const portfolioValue = await page.evaluate(() => {
