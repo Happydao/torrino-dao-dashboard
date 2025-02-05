@@ -1,0 +1,15 @@
+{
+  "name": "torrino-dao-dashboard",
+  "version": "1.0.0",
+  "description": "Dashboard per Torrino DAO NFT",
+  "main": "data_update.js",
+  "scripts": {
+    "start": "node data_update.js"
+  },
+  "dependencies": {
+    "puppeteer": "^21.0.0",
+    "axios": "^1.4.0"
+  },
+  "author": "HappyDAO",
+  "license": "MIT"
+}
