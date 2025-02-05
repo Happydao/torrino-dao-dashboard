@@ -18,17 +18,46 @@ async function getTreasuryValue() {
     });
 
     console.log("⏳ Aspetto il caricamento completo...");
-    await new Promise(resolve => setTimeout(resolve, 90000));
+    await page.waitForSelector('body', { timeout: 120000 }); // Attendi che il corpo della pagina sia pronto
+    await new Promise(resolve => setTimeout(resolve, 5000)); // Aspetta altri 5 secondi per sicurezza
 
     console.log("📥 Estrazione del valore della tesoreria...");
+
     const portfolioValue = await page.evaluate(() => {
-        const element = document.querySelector('[data-testid="portfolio-value"], .number-xl'); // Verifica il selettore corretto
+        console.log("🔍 DEBUG: Stampiamo tutti gli elementi della pagina...");
+
+        // Trova tutti gli elementi HTML e stampa una parte del loro contenuto
+        const allElements = [...document.querySelectorAll('*')].map(el => el.outerHTML.substring(0, 100));
+        console.log(allElements.join("\n"));
+
+        // Proviamo diversi selettori per trovare il valore corretto
+        const element = document.querySelector('[data-testid="portfolio-value"], .number-xl, span, div');
         if (!element) {
-            console.error("❌ Nessun elemento trovato per la tesoreria.");
+            console.log("❌ Nessun elemento trovato per la tesoreria. Provo con childNodes...");
+            
+            // Se l'elemento non è direttamente disponibile, proviamo a cercarlo nei nodi figlio
+            const possibleElements = [...document.querySelectorAll('span, div')]
+                .map(el => el.innerText || el.textContent)
+                .filter(text => text && text.includes('$'));
+
+            if (possibleElements.length > 0) {
+                console.log("✅ Valore trovato nei childNodes:", possibleElements[0]);
+                return possibleElements[0].replace('$', '').replace('.', '').replace(',', '.').trim();
+            }
+
             return null;
         }
+
+        console.log("✅ Elemento trovato:", element.outerHTML);
         return element.innerText.replace('$', '').replace('.', '').replace(',', '.').trim();
     });
+
+    if (!portfolioValue || isNaN(portfolioValue)) {
+        throw new Error("❌ Errore: impossibile leggere il valore della tesoreria.");
+    }
+
+    console.log(`✅ Valore della tesoreria estratto: $${portfolioValue}`);
+
 
     await browser.close();
 
