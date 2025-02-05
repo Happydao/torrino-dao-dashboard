@@ -1,17 +1,17 @@
 {
-  "lastUpdated": "05/02/2025, 11:37:09",
-  "treasuryValue": 419710,
-  "treasuryGen1": 377739,
-  "treasuryGen2": 41971,
-  "solPrice": 205,
-  "nftGen1Value": 755,
+  "lastUpdated": "05/02/2025, 12:22:40",
+  "treasuryValue": 420994,
+  "treasuryGen1": 378895,
+  "treasuryGen2": 42099,
+  "solPrice": 206,
+  "nftGen1Value": 758,
   "nftGen1ValueSol": "3.68",
   "nftGen2Value": 47,
   "nftGen2ValueSol": "0.23",
-  "gen1ListingPrice": "521.72",
+  "gen1ListingPrice": "523.73",
   "gen1ListingPriceSol": "2.54",
-  "gen2ListingPrice": "31.96",
+  "gen2ListingPrice": "32.08",
   "gen2ListingPriceSol": "0.16",
-  "gen1Discount": "-30.94",
-  "gen2Discount": "-32.39"
+  "gen1Discount": "-30.89",
+  "gen2Discount": "-32.34"
 }
