@@ -12,22 +12,30 @@ async function getTreasuryValue() {
     await page.setUserAgent('Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/119.0.0.0 Safari/537.36');
     
     console.log("🔄 Apro Step Finance...");
-    await page.goto('https://app.step.finance/en/dashboard?watching=EKjb5grMX19c3cAZa5LQjqksDpqqVLTGZrswh79WkPdD', {
+    await page.goto('https://app.step.finance/portfolio?wallet=EKjb5grMX19c3cAZa5LQjqksDpqqVLTGZrswh79WkPdD', {
         waitUntil: 'networkidle2',
         timeout: 120000
     });
+
     console.log("⏳ Aspetto il caricamento completo...");
     await new Promise(resolve => setTimeout(resolve, 90000));
 
     console.log("📥 Estrazione del valore...");
     const portfolioValue = await page.evaluate(() => {
-        return document.title.split('|')[0].trim().replace('$', '').replace(' USD', '');
+        const element = document.querySelector('[data-testid="portfolio-value"], .number-xl, .your-custom-selector'); // Prova diversi selettori
+        return element ? element.innerText.replace('$', '').replace('.', '').replace(',', '.').trim() : null;
     });
 
     await browser.close();
+
+    if (!portfolioValue) {
+        throw new Error("❌ Errore: impossibile leggere il valore della tesoreria.");
+    }
+
     console.log(`✅ Valore della tesoreria estratto: $${portfolioValue}`);
-    return parseFloat(portfolioValue.replace(/,/g, ''));
+    return parseFloat(portfolioValue);
 }
+
 
 // 🔹 Funzione per ottenere il prezzo di SOL da CoinGecko
 async function getSolPrice() {
