@@ -177,10 +177,15 @@ analyzeNFTs()
     .then(() => {
         console.log(`\n🔹 Valore registrato in totalNFTValue: $${totalNFTValue.toFixed(2)}`);
 
-        // Stampa in JSON il valore per essere letto dallo script principale
+        // Separiamo il log informativo dal JSON finale
+        console.log("--- JSON OUTPUT START ---");
         console.log(JSON.stringify({ totalNFTValue }));
+        console.log("--- JSON OUTPUT END ---");
     })
     .catch((error) => {
         console.error("❌ Errore durante l'analisi degli NFT:", error);
+
+        console.log("--- JSON OUTPUT START ---");
         console.log(JSON.stringify({ totalNFTValue: 0 })); // Se errore, restituisce 0
+        console.log("--- JSON OUTPUT END ---");
     });
