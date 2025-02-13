@@ -2,26 +2,7 @@ const fs = require('fs');
 const axios = require('axios');
 require('dotenv').config();
 
-// Token e API keys
-const GITHUB_TOKEN = process.env.G_TOKEN;
-
-// Funzione per ottenere il valore della tesoreria da `data.json`
-function getTreasuryValue() {
-    try {
-        if (!fs.existsSync('data.json')) {
-            console.error("❌ Errore: file data.json non trovato.");
-            return null;
-        }
-
-        const data = JSON.parse(fs.readFileSync('data.json', 'utf8'));
-        return data.treasuryValue || null;
-    } catch (error) {
-        console.error("❌ Errore nella lettura di data.json:", error);
-        return null;
-    }
-}
-
-// Funzione per ottenere il prezzo di SOL da CoinGecko
+// 🔹 Recupera il prezzo di SOL da CoinGecko
 async function getSolPrice() {
     try {
         const response = await axios.get('https://api.coingecko.com/api/v3/simple/price?ids=solana&vs_currencies=usd');
@@ -32,7 +13,7 @@ async function getSolPrice() {
     }
 }
 
-// Funzione per ottenere i prezzi di listing degli NFT Gen1 e Gen2
+// 🔹 Recupera i prezzi di listing NFT (Gen 1 e Gen 2)
 async function getListingPrices() {
     try {
         const gen1Response = await axios.get(
@@ -54,26 +35,46 @@ async function getListingPrices() {
     }
 }
 
+// 🔹 Legge il valore della tesoreria dall'output JSON di `totalvalue.js`
+function getTreasuryFromTotalValue() {
+    try {
+        const outputData = fs.readFileSync('totalvalue_output.json', 'utf8');
+        const totalValueData = JSON.parse(outputData);
+        return totalValueData;
+    } catch (error) {
+        console.error("❌ Errore nel recupero del valore della tesoreria da `totalvalue_output.json`:", error);
+        return null;
+    }
+}
+
+// 🔹 Funzione principale per calcolare e scrivere `data.json`
 async function main() {
     try {
-        // 🔹 Legge il valore della tesoreria da `data.json`
-        const treasuryValue = getTreasuryValue();
-        if (treasuryValue === null) {
+        // 🔄 Ottiene il valore della tesoreria da `totalvalue.js`
+        const totalValueData = getTreasuryFromTotalValue();
+        if (!totalValueData) {
             console.error("❌ Errore: valore della tesoreria non disponibile.");
             return;
         }
 
+        const treasuryValue = parseFloat(totalValueData.totalTreasury);
+        const tokenValue = parseFloat(totalValueData.tokenValue);
+        const stakingValue = parseFloat(totalValueData.stakingValue);
+        const nftValue = parseFloat(totalValueData.nftValue);
+
+        console.log(`✅ Valore tesoreria ricevuto da totalvalue.js: $${treasuryValue}`);
+
+        // 🔹 Ottieni il prezzo di SOL
         const solPrice = await getSolPrice();
         if (solPrice === null) {
             console.error("❌ Errore: prezzo SOL non disponibile.");
             return;
         }
 
+        // 🔹 Ottieni i prezzi di listing NFT
         const listingPrices = await getListingPrices();
-        if (listingPrices.gen1 === null || listingPrices.gen2 === null) {
-            console.error("❌ Errore: impossibile ottenere i prezzi di listing NFT.");
-        }
 
+        // 🔹 Costruisce i dati per `data.json`
         const data = {
             lastUpdated: new Date().toLocaleString("it-IT", { timeZone: "Europe/Rome" }),
             treasuryValue: Math.round(treasuryValue),
@@ -96,13 +97,15 @@ async function main() {
                 : "N/A"
         };
 
-        // 🔹 Salva il file data.json
+        // 🔹 Salva `data.json`
         fs.writeFileSync('data.json', JSON.stringify(data, null, 2));
-        console.log("✅ Data salvata in data.json");
+        console.log("✅ `data.json` aggiornato con successo!");
+        console.log("📂 Contenuto aggiornato:", JSON.stringify(data, null, 2));
 
     } catch (error) {
         console.error("❌ Errore generale:", error);
     }
 }
 
+// 🔹 Esegui lo script
 main();
