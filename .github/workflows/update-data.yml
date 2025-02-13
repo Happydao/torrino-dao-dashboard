@@ -23,8 +23,8 @@ jobs:
       
       - name: Run Scripts
         run: |
-          node totalvalue.js
-          node calculate.js
+          node scripts/totalvalue.js
+          node scripts/calculate.js
         env:
           G_TOKEN: ${{ secrets.G_TOKEN }}
           HELIUS_API_KEY: ${{ secrets.HELIUS_API_KEY }}
