@@ -1,9 +1,9 @@
-name: Update NFT Data
+name: Update Treasury Data
 
 on:
- # schedule:
- #   - cron: '0 * * * *' # Ogni ora al minuto 0
-  workflow_dispatch: # Permette l'avvio manuale
+  schedule:
+    - cron: '0 */12 * * *'  # Ogni 12 ore
+  workflow_dispatch:  # Avvio manuale
 
 jobs:
   update-data:
@@ -13,7 +13,7 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v3
         with:
-          token: ${{ secrets.G_TOKEN }} # Usa il token personalizzato
+          token: ${{ secrets.G_TOKEN }}
 
       - name: Set up Node.js
         uses: actions/setup-node@v3
@@ -23,7 +23,10 @@ jobs:
       - name: Install dependencies
         run: npm install
 
-      - name: Run the script
+      - name: Run totalvalue.js
+        run: node scripts/totalvalue.js
+
+      - name: Run data_update.js
         run: node scripts/data_update.js
         env:
           TENSOR_API_KEY: ${{ secrets.TENSOR_API_KEY }}
@@ -34,10 +37,8 @@ jobs:
           git config --local user.name "GitHub Action"
           if [[ -n $(git status --porcelain) ]]; then
             git add data.json
-            git commit -m "Update NFT data"
-            # Imposta l'URL remoto con il token
+            git commit -m "Aggiornamento automatico della tesoreria e dati NFT"
             git remote set-url origin https://x-access-token:${{ secrets.G_TOKEN }}@github.com/Happydao/torrino-dao-dashboard.git
             git push origin main
           else
-            echo "No changes to commit"
-          fi
+            echo "Nessuna modifica da salvare"
