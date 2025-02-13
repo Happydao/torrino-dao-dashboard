@@ -21,7 +21,7 @@ jobs:
           node-version: '18'
           
       - name: Install dependencies
-        run: npm install  # Installa dotenv e altre dipendenze
+        run: npm ci  # Installa le dipendenze da package.json
 
       - name: Install dependencies
         run: npm install
