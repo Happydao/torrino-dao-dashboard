@@ -25,10 +25,14 @@ jobs:
 
       - name: Run totalvalue.js
         run: node scripts/totalvalue.js
+        env:
+          HELIUS_API_KEY: ${{ secrets.HELIUS_API_KEY }}
+          TENSOR_API_KEY: ${{ secrets.TENSOR_API_KEY }}
 
       - name: Run data_update.js
         run: node scripts/data_update.js
         env:
+          HELIUS_API_KEY: ${{ secrets.HELIUS_API_KEY }}
           TENSOR_API_KEY: ${{ secrets.TENSOR_API_KEY }}
 
       - name: Commit and push changes
