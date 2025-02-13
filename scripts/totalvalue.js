@@ -1,5 +1,5 @@
 const { spawn } = require("child_process");
-const scripts = ["token.js", "staking.js", "nft.js"];
+const scripts = ["scripts/token.js", "scripts/staking.js", "scripts/nft.js"];
 let totalTreasury = 0;
 
 const executeScript = (script) => {
