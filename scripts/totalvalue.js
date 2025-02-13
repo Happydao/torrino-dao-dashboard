@@ -46,6 +46,8 @@ const executeScript = (script) => {
     });
 };
 
+const fs = require("fs"); // Importa il modulo per scrivere su file
+
 const calculateTotalTreasury = async () => {
     try {
         for (const script of scripts) {
@@ -67,6 +69,11 @@ const calculateTotalTreasury = async () => {
         console.log("\n--- JSON OUTPUT START ---");
         console.log(JSON.stringify(treasuryData));
         console.log("--- JSON OUTPUT END ---");
+
+        // 🔹 Salva i dati in un file per essere usati da `calculate.js`
+        fs.writeFileSync("totalvalue_output.json", JSON.stringify(treasuryData, null, 2));
+        console.log("✅ `totalvalue_output.json` salvato con successo!");
+
     } catch (error) {
         console.error("❌ Errore nel calcolo della tesoreria:", error);
     }
