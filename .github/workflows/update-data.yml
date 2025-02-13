@@ -1,7 +1,7 @@
 name: Update Treasury Data
 on:
   schedule:
-    - cron: '0 */12 * * *'  # Ogni 12 ore
+    - cron: '0 */12 * * *'
   workflow_dispatch:
 
 jobs:
@@ -17,18 +17,17 @@ jobs:
           node-version: '18'
       
       - name: Install dependencies
-        run: npm install axios dotenv
+        run: |
+          npm install puppeteer axios dotenv
+          npm install @solana/web3.js
       
-      - name: Run totalvalue.js
-        run: node totalvalue.js
+      - name: Run Scripts
+        run: |
+          node totalvalue.js
+          node calculate.js
         env:
           G_TOKEN: ${{ secrets.G_TOKEN }}
           HELIUS_API_KEY: ${{ secrets.HELIUS_API_KEY }}
-      
-      - name: Run calculate.js
-        run: node calculate.js
-        env:
-          G_TOKEN: ${{ secrets.G_TOKEN }}
           TENSOR_API_KEY: ${{ secrets.TENSOR_API_KEY }}
       
       - name: Commit and push changes
