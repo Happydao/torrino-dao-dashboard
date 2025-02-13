@@ -1,15 +1,12 @@
 {
   "name": "torrino-dao-dashboard",
   "version": "1.0.0",
-  "description": "Dashboard per Torrino DAO NFT",
-  "main": "data_update.js",
+  "description": "Script per il calcolo della tesoreria",
+  "main": "totalvalue.js",
   "scripts": {
-    "start": "node data_update.js"
+    "start": "node scripts/totalvalue.js"
   },
   "dependencies": {
-    "puppeteer": "^22.8.2",
-    "axios": "^1.4.0"
-  },
-  "author": "HappyDAO",
-  "license": "MIT"
+    "dotenv": "^16.0.3"
+  }
 }
