@@ -175,18 +175,22 @@ const analyzeNFTs = async () => {
 
 analyzeNFTs()
     .then(() => {
-        // Assicuriamoci che il valore sia valido
+        // Garantiamo che totalNFTValue sia un numero valido
         totalNFTValue = isNaN(totalNFTValue) ? 0 : totalNFTValue;
 
-        // Log separati
+        // Log separato per evitare interferenze
         console.log(`\n🔹 Valore registrato in totalNFTValue: $${totalNFTValue.toFixed(2)}`);
-        
-        // JSON pulito senza interferenze
+
+        // Aggiungiamo un marcatore per il JSON
+        console.log("--- JSON OUTPUT START ---");
         console.log(JSON.stringify({ totalNFTValue }));
+        console.log("--- JSON OUTPUT END ---");
     })
     .catch((error) => {
         console.error("❌ Errore durante l'analisi degli NFT:", error);
-        
-        // JSON valido anche in caso di errore
+
+        // In caso di errore, restituiamo un JSON valido con valore 0
+        console.log("--- JSON OUTPUT START ---");
         console.log(JSON.stringify({ totalNFTValue: 0 }));
+        console.log("--- JSON OUTPUT END ---");
     });
