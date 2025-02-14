@@ -38,7 +38,7 @@ async function getListingPrices() {
 // 🔹 Legge il valore della tesoreria dall'output JSON di `totalvalue.js`
 function getTreasuryFromTotalValue() {
     try {
-        const outputData = fs.readFileSync('totalvalue_output.json', 'utf8');
+        const outputData = fs.readFileSync('../totalvalue_output.json', 'utf8');
         const totalValueData = JSON.parse(outputData);
         return totalValueData;
     } catch (error) {
@@ -98,7 +98,7 @@ async function main() {
         };
 
         // 🔹 Salva `data.json`
-        fs.writeFileSync('data.json', JSON.stringify(data, null, 2));
+        fs.writeFileSync('../data.json', JSON.stringify(data, null, 2));
         console.log("✅ `data.json` aggiornato con successo!");
         console.log("📂 Contenuto aggiornato:", JSON.stringify(data, null, 2));
 
