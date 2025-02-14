@@ -1,14 +1,12 @@
 name: Update Treasury Data
-
 on:
   schedule:
-  #  - cron: '0 */12 * * *'  # Esegue ogni 12 ore
-  workflow_dispatch:  # Permette avvio manuale
+    - cron: '0 */12 * * *'
+  workflow_dispatch:
 
 jobs:
   update-data:
     runs-on: ubuntu-latest
-
     steps:
       - name: Checkout repository
         uses: actions/checkout@v3
@@ -44,11 +42,7 @@ jobs:
         run: |
           git config --local user.email "action@github.com"
           git config --local user.name "GitHub Action"
-          git pull origin main --rebase || echo "⚠️ Nessuna necessità di rebase"
-          if [[ -n $(git status --porcelain) ]]; then
-            git add data.json
-            git commit -m "🔄 Aggiornamento automatico della tesoreria e dati NFT"
-            git remote set-url origin https://x-access-token:${{ secrets.G_TOKEN }}@github.com/Happydao/torrino-dao-dashboard.git
-            git push origin main
-          else
-            echo "✅ Nessuna modifica rilevata, nessun commit necessario."
+          git add data.json scripts/totalvalue_output.json
+          git commit -m "🔄 Aggiornamento automatico della tesoreria e dati NFT" || echo "No changes to commit"
+          git pull --rebase origin main
+          git push origin main || echo "No changes to push"
