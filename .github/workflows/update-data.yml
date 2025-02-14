@@ -36,13 +36,14 @@ jobs:
         run: |
           echo "📂 Contenuto attuale di data.json:"
           cat data.json
+          echo "📂 Lista dei file modificati:"
+          git status
         continue-on-error: true
 
       - name: Commit and push changes
         run: |
           git config --local user.email "action@github.com"
           git config --local user.name "GitHub Action"
-          git add data.json scripts/totalvalue_output.json
-          git commit -m "🔄 Aggiornamento automatico della tesoreria e dati NFT" || echo "No changes to commit"
-          git pull --rebase origin main
-          git push origin main || echo "No changes to push"
+          git add data.json
+          git commit -m "🔄 Aggiornamento automatico della tesoreria e dati NFT"
+          git push origin main
