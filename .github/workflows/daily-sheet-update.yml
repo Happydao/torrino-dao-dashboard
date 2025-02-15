@@ -1,0 +1,30 @@
+name: Update Google Sheet Daily
+
+on:
+  schedule:
+    - cron: '0 0 * * *'  # Ogni giorno alle 00:00 UTC
+  workflow_dispatch:  # Permette l'esecuzione manuale
+
+jobs:
+  update-sheet:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v2
+    
+    - name: Set up Python
+      uses: actions/setup-python@v2
+      with:
+        python-version: '3.x'
+    
+    - name: Install dependencies
+      run: |
+        python -m pip install --upgrade pip
+        pip install gspread oauth2client
+    
+    - name: Run update script
+      env:
+        GOOGLE_CREDENTIALS: ${{ secrets.GOOGLE_CREDENTIALS }}
+        GOOGLE_SHEET_ID: ${{ secrets.GOOGLE_SHEET_ID }}
+      run: |
+        echo "$GOOGLE_CREDENTIALS" > credentials.json
+        python update_sheet.py
