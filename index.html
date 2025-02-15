@@ -4,6 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Torrino DAO NFT Data</title>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
   <style>
     body {
       font-family: 'Arial', sans-serif;
@@ -28,9 +29,6 @@
     .data-section {
       padding: 10px 0;
       border-bottom: 1px solid #333;
-    }
-    .data-section:last-child {
-      border-bottom: none;
     }
     .highlight {
       font-size: 1.2em;
@@ -62,12 +60,12 @@
     .chart-container {
       margin-top: 30px;
       text-align: center;
-      padding: 20px;
-      border: 2px dashed #ffcc00;
+    }
+    canvas {
+      max-width: 100%;
+      height: 300px;
+      background-color: #fff;
       border-radius: 10px;
-      font-size: 1.5em;
-      font-weight: bold;
-      color: #ffcc00;
     }
   </style>
 </head>
@@ -116,43 +114,75 @@
       <a href="https://www.tensor.trade/trade/solnauta" target="_blank">🛒 Acquista Solnauta</a>
     </div>
 
+    <!-- GRAFICI -->
     <div class="chart-container">
-      🚀 Grafico di storico in lavorazione...
+      <h2>📉 Andamento Valori NFT Gen1</h2>
+      <canvas id="nftGen1Chart"></canvas>
+    </div>
+
+    <div class="chart-container">
+      <h2>📉 Andamento Valori NFT Gen2</h2>
+      <canvas id="nftGen2Chart"></canvas>
+    </div>
+
+    <div class="chart-container">
+      <h2>📊 Suddivisione Tesoreria Totale</h2>
+      <canvas id="treasuryChart"></canvas>
     </div>
 
   </div>
 
   <script>
-    async function fetchNFTData() {
+    async function fetchData() {
       try {
-        const response = await fetch('data.json');
-        if (!response.ok) {
-          throw new Error(`HTTP error! Status: ${response.status}`);
-        }
-        const data = await response.json();
+        const nftResponse = await fetch('data.json');
+        const treasuryResponse = await fetch('totalvalue_output.json');
+        
+        if (!nftResponse.ok || !treasuryResponse.ok) throw new Error("Errore nel caricamento dei dati");
 
-        document.getElementById("lastUpdated").textContent = data.lastUpdated;
-        document.getElementById("treasuryValue").textContent = `$${data.treasuryValue}`;
-        document.getElementById("treasuryGen1").textContent = `$${data.treasuryGen1}`;
-        document.getElementById("treasuryGen2").textContent = `$${data.treasuryGen2}`;
-        document.getElementById("solPrice").textContent = `$${data.solPrice}`;
+        const nftData = await nftResponse.json();
+        const treasuryData = await treasuryResponse.json();
 
-        document.getElementById("nftGen1Value").textContent = `$${data.nftGen1Value}`;
-        document.getElementById("nftGen1ValueSol").textContent = `${data.nftGen1ValueSol} SOL`;
-        document.getElementById("nftGen2Value").textContent = `$${data.nftGen2Value}`;
-        document.getElementById("nftGen2ValueSol").textContent = `${data.nftGen2ValueSol} SOL`;
+        // Aggiornamento dei dati visibili sulla pagina
+        document.getElementById("lastUpdated").textContent = nftData.lastUpdated;
+        document.getElementById("treasuryValue").textContent = `$${nftData.treasuryValue}`;
 
-        document.getElementById("gen1ListingPrice").textContent = `$${data.gen1ListingPrice} (${data.gen1ListingPriceSol} SOL)`;
-        document.getElementById("gen1Discount").textContent = `${data.gen1Discount}%`;
-        document.getElementById("gen2ListingPrice").textContent = `$${data.gen2ListingPrice} (${data.gen2ListingPriceSol} SOL)`;
-        document.getElementById("gen2Discount").textContent = `${data.gen2Discount}%`;
+        // GRAFICO NFT GEN1
+        new Chart(document.getElementById('nftGen1Chart'), {
+          type: 'line',
+          data: {
+            labels: ['Valore Reale', 'Prezzo Listing'],
+            datasets: [{
+              label: 'NFT Gen1',
+              data: [nftData.nftGen1Value, nftData.gen1ListingPrice],
+              borderColor: '#ff0000',
+              backgroundColor: 'rgba(255, 0, 0, 0.2)',
+              tension: 0.4
+            }]
+          }
+        });
+
+        // GRAFICO NFT GEN2
+        new Chart(document.getElementById('nftGen2Chart'), {
+          type: 'line',
+          data: {
+            labels: ['Valore Reale', 'Prezzo Listing'],
+            datasets: [{
+              label: 'NFT Gen2',
+              data: [nftData.nftGen2Value, nftData.gen2ListingPrice],
+              borderColor: '#0000ff',
+              backgroundColor: 'rgba(0, 0, 255, 0.2)',
+              tension: 0.4
+            }]
+          }
+        });
 
       } catch (error) {
         console.error("Errore nel caricamento dei dati:", error);
       }
     }
 
-    fetchNFTData();
+    fetchData();
   </script>
 
 </body>
