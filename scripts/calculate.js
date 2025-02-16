@@ -96,10 +96,10 @@ async function main() {
             gen2ListingPrice: listingPrices.gen2 !== null ? Math.round(listingPrices.gen2 * solPrice) : "N/A",
             gen2ListingPriceSol: listingPrices.gen2 !== null ? listingPrices.gen2.toFixed(2) : "N/A",
             gen1Discount: listingPrices.gen1 !== null
-                ? (-((listingPrices.gen1 - ((treasuryValue * 0.90) / 500 / solPrice)) / ((treasuryValue * 0.90) / 500 / solPrice) * 100)).toFixed(2)
+                ? (-Math.abs((listingPrices.gen1 - ((treasuryValue * 0.90) / 500 / solPrice)) / ((treasuryValue * 0.90) / 500 / solPrice) * 100)).toFixed(2)
                 : "N/A",
             gen2Discount: listingPrices.gen2 !== null
-                ? (-((listingPrices.gen2 - ((treasuryValue * 0.10) / 888 / solPrice)) / ((treasuryValue * 0.10) / 888 / solPrice) * 100)).toFixed(2)
+                ? (-Math.abs((listingPrices.gen2 - ((treasuryValue * 0.10) / 888 / solPrice)) / ((treasuryValue * 0.10) / 888 / solPrice) * 100)).toFixed(2)
                 : "N/A"
         };
 
