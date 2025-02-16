@@ -89,9 +89,9 @@ async function main() {
             nftGen1ValueSol: ((treasuryValue * 0.90) / 500 / solPrice).toFixed(2),
             nftGen2Value: Math.round((treasuryValue * 0.10) / 888),
             nftGen2ValueSol: ((treasuryValue * 0.10) / 888 / solPrice).toFixed(2),
-            gen1ListingPrice: listingPrices.gen1 !== null ? (listingPrices.gen1 * solPrice).toFixed(2) : "N/A",
+            gen1ListingPrice: listingPrices.gen1 !== null ? Math.round(listingPrices.gen1 * solPrice) : "N/A",
             gen1ListingPriceSol: listingPrices.gen1 !== null ? listingPrices.gen1.toFixed(2) : "N/A",
-            gen2ListingPrice: listingPrices.gen2 !== null ? (listingPrices.gen2 * solPrice).toFixed(2) : "N/A",
+            gen2ListingPrice: listingPrices.gen2 !== null ? Math.round(listingPrices.gen2 * solPrice) : "N/A",
             gen2ListingPriceSol: listingPrices.gen2 !== null ? listingPrices.gen2.toFixed(2) : "N/A",
             gen1Discount: listingPrices.gen1 !== null
                 ? (-((listingPrices.gen1 - ((treasuryValue * 0.90) / 500 / solPrice)) / ((treasuryValue * 0.90) / 500 / solPrice) * 100)).toFixed(2)
