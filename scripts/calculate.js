@@ -77,7 +77,10 @@ async function main() {
 
         // Costruisce i dati per data.json
         const data = {
-            lastUpdated: new Date().toLocaleDateString("it-IT", { timeZone: "Europe/Rome" }),
+            lastUpdated: new Date().toLocaleDateString("it-IT", { 
+                timeZone: "Europe/Rome", 
+                year: '2-digit' 
+            }),
             treasuryValue: Math.round(treasuryValue),
             treasuryGen1: Math.round(treasuryValue * 0.90),
             treasuryGen2: Math.round(treasuryValue * 0.10),
