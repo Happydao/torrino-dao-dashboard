@@ -2,7 +2,7 @@ name: Update Google Sheet Daily
 
 on:
   schedule:
-    - cron: '10 4 * * *'  # Esegue alle 04:10 UTC (05:10 in Italia CET)
+    - cron: '20 4 * * *'  # Esegue alle 04:20 UTC (05:20 in Italia CET)
   workflow_dispatch:  # Permette l'esecuzione manuale
 
 jobs:
