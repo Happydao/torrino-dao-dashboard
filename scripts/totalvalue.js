@@ -2,6 +2,7 @@ const { spawn } = require("child_process");
 const scripts = ["token.js", "staking.js", "nft.js"];
 let totalTreasury = 0;
 let results = {};
+let totalStableValue = 0;  
 
 const executeScript = (script) => {
     return new Promise((resolve) => {
@@ -22,18 +23,28 @@ const executeScript = (script) => {
             try {
                 // Cerca il JSON nell'output, può essere in qualsiasi punto
                 const jsonRegex = {
-                    'token.js': /{"totaltokenvalue":\s*([\d.]+)}/,
+                    'token.js': /{"totaltokenvalue":\s*([\d.]+),"totalstablevalue":\s*([\d.]+)}/,
                     'staking.js': /{"totalStakedValue":\s*([\d.]+)}/,
                     'nft.js': /{"totalNFTValue":\s*([\d.]+)}/
                 };
 
                 const match = outputData.match(jsonRegex[script]);
                 if (match) {
-                    const value = parseFloat(match[1]);
-                    results[script] = value;
-                    totalTreasury += value;
-                    console.log(`✅ Valore totale ${script}: $${value.toFixed(2)} USD`);
-                    resolve(value);
+                    if (script === 'token.js') {
+                        const tokenValue = parseFloat(match[1]);
+                        const stableValue = parseFloat(match[2]);
+                        results[script] = tokenValue;
+                        totalStableValue = stableValue;  
+                        totalTreasury += tokenValue;
+                        console.log(`✅ Valore totale ${script}: $${tokenValue.toFixed(2)} USD`);
+                        console.log(`💵 Valore stablecoin: $${stableValue.toFixed(2)} USD`);
+                    } else {
+                        const value = parseFloat(match[1]);
+                        results[script] = value;
+                        totalTreasury += value;
+                        console.log(`✅ Valore totale ${script}: $${value.toFixed(2)} USD`);
+                    }
+                    resolve(match[1]);
                 } else {
                     console.error(`⚠️ Nessun valore trovato in ${script}`);
                     resolve(0);
@@ -46,7 +57,7 @@ const executeScript = (script) => {
     });
 };
 
-const fs = require("fs"); // Importa il modulo per scrivere su file
+const fs = require("fs");
 
 const calculateTotalTreasury = async () => {
     try {
@@ -55,6 +66,7 @@ const calculateTotalTreasury = async () => {
         }
         console.log("\n📝 **Riepilogo Tesoreria**:");
         console.log(`💰 Token: $${results["token.js"] || 0}`);
+        console.log(`💵 Stablecoin: $${totalStableValue.toFixed(2)}`);
         console.log(`🔹 Staking: $${results["staking.js"] || 0}`);
         console.log(`🎨 NFT: $${results["nft.js"] || 0}`);
         console.log(`🏦 Valore totale tesoreria: $${totalTreasury.toFixed(2)} USD`);
@@ -63,7 +75,8 @@ const calculateTotalTreasury = async () => {
             totalTreasury: totalTreasury.toFixed(2),
             tokenValue: results["token.js"] || 0,
             stakingValue: results["staking.js"] || 0,
-            nftValue: results["nft.js"] || 0
+            nftValue: results["nft.js"] || 0,
+            totalstablevalue: totalStableValue.toFixed(2)  // valore stablecoin
         };
 
         console.log("\n--- JSON OUTPUT START ---");
