@@ -64,7 +64,10 @@ async function main() {
         }
 
         const treasuryValue = parseFloat(totalValueData.totalTreasury);
+        const stableValue = parseFloat(totalValueData.totalstablevalue) || 0;
         console.log(`✅ Valore tesoreria ricevuto: $${treasuryValue}`);
+        console.log(`✅ Valore stablecoin ricevuto: $${stableValue}`);
+        console.log(`✅ Percentuale stablecoin: ${((stableValue / treasuryValue) * 100).toFixed(2)}%`);
 
         // Ottieni il prezzo di SOL
         const solPrice = await getSolPrice();
@@ -100,7 +103,9 @@ async function main() {
                 : "N/A",
             gen2Discount: listingPrices.gen2 !== null
                 ? (-Math.abs((listingPrices.gen2 - ((treasuryValue * 0.10) / 888 / solPrice)) / ((treasuryValue * 0.10) / 888 / solPrice) * 100)).toFixed(2)
-                : "N/A"
+                : "N/A",
+            stableValue: Math.round(stableValue),
+            stablePercentage: Math.round((stableValue / treasuryValue) * 100)
         };
 
         // Salva data.json
