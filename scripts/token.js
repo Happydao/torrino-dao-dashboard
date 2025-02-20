@@ -12,6 +12,14 @@ const TIMEOUT = 3000; // Timeout per le richieste API in millisecondi
 let totalTreasuryValue = 0; // Totale valore della tesoreria
 let tokenValues = []; // Array per memorizzare i valori dei singoli token
 
+// Configurazione stablecoin 
+const STABLE_TOKENS = {
+    'USDC': 'EPjFWdd5AufqSSqeM2qN1xzybapC8G4wEGGkZwyTDt1v',
+    'USDT': 'Es9vMFrzaCERmJfrF4H2FYD4KCoNkY11McCe8BenwNYB',
+    'USDY': 'A1KLoBrKBde8Ty9qtNQUtq3C2ortoC3u7twggz7sEto6'
+};
+let totalStableValue = 0;
+
 // Funzione per calcolare la quantità reale
 function calculateRealAmount(amount, decimals) {
     return amount / Math.pow(10, decimals);
@@ -49,10 +57,14 @@ async function getTokenAccounts() {
                 console.log(`${mint} - ${value.toFixed(2)} USD`);
             });
             
-            console.log(`\n💰 VALORE TOTALE TESORERIA: ${totalTreasuryValue.toFixed(2)} USD\n`);
+            console.log(`\n💰 VALORE TOTALE TESORERIA: ${totalTreasuryValue.toFixed(2)} USD`);
+            console.log(`💵 VALORE TOTALE STABLECOIN: ${totalStableValue.toFixed(2)} USD\n`);
             
             // Output in JSON per essere letto da ts.js
-            console.log(JSON.stringify({ totaltokenvalue: totalTreasuryValue }));
+            console.log(JSON.stringify({ 
+                totaltokenvalue: totalTreasuryValue,
+                totalstablevalue: totalStableValue 
+            }));
         }
     } catch (error) {
         console.error("❌ Errore nel recupero dei token:", error.response?.data || error.message);
@@ -74,10 +86,18 @@ async function getTokenPrice(token) {
             const tokenData = response.data?.data?.[token.mint];
             
             if (tokenData && tokenData.price !== null) {
-                let price = parseFloat(tokenData.price); // Converte la stringa in numero
-                let tokenValue = token.realAmount * price; // Calcola il valore in USD
-                totalTreasuryValue += tokenValue; // Aggiorna il totale tesoreria
-                tokenValues.push({ mint: token.mint, value: tokenValue }); // Memorizza il valore del token
+                let price = parseFloat(tokenData.price);
+                let tokenValue = token.realAmount * price;
+                totalTreasuryValue += tokenValue;
+                tokenValues.push({ mint: token.mint, value: tokenValue });
+
+                // Calcolo stablecoin 
+                if (Object.values(STABLE_TOKENS).includes(token.mint)) {
+                    totalStableValue += tokenValue;
+                    const stableName = Object.keys(STABLE_TOKENS).find(key => STABLE_TOKENS[key] === token.mint);
+                    console.log(`   💵 Stablecoin ${stableName} trovata: ${tokenValue.toFixed(2)} USD`);
+                }
+
                 console.log(`✅ ${token.tokenName} (${token.mint})`);
                 console.log(`   Quantità reale: ${token.realAmount.toLocaleString('en-US', { minimumFractionDigits: 0, maximumFractionDigits: 6 })}`);
                 console.log(`   Prezzo: ${price.toFixed(10)} USD`);
