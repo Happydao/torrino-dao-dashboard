@@ -1,5 +1,4 @@
-Questa dashboard serve per monitorare il reale valore degli NFT di Torrino DAO in base alla tesoreria.
-Calcola anche se può esserci una buona opportunità di acquisto.
+Questa dashboard consente di monitorare il valore effettivo degli NFT di Torrino DAO in relazione alla tesoreria, valutando anche eventuali opportunità di acquisto vantaggiose.
 
 Dashboard: https://happydao.github.io/torrino-dao-dashboard
 
