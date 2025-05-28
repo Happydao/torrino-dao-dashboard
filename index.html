@@ -26,6 +26,20 @@
       margin-bottom: 20px;
       color: #ffcc00;
     }
+    .data-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 10px;
+    }
+    .data-header a {
+      color: #ffcc00;
+      text-decoration: none;
+      font-weight: bold;
+    }
+    .data-header a:hover {
+      color: #ffaa00;
+    }
     .data-section {
       margin-bottom: 20px;
       border-bottom: 1px solid #333;
@@ -64,8 +78,9 @@
   <div class="container">
     <h1>📊 Torrino DAO - Analisi e Valutazione NFT 📊</h1>
 
-    <div class="data-section">
+    <div class="data-section data-header">
       <p>🕒 <b>Ultimo aggiornamento:</b> <span id="lastUpdated">Caricamento...</span></p>
+      <a href="https://app.step.finance/it/portfolio?wallet=EKjb5grMX19c3cAZa5LQjqksDpqqVLTGZrswh79WkPdD" target="_blank">Tesoreria Step Finance</a>
     </div>
 
     <div class="data-section">
@@ -86,12 +101,10 @@
     <div class="data-section">
       <p><b>🔻 Prezzi di listing attuali e sconto rispetto al valore reale:</b></p>
       <p>📉 <b>Torrino DAO (Gen 1):</b> <span id="gen1ListingPrice"></span></p>
-      <p class="discount">➡️ Differenza rispetto al valore reale: <span id="gen1Discount"></span>%</p>
-      <p>🛈 Stato: <span id="gen1DiscountLabel" class="status-label"></span></p>
+      <p class="discount">➡️ Differenza rispetto al valore reale: <span id="gen1Discount"></span>% <span id="gen1DiscountLabel" class="status-label"></span></p>
 
       <p>📉 <b>Solnauta (Gen 2):</b> <span id="gen2ListingPrice"></span></p>
-      <p class="discount">➡️ Differenza rispetto al valore reale: <span id="gen2Discount"></span>%</p>
-      <p>🛈 Stato: <span id="gen2DiscountLabel" class="status-label"></span></p>
+      <p class="discount">➡️ Differenza rispetto al valore reale: <span id="gen2Discount"></span>% <span id="gen2DiscountLabel" class="status-label"></span></p>
     </div>
 
     <script>
@@ -115,12 +128,12 @@
 
           document.getElementById("gen1ListingPrice").textContent = `$${data.gen1ListingPrice} (${data.gen1ListingPriceSol} SOL)`;
           document.getElementById("gen1Discount").textContent = data.gen1Discount;
-          document.getElementById("gen1DiscountLabel").textContent = data.gen1DiscountLabel;
+          document.getElementById("gen1DiscountLabel").textContent = `(${data.gen1DiscountLabel})`;
           document.getElementById("gen1DiscountLabel").classList.add(getLabelClass(data.gen1DiscountLabel));
 
           document.getElementById("gen2ListingPrice").textContent = `$${data.gen2ListingPrice} (${data.gen2ListingPriceSol} SOL)`;
           document.getElementById("gen2Discount").textContent = data.gen2Discount;
-          document.getElementById("gen2DiscountLabel").textContent = data.gen2DiscountLabel;
+          document.getElementById("gen2DiscountLabel").textContent = `(${data.gen2DiscountLabel})`;
           document.getElementById("gen2DiscountLabel").classList.add(getLabelClass(data.gen2DiscountLabel));
 
         } catch (error) {
@@ -139,3 +152,4 @@
   </div>
 </body>
 </html>
+
