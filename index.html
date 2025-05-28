@@ -72,6 +72,27 @@
       background-color: #555555;
       color: #ffffff;
     }
+    .chart-container {
+      margin-top: 30px;
+      text-align: center;
+      padding: 20px;
+      border-radius: 10px;
+      background-color: transparent;
+      width: 100%;
+      max-width: 100%;
+      overflow: hidden;
+    }
+    .chart-container iframe {
+      width: 100%;
+      max-width: 100%;
+      border: none;
+      overflow: hidden;
+    }
+    @media (max-width: 768px) {
+      .chart-container iframe {
+        height: 250px;
+      }
+    }
   </style>
 </head>
 <body>
@@ -105,6 +126,13 @@
 
       <p>📉 <b>Solnauta (Gen 2):</b> <span id="gen2ListingPrice"></span></p>
       <p class="discount">➡️ Differenza rispetto al valore reale: <span id="gen2Discount"></span>% <span id="gen2DiscountLabel" class="status-label"></span></p>
+    </div>
+
+    <div class="chart-container">
+      <iframe src="https://docs.google.com/spreadsheets/d/e/2PACX-1vT84K0e8A5H3P2gI4upLGkArVFHDtXQ5uyDAfZjEHfnYsxGm0uCHwUxfTHr_zzm4jkzhUGMzdox85DT/pubchart?oid=908001184&format=interactive" height="400"></iframe>
+    </div>
+    <div class="chart-container">
+      <iframe src="https://docs.google.com/spreadsheets/d/e/2PACX-1vT84K0e8A5H3P2gI4upLGkArVFHDtXQ5uyDAfZjEHfnYsxGm0uCHwUxfTHr_zzm4jkzhUGMzdox85DT/pubchart?oid=1345237562&format=interactive" height="400"></iframe>
     </div>
 
     <script>
