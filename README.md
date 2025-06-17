@@ -6,5 +6,4 @@ Dashboard: https://happydao.github.io/torrino-dao-dashboard
 Website: 
 https://torrino.space
 
-Tesoreria:
-https://app.step.finance/portfolio?wallet=EKjb5grMX19c3cAZa5LQjqksDpqqVLTGZrswh79WkPdD
+Tesoreria:https://jup.ag/portfolio/EKjb5grMX19c3cAZa5LQjqksDpqqVLTGZrswh79WkPdD
