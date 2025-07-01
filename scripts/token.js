@@ -4,7 +4,7 @@ require('dotenv').config();
 // Configurazione
 const WALLET_ADDRESS = "EKjb5grMX19c3cAZa5LQjqksDpqqVLTGZrswh79WkPdD";
 const HELIUS_API_KEY = process.env.HELIUS_API_KEY;
-const JUPITER_API_URL = 'https://api.jup.ag/price/v2?ids=';
+const JUPITER_API_URL = 'https://lite-api.jup.ag/price/v3?ids=';
 const REQUEST_DELAY = 1000; // 1 secondi di ritardo tra le richieste
 const RETRY_DELAY = 3000; // 3 secondi di ritardo in caso di errore
 const MAX_RETRIES = 3; // Numero massimo di tentativi
