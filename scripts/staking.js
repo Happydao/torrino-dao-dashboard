@@ -1,5 +1,3 @@
-const fs = require("fs");
-const path = require("path");
 const fetch = require("node-fetch");
 require("dotenv").config();
 
@@ -10,19 +8,21 @@ const HELIUS_RPC_URL = `https://mainnet.helius-rpc.com/?api-key=${HELIUS_API_KEY
 const SOL_MINT = "So11111111111111111111111111111111111111112";
 const JUPITER_API_URL = `https://lite-api.jup.ag/price/v3?ids=${SOL_MINT}`;
 
-const DATA_FILE_PATH = path.join(__dirname, '..', 'data2.json');
-
 const MAX_RETRIES = 5;
 const RETRY_DELAY = 3000;
 const TIMEOUT = 10000;
 
+// Fetch con timeout
 const fetchWithTimeout = (url, options = {}, timeout = TIMEOUT) => {
   return Promise.race([
     fetch(url, options),
-    new Promise((_, reject) => setTimeout(() => reject(new Error("⏳ Timeout API")), timeout)),
+    new Promise((_, reject) =>
+      setTimeout(() => reject(new Error("⏳ Timeout API")), timeout)
+    ),
   ]);
 };
 
+// Fetch con retry automatico
 const fetchWithRetry = async (url, options = {}, maxRetries = MAX_RETRIES, delay = RETRY_DELAY) => {
   for (let attempt = 1; attempt <= maxRetries; attempt++) {
     try {
@@ -42,6 +42,7 @@ const fetchWithRetry = async (url, options = {}, maxRetries = MAX_RETRIES, delay
   return null;
 };
 
+// Prezzo SOL via Jupiter
 const getSolPrice = async () => {
   try {
     const data = await fetchWithRetry(JUPITER_API_URL);
@@ -52,6 +53,7 @@ const getSolPrice = async () => {
   }
 };
 
+// Dati staking via Helius
 const getStakedTokenAccounts = async () => {
   console.log("🔄 Recupero stake accounts da Helius...");
   const solPrice = await getSolPrice();
@@ -84,7 +86,7 @@ const getStakedTokenAccounts = async () => {
 
   if (!data || !data.result || data.result.length === 0) {
     console.log("✅ Nessun token in staking trovato.");
-    updateData2Json(0);
+    console.log(JSON.stringify({ totalStakedValue: 0 }));
     return 0;
   }
 
@@ -108,37 +110,11 @@ const getStakedTokenAccounts = async () => {
   }
 
   console.log(`💰 Valore totale stakato: $${totalStakedValue.toFixed(2)} USD`);
-  updateData2Json(totalStakedValue);
+  console.log(JSON.stringify({ totalStakedValue }));
   return totalStakedValue;
 };
 
-function updateData2Json(stakedValue) {
-  let existingData = {
-    totaltokenvalue: 0,
-    totalstablevalue: 0,
-    totalstakingvalue: 0,
-    totalnftvalue: 0
-  };
-
-  try {
-    if (fs.existsSync(DATA_FILE_PATH)) {
-      const content = fs.readFileSync(DATA_FILE_PATH, 'utf8');
-      existingData = JSON.parse(content);
-    }
-  } catch (err) {
-    console.warn("⚠️ Impossibile leggere data2.json esistente, verrà sovrascritto.");
-  }
-
-  existingData.totalstakingvalue = stakedValue;
-
-  try {
-    fs.writeFileSync(DATA_FILE_PATH, JSON.stringify(existingData, null, 2));
-    console.log("✅ data2.json aggiornato con valore staking.");
-  } catch (err) {
-    console.error("❌ Errore nella scrittura di data2.json:", err.message);
-  }
-}
-
+// Avvia lo script
 getStakedTokenAccounts()
   .then(() => console.log("\n🔹 Processo di staking completato!"))
   .catch((error) => {
