@@ -1,3 +1,5 @@
+const fs = require('fs');
+const path = require('path');
 const axios = require('axios');
 require('dotenv').config(); // Funziona anche su GitHub Actions se .env è usato localmente per test
 
@@ -10,7 +12,7 @@ if (!HELIUS_API_KEY) {
 }
 
 const JUPITER_API_URL = 'https://lite-api.jup.ag/price/v3?ids=';
-const TIMEOUT = 10000; // 10s
+const TIMEOUT = 10000;
 const MAX_RETRIES = 3;
 const RETRY_DELAY = 3000;
 
@@ -101,10 +103,17 @@ async function getTokenAccounts() {
 
     console.log(`\n💰 VALORE TOTALE TESORERIA: ${totalTreasuryValue.toFixed(2)} USD`);
     console.log(`💵 VALORE TOTALE STABLECOIN: ${totalStableValue.toFixed(2)} USD`);
-    console.log("\n" + JSON.stringify({
+
+    const output = {
       totaltokenvalue: totalTreasuryValue,
-      totalstablevalue: totalStableValue
-    }));
+      totalstablevalue: totalStableValue,
+      totalstakingvalue: 0,
+      totalnftvalue: 0
+    };
+
+    const outputPath = path.join(__dirname, '..', 'data2.json');
+    fs.writeFileSync(outputPath, JSON.stringify(output, null, 2));
+    console.log(`\n✅ File data2.json aggiornato con successo!`);
 
   } catch (error) {
     console.error("❌ Errore durante l'esecuzione:", error.message);
