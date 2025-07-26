@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="it">
+<html lang="en">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -85,44 +85,44 @@
 <body>
   <div class="top-links">
     <a href="https://github.com/Happydao/torrino-dao-dashboard" target="_blank">📂 GitHub Repo</a>
-    <a href="https://jup.ag/portfolio/EKjb5grMX19c3cAZa5LQjqksDpqqVLTGZrswh79WkPdD" target="_blank">💼 Tesoreria Jupiter</a>
+    <a href="https://jup.ag/portfolio/EKjb5grMX19c3cAZa5LQjqksDpqqVLTGZrswh79WkPdD" target="_blank">💼 Jupiter Treasury</a>
   </div>
 
   <div class="card">
-    <h1>Torrino DAO - Analisi NFT</h1>
-    <p><strong>💰 Tesoreria Totale:</strong> <span class="highlight" id="treasuryValue"></span></p>
-    <p><strong>🔒 Capitale protetto stabile:</strong> <span class="highlight" id="stableValue"></span> (<span id="stablePercentage"></span>% della tesoreria)</p>
-    <p><strong>🔹 Gen 1 Tesoreria (90%):</strong> <span id="treasuryGen1"></span></p>
-    <p><strong>🔸 Gen 2 Tesoreria (10%):</strong> <span id="treasuryGen2"></span></p>
-    <p><strong>🔹 Prezzo SOL attuale:</strong> <span id="solPrice"></span></p>
-    <p class="update-info">🕒 Ultimo aggiornamento: <span id="lastUpdated"></span></p>
+    <h1>Torrino DAO - NFT Analysis</h1>
+    <p><strong>💰 Total Treasury:</strong> <span class="highlight" id="treasuryValue"></span></p>
+    <p><strong>🔒 Stable Protected Capital:</strong> <span class="highlight" id="stableValue"></span> (<span id="stablePercentage"></span>% of treasury)</p>
+    <p><strong>🔹 Gen 1 Treasury (90%):</strong> <span id="treasuryGen1"></span></p>
+    <p><strong>🔸 Gen 2 Treasury (10%):</strong> <span id="treasuryGen2"></span></p>
+    <p><strong>🔹 Current SOL Price:</strong> <span id="solPrice"></span></p>
+    <p class="update-info">🕒 Last updated: <span id="lastUpdated"></span></p>
   </div>
 
   <div class="card">
-    <h2>🖼️ Valore reale attuale NFT</h2>
-    <p>🔹 Torrino DAO (Gen 1 - 500pz): <span id="nftGen1Value"></span> (<span id="nftGen1ValueSol"></span>)</p>
-    <p>🔸 Solnauta (Gen 2 - 888pz): <span id="nftGen2Value"></span> (<span id="nftGen2ValueSol"></span>)</p>
+    <h2>🖼️ Current NFT Real Value</h2>
+    <p>🔹 Torrino DAO (Gen 1 - 500pcs): <span id="nftGen1Value"></span> (<span id="nftGen1ValueSol"></span>)</p>
+    <p>🔸 Solnauta (Gen 2 - 888pcs): <span id="nftGen2Value"></span> (<span id="nftGen2ValueSol"></span>)</p>
     <br/>
-    <p>📢 <strong>Analisi degli sconti sugli NFT:</strong><br>
-    I prezzi di listing degli NFT sono confrontati con il loro valore reale basato sulla tesoreria. Se il prezzo di listing è inferiore al valore reale, l'NFT è considerato "in sconto". Questo può rappresentare un'opportunità di acquisto vantaggiosa rispetto alla valutazione attuale della tesoreria.</p>
+    <p>📢 <strong>NFT Discount Analysis:</strong><br>
+    NFT listing prices are compared to their real value based on the treasury. If the listing price is lower than the real value, the NFT is considered discounted. This may represent a good buying opportunity based on the current treasury valuation.</p>
 
-    <p>💡 <strong>Importante: Capitale Protetto e Valore degli NFT</strong><br>
-    Il "Capitale Protetto" rappresenta la parte della tesoreria investita in stablecoin (USDC, USDT, USDY) che mantiene un valore stabile o di rendimento, indipendentemente dalle condizioni di mercato. Quando acquisti un NFT in sconto, ottieni esposizione sia alla parte volatile della tesoreria che a questa quota protetta. Un elevato sconto combinato con un'alta percentuale di capitale protetto offre un doppio vantaggio: potenziale di crescita e protezione del capitale.</p>
+    <p>💡 <strong>Note: Protected Capital and NFT Value</strong><br>
+    "Protected Capital" refers to the portion of the treasury held in stablecoins (USDC, USDT, USDY) that maintains a stable or yield-generating value, regardless of market conditions. When you buy a discounted NFT, you gain exposure to both the volatile part of the treasury and the protected portion. A high discount combined with a high percentage of protected capital offers a dual benefit: growth potential and capital preservation.</p>
   </div>
 
   <div class="card">
-    <h2>📉 Sconti su NFT in vendita</h2>
+    <h2>📉 Discounts on Listed NFTs</h2>
     <p>📉 Torrino DAO (Gen 1): <span id="gen1ListingPrice"></span></p>
-    <p>➡️ Differenza rispetto al valore reale: <span id="gen1Discount"></span>% <span id="gen1DiscountLabel" class="status-label"></span></p>
-    <a href="https://www.tensor.trade/trade/torrino_dao" target="_blank" style="display:inline-block;margin:10px;padding:10px 20px;background-color:#ffcc00;color:#121212;text-decoration:none;font-weight:bold;border-radius:8px;">🛒 Acquista Torrino DAO</a>
+    <p>➡️ Difference from real value: <span id="gen1Discount"></span>%</p>
+    <a href="https://www.tensor.trade/trade/torrino_dao" target="_blank" style="display:inline-block;margin:10px;padding:10px 20px;background-color:#ffcc00;color:#121212;text-decoration:none;font-weight:bold;border-radius:8px;">🛒 Buy Torrino DAO</a>
 
     <p>📉 Solnauta (Gen 2): <span id="gen2ListingPrice"></span></p>
-    <p>➡️ Differenza rispetto al valore reale: <span id="gen2Discount"></span>% <span id="gen2DiscountLabel" class="status-label"></span></p>
-    <a href="https://www.tensor.trade/trade/solnauta" target="_blank" style="display:inline-block;margin:10px;padding:10px 20px;background-color:#ffcc00;color:#121212;text-decoration:none;font-weight:bold;border-radius:8px;">🛒 Acquista Solnauta</a>
+    <p>➡️ Difference from real value: <span id="gen2Discount"></span>%</p>
+    <a href="https://www.tensor.trade/trade/solnauta" target="_blank" style="display:inline-block;margin:10px;padding:10px 20px;background-color:#ffcc00;color:#121212;text-decoration:none;font-weight:bold;border-radius:8px;">🛒 Buy Solnauta</a>
   </div>
 
   <div class="card">
-    <h2>📈 Grafici Tesoreria</h2>
+    <h2>📈 Treasury Charts</h2>
     <div class="chart-container">
       <iframe src="https://docs.google.com/spreadsheets/d/e/2PACX-1vT84K0e8A5H3P2gI4upLGkArVFHDtXQ5uyDAfZjEHfnYsxGm0uCHwUxfTHr_zzm4jkzhUGMzdox85DT/pubchart?oid=908001184&format=interactive"></iframe>
     </div>
@@ -152,22 +152,12 @@
 
         document.getElementById("gen1ListingPrice").textContent = `$${data.gen1ListingPrice} (${data.gen1ListingPriceSol} SOL)`;
         document.getElementById("gen1Discount").textContent = data.gen1Discount;
-        document.getElementById("gen1DiscountLabel").textContent = `(${data.gen1DiscountLabel})`;
-        document.getElementById("gen1DiscountLabel").classList.add(getLabelClass(data.gen1DiscountLabel));
 
         document.getElementById("gen2ListingPrice").textContent = `$${data.gen2ListingPrice} (${data.gen2ListingPriceSol} SOL)`;
         document.getElementById("gen2Discount").textContent = data.gen2Discount;
-        document.getElementById("gen2DiscountLabel").textContent = `(${data.gen2DiscountLabel})`;
-        document.getElementById("gen2DiscountLabel").classList.add(getLabelClass(data.gen2DiscountLabel));
       } catch (error) {
-        console.error("Errore nel caricamento dei dati:", error);
+        console.error("Error loading data:", error);
       }
-    }
-
-    function getLabelClass(label) {
-      if (label === "In sconto") return "in-sconto";
-      if (label === "Sopravvalutato") return "sopravvalutato";
-      return "pari";
     }
 
     fetchNFTData();
