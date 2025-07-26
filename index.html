@@ -27,6 +27,43 @@
       margin-top: 0;
     }
 
+    .header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      margin-bottom: 20px;
+    }
+
+    .logo img {
+      height: 50px;
+    }
+
+    .top-links {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .top-links a {
+      padding: 8px 12px;
+      background: #2a2a2a;
+      color: #ffcc00;
+      text-decoration: none;
+      border-radius: 6px;
+      font-size: 14px;
+      border: 1px solid #333;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .top-links img {
+      height: 20px;
+      width: 20px;
+    }
+
     .card {
       background-color: #1e1e1e;
       padding: 20px;
@@ -59,24 +96,6 @@
       height: 400px;
     }
 
-    .top-links {
-      display: flex;
-      justify-content: center;
-      flex-wrap: wrap;
-      gap: 10px;
-      margin-bottom: 20px;
-    }
-
-    .top-links a {
-      padding: 8px 12px;
-      background: #2a2a2a;
-      color: #ffcc00;
-      text-decoration: none;
-      border-radius: 6px;
-      font-size: 14px;
-      border: 1px solid #333;
-    }
-
     .update-info {
       margin-top: 10px;
       font-size: 0.9em;
@@ -100,13 +119,32 @@
         font-size: 12px;
         padding: 6px 10px;
       }
+
+      .logo img {
+        height: 40px;
+      }
     }
   </style>
 </head>
 <body>
-  <div class="top-links">
-    <a href="https://github.com/Happydao/torrino-dao-dashboard" target="_blank">📂 GitHub Repo</a>
-    <a href="https://jup.ag/portfolio/EKjb5grMX19c3cAZa5LQjqksDpqqVLTGZrswh79WkPdD" target="_blank">💼 Jupiter Treasury</a>
+  <div class="header">
+    <div class="logo">
+      <img src="torrino-dao.png" alt="Torrino DAO Logo" />
+    </div>
+    <div class="top-links">
+      <a href="https://github.com/Happydao/torrino-dao-dashboard" target="_blank">
+        📂 GitHub Repo
+      </a>
+      <a href="https://jup.ag/portfolio/EKjb5grMX19c3cAZa5LQjqksDpqqVLTGZrswh79WkPdD" target="_blank">
+        💼 Jupiter Treasury
+      </a>
+      <a href="https://discord.gg/yYkwEjcKa9" target="_blank">
+        <img src="https://cdn-icons-png.flaticon.com/512/3670/3670157.png" alt="Discord" />
+      </a>
+      <a href="https://twitter.com/Torrino_DAO" target="_blank">
+        <img src="https://cdn-icons-png.flaticon.com/512/5968/5968958.png" alt="Twitter" />
+      </a>
+    </div>
   </div>
 
   <div class="card">
