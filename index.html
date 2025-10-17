@@ -103,9 +103,22 @@
     .stat.muted .label{ font-size:11px; opacity:.8 }
     .stat.muted .value{ font-size: clamp(14px, 2.2vw, 18px); font-weight:700; color: var(--muted); }
 
-    /* Responsive columns for stats */
-    @media (min-width: 640px){ .stat.x3 { grid-column: span 4; } .stat.x2 { grid-column: span 6; } .stat.x1 { grid-column: span 12; } }
-    @media (min-width: 980px){ .stat.x3 { grid-column: span 3; } .stat.x2 { grid-column: span 6; } .stat.x1 { grid-column: span 12; } }
+    /* Composite panel (chart + metrics in one card) */
+    .panel{ border: var(--outline) solid var(--border); border-radius:16px; box-shadow: var(--shadow);
+            background: linear-gradient(180deg, rgba(255,255,255,.06), rgba(255,255,255,.03)); padding:16px; }
+    .composite-grid{ display:grid; grid-template-columns: 1fr; gap:16px; align-items:center; }
+    .composite-grid .left{ min-width:0 }
+    .composite-grid .right{ min-width:0 }
+    .metrics{ display:grid; grid-template-columns: 1fr; gap:10px; }
+    .metric{ padding:12px; border-radius:12px; border: var(--outline) solid var(--border); background: rgba(255,255,255,.02); }
+    .m-label{ color: var(--muted); font-size:12px; font-weight:700; text-transform:uppercase; letter-spacing:.06em }
+    .m-value{ margin-top:6px; font-family: 'JetBrains Mono', ui-monospace; font-weight:800; font-size: clamp(18px, 2.6vw, 22px) }
+    .m-sub{ margin-top:4px; color: var(--muted); font-size:12px }
+    @media(min-width: 980px){
+      .composite-grid{ grid-template-columns: 1.1fr .9fr }
+      .metrics{ grid-template-columns: 1fr }
+      .composite-grid .right{ border-left: 1px solid var(--border); padding-left:16px }
+    }
 
     /* Discounts & buttons */
     .buy-actions{ display:flex; flex-wrap:wrap; gap:10px; margin-top:12px; }
@@ -177,66 +190,77 @@
         <a class="icon-btn" href="https://twitter.com/Torrino_DAO" target="_blank" aria-label="Twitter (X)">
           <img src="https://cdn-icons-png.flaticon.com/512/5968/5968958.png" alt="Twitter (X)" />
         </a>
-        <a class="chip" href="https://jup.ag/portfolio/EKjb5grMX19c3cAZa5LQjqksDpqqVLTGZrswh79WkPdD" target="_blank" rel="noopener">
-          💼 Jupiter Treasury
+        <a class="chip" href="https://app.step.finance/it/portfolio?wallet=EKjb5grMX19c3cAZa5LQjqksDpqqVLTGZrswh79WkPdD" target="_blank" rel="noopener" aria-label="Step Finance Portfolio">
+          📊 Step Finance Portfolio
         </a>
       </nav>
     </header>
 
-    <!-- TOP STATS -->
+    <!-- TREASURY & MARKET -->
     <section class="section" aria-labelledby="overview">
       <div class="eyebrow">Overview</div>
       <h2 id="overview">Treasury &amp; Market</h2>
 
-      <div class="stat-grid" role="list">
-        <div class="stat x3" role="listitem">
-          <div class="label">Total Treasury</div>
-          <div class="value" id="treasuryValue"><span class="skeleton">&nbsp;&nbsp;&nbsp;&nbsp;</span></div>
-        </div>
-
-        <div class="stat x3" role="listitem">
-          <div class="label">Stable Protected Capital</div>
-          <div class="value"><span id="stableValue"><span class="skeleton">&nbsp;&nbsp;&nbsp;&nbsp;</span></span></div>
-          <div class="sub">= <span id="stablePercentage"><span class="skeleton">&nbsp;</span></span>% of treasury</div>
-        </div>
-
-        <div class="stat x3" role="listitem">
-          <div class="label">Gen 1 Treasury (90%)</div>
-          <div class="value" id="treasuryGen1"><span class="skeleton">&nbsp;&nbsp;&nbsp;</span></div>
-        </div>
-
-        <div class="stat x3" role="listitem">
-          <div class="label">Gen 2 Treasury (10%)</div>
-          <div class="value" id="treasuryGen2"><span class="skeleton">&nbsp;&nbsp;&nbsp;</span></div>
-        </div>
-
-        <!-- REPLACED spots: instead of SOL & Last Updated, show the two pies stacked (x1 full-width) -->
-        <div class="stat x1" role="listitem">
-          <div class="label">Treasury Breakdown (Stable vs Invested)</div>
-          <div class="mini-pie" style="margin-top:10px">
-            <div class="pie" id="pieStable" data-label="Stable"></div>
-            <div class="legend">
-              <b>Breakdown</b>
-              <div class="badge"><span class="dot" style="background:var(--accent)"></span> Stable Coins <span id="legendStable" style="margin-left:6px; font-weight:700"></span></div>
-              <div class="badge"><span class="dot" style="background:var(--secondary)"></span> Invested / Volatile <span id="legendInvested" style="margin-left:6px; font-weight:700"></span></div>
+      <!-- CARD 1: Treasury Breakdown + metrics in the same card -->
+      <div class="panel composite" style="margin-top:10px">
+        <div class="composite-grid">
+          <div class="left">
+            <div class="label" style="text-transform:uppercase; letter-spacing:.06em; font-size:12px; color:var(--muted); font-weight:700;">Treasury Breakdown (Stable vs Invested)</div>
+            <div class="mini-pie" style="margin-top:10px">
+              <div class="pie" id="pieStable" data-label="Stable"></div>
+              <div class="legend">
+                <b>Breakdown</b>
+                <div class="badge"><span class="dot" style="background:var(--accent)"></span> Stable Coins <span id="legendStable" style="margin-left:6px; font-weight:700"></span></div>
+                <div class="badge"><span class="dot" style="background:var(--secondary)"></span> Invested / Volatile <span id="legendInvested" style="margin-left:6px; font-weight:700"></span></div>
+              </div>
             </div>
           </div>
-        </div>
 
-        <div class="stat x1" role="listitem">
-          <div class="label">Treasury by Generation (Value)</div>
-          <div class="mini-pie" style="margin-top:10px">
-            <div class="pie" id="pieGen" data-label="Gen 1"></div>
-            <div class="legend">
-              <b>Value Allocation</b>
-              <div class="badge"><span class="dot" style="background:var(--primary)"></span> Gen 1 share <span id="legendGen1" style="margin-left:6px; font-weight:700"></span></div>
-              <div class="badge"><span class="dot" style="background:var(--danger)"></span> Gen 2 share <span id="legendGen2" style="margin-left:6px; font-weight:700"></span></div>
+          <div class="right metrics">
+            <div class="metric">
+              <div class="m-label">Total Treasury</div>
+              <div class="m-value" id="treasuryValue"><span class="skeleton">&nbsp;</span></div>
+            </div>
+            <div class="metric">
+              <div class="m-label">Stable Protected Capital</div>
+              <div class="m-value"><span id="stableValue"><span class="skeleton">&nbsp;</span></span></div>
+              <div class="m-sub">= <span id="stablePercentage"><span class="skeleton">&nbsp;</span></span>% of treasury</div>
             </div>
           </div>
         </div>
       </div>
 
-      <!-- Footnote moved below: small SOL price & last update -->
+      <!-- CARD 2: Treasury by Generation (Value) + metrics in the same card -->
+      <div class="panel composite" style="margin-top:12px">
+        <div class="composite-grid">
+          <div class="left">
+            <div class="label" style="text-transform:uppercase; letter-spacing:.06em; font-size:12px; color:var(--muted); font-weight:700;">Treasury by Generation (Value)</div>
+            <div class="mini-pie" style="margin-top:10px">
+              <div class="pie" id="pieGen" data-label="Gen 1"></div>
+              <div class="legend">
+                <b>Value Allocation</b>
+                <div class="badge"><span class="dot" style="background:var(--primary)"></span> Gen 1 share <span id="legendGen1" style="margin-left:6px; font-weight:700"></span></div>
+                <div class="badge"><span class="dot" style="background:var(--danger)"></span> Gen 2 share <span id="legendGen2" style="margin-left:6px; font-weight:700"></span></div>
+              </div>
+            </div>
+          </div>
+
+          <div class="right metrics">
+            <div class="metric">
+              <div class="m-label">Gen 1 Treasury Value</div>
+              <div class="m-value" id="treasuryGen1"><span class="skeleton">&nbsp;</span></div>
+              <div class="m-sub">≈ <span id="legendGen1Pct"></span></div>
+            </div>
+            <div class="metric">
+              <div class="m-label">Gen 2 Treasury Value</div>
+              <div class="m-value" id="treasuryGen2"><span class="skeleton">&nbsp;</span></div>
+              <div class="m-sub">≈ <span id="legendGen2Pct"></span></div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Footnote: small SOL price & last update -->
       <div class="footnote">
         <div>Current SOL Price: <strong id="footSol"><span class="skeleton">&nbsp;</span></strong></div>
         <div>Last updated: <strong id="footUpdated"><span class="skeleton">&nbsp;</span></strong></div>
@@ -346,7 +370,7 @@
     </section>
 
     <footer class="section">
-      <small>© 2025 Torrino DAO</small>
+      <small>Costruito dalla community. Stay tuned.</small>
     </footer>
   </div>
 
@@ -388,7 +412,7 @@
         const res = await fetch('data.json', { cache: 'no-store' });
         const data = await res.json();
 
-        // ===== Top stats =====
+        // ===== Top stats in composite cards =====
         setText('treasuryValue', fmtUsdBig(data.treasuryValue));
         setText('stableValue', fmtUsdBig(data.stableValue));
         const stablePct = Number(data.stablePercentage ?? (Number(data.stableValue)/Number(data.treasuryValue)*100));
@@ -424,6 +448,8 @@
         setPie(document.getElementById('pieGen'), gen1Pct, root.getPropertyValue('--primary'), root.getPropertyValue('--danger'), `${Math.round(gen1Pct)}%`);
         setText('legendGen1', `(${Math.round(gen1Pct)}%)`);
         setText('legendGen2', `(${Math.round(gen2Pct)}%)`);
+        setText('legendGen1Pct', `(${Math.round(gen1Pct)}%)`);
+        setText('legendGen2Pct', `(${Math.round(gen2Pct)}%)`);
 
         // ===== Footnotes =====
         setText('footUpdated', data.lastUpdated ?? '—');
