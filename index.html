@@ -80,6 +80,7 @@
       box-shadow: 0 12px 30px rgba(0,224,255,.12), 0 0 0 2px rgba(255,255,255,.12) inset; }
     .icon-btn{ width:42px; height:42px; padding:0; justify-content:center; }
     .icon-btn img{ width:20px; height:20px; filter: saturate(1.1) brightness(1.05) }
+    .icon-btn img.x-icon{ filter: invert(1) brightness(1.2) !important; }
 
     /* Panels & sections */
     .section{
@@ -136,7 +137,7 @@
     .chart{ border:var(--outline) solid var(--border); border-radius:16px; overflow:hidden; background: #0e1526; box-shadow: var(--shadow); }
     .chart iframe{ display:block; width:100%; height:440px; border:0 }
     .chart.centered{ display:flex; justify-content:center; }
-    .chart.centered iframe{ max-width: 980px; margin: 0 auto; }
+    .chart.centered iframe{ width:auto !important; max-width: 980px; margin: 0 auto; }
 
     /* Update/footnote */
     .footnote{ margin-top: 8px; font-size: 12px; color: var(--muted); display:flex; flex-wrap:wrap; gap:16px; }
@@ -155,7 +156,8 @@
     .mini-pie{ display:flex; align-items:center; gap:14px; padding:12px; border-radius:14px; border:var(--outline) solid var(--border); box-shadow: var(--shadow);
       background: linear-gradient(180deg, rgba(255,255,255,.06), rgba(255,255,255,.03)); }
     .pie{ width:92px; height:92px; border-radius:50%; position:relative; flex:0 0 auto; background:#0b1220; }
-    .pie::after{ content:attr(data-label); position:absolute; inset:12px; border-radius:50%; background:#0e1526; display:flex; align-items:center; justify-content:center; font-size:12px; color:var(--muted); font-weight:700; text-align:center; padding:4px; }
+    /* Center disc without text */
+    .pie::after{ content:""; position:absolute; inset:12px; border-radius:50%; background:#0e1526; display:block; }
     .legend{ display:flex; flex-direction:column; gap:6px; font-size:13px; }
     .legend b{ font-weight:800 }
     .badge{ display:inline-flex; align-items:center; gap:6px; }
@@ -188,7 +190,7 @@
           <img src="https://cdn-icons-png.flaticon.com/512/3670/3670157.png" alt="Discord" />
         </a>
         <a class="icon-btn" href="https://twitter.com/Torrino_DAO" target="_blank" aria-label="Twitter (X)">
-          <img src="https://cdn-icons-png.flaticon.com/512/5968/5968958.png" alt="Twitter (X)" />
+          <img class="x-icon" src="https://cdn-icons-png.flaticon.com/512/5968/5968958.png" alt="Twitter (X)" />
         </a>
         <a class="chip" href="https://app.step.finance/it/portfolio?wallet=EKjb5grMX19c3cAZa5LQjqksDpqqVLTGZrswh79WkPdD" target="_blank" rel="noopener" aria-label="Step Finance Portfolio">
           📊 Step Finance Portfolio
@@ -201,15 +203,15 @@
       <div class="eyebrow">Overview</div>
       <h2 id="overview">Treasury &amp; Market</h2>
 
-      <!-- CARD 1: Treasury Breakdown + metrics in the same card -->
+      <!-- CARD 1: Treasury Composition + metrics in the same card -->
       <div class="panel composite" style="margin-top:10px">
         <div class="composite-grid">
           <div class="left">
-            <div class="label" style="text-transform:uppercase; letter-spacing:.06em; font-size:12px; color:var(--muted); font-weight:700;">Treasury Breakdown (Stable vs Invested)</div>
+            <div class="label" style="text-transform:uppercase; letter-spacing:.06em; font-size:12px; color:var(--muted); font-weight:700;">Treasury Composition (Stable vs Invested)</div>
             <div class="mini-pie" style="margin-top:10px">
-              <div class="pie" id="pieStable" data-label="Stable"></div>
+              <div class="pie" id="pieStable"></div>
               <div class="legend">
-                <b>Breakdown</b>
+                <b>Allocation</b>
                 <div class="badge"><span class="dot" style="background:var(--accent)"></span> Stable Coins <span id="legendStable" style="margin-left:6px; font-weight:700"></span></div>
                 <div class="badge"><span class="dot" style="background:var(--secondary)"></span> Invested / Volatile <span id="legendInvested" style="margin-left:6px; font-weight:700"></span></div>
               </div>
@@ -236,7 +238,7 @@
           <div class="left">
             <div class="label" style="text-transform:uppercase; letter-spacing:.06em; font-size:12px; color:var(--muted); font-weight:700;">Treasury by Generation (Value)</div>
             <div class="mini-pie" style="margin-top:10px">
-              <div class="pie" id="pieGen" data-label="Gen 1"></div>
+              <div class="pie" id="pieGen"></div>
               <div class="legend">
                 <b>Value Allocation</b>
                 <div class="badge"><span class="dot" style="background:var(--primary)"></span> Gen 1 share <span id="legendGen1" style="margin-left:6px; font-weight:700"></span></div>
@@ -370,13 +372,12 @@
     </section>
 
     <footer class="section">
-      <small>Costruito dalla community. Stay tuned.</small>
+      <small>Built by the community. Stay tuned.</small>
     </footer>
   </div>
 
   <script>
     // ===== Formatting helpers =====
-    // Top stats: show thousands with commas AND explicit currency to avoid confusion
     const fmtUsdBig = (v) => {
       const num = Number(v);
       if (isNaN(num)) return String(v);
@@ -400,11 +401,11 @@
     };
 
     // ===== Mini pie helpers (CSS conic-gradient) =====
-    function setPie(el, pct, colorA, colorB, label){
+    function setPie(el, pct, colorA, colorB){
       if(!el) return;
       const p = Math.max(0, Math.min(100, Number(pct) || 0));
       el.style.background = `conic-gradient(${colorA} 0 ${p}%, ${colorB} 0 ${100}%)`;
-      if(label) el.setAttribute('data-label', label);
+      // no center label anymore
     }
 
     async function fetchNFTData() {
@@ -436,7 +437,7 @@
         // ===== Mini pies =====
         const investedPct = isFinite(stablePct) ? (100 - Number(stablePct)) : 0;
         const root = getComputedStyle(document.documentElement);
-        setPie(document.getElementById('pieStable'), stablePct, root.getPropertyValue('--accent'), root.getPropertyValue('--secondary'), `${Math.round(stablePct)}%`);
+        setPie(document.getElementById('pieStable'), stablePct, root.getPropertyValue('--accent'), root.getPropertyValue('--secondary'));
         setText('legendStable', `(${Math.round(stablePct)}%)`);
         setText('legendInvested', `(${Math.round(investedPct)}%)`);
 
@@ -445,7 +446,7 @@
         const totalG = (isFinite(g1) && isFinite(g2) && (g1+g2>0)) ? (g1 + g2) : null;
         let gen1Pct = 90, gen2Pct = 10; // fallback
         if(totalG){ gen1Pct = g1/totalG*100; gen2Pct = g2/totalG*100; }
-        setPie(document.getElementById('pieGen'), gen1Pct, root.getPropertyValue('--primary'), root.getPropertyValue('--danger'), `${Math.round(gen1Pct)}%`);
+        setPie(document.getElementById('pieGen'), gen1Pct, root.getPropertyValue('--primary'), root.getPropertyValue('--danger'));
         setText('legendGen1', `(${Math.round(gen1Pct)}%)`);
         setText('legendGen2', `(${Math.round(gen2Pct)}%)`);
         setText('legendGen1Pct', `(${Math.round(gen1Pct)}%)`);
