@@ -92,18 +92,6 @@
     .section h2{ margin: 4px 0 14px; font-size: clamp(18px, 2.2vw, 22px); font-weight:800; letter-spacing:.2px; }
     .eyebrow{ display:inline-flex; align-items:center; gap:8px; font-size:12px; font-weight:700; text-transform:uppercase; letter-spacing:.18em; color: var(--accent); }
 
-    /* Stats grid */
-    .stat-grid{ display:grid; gap:12px; grid-template-columns: repeat(12, 1fr); }
-    .stat{ grid-column: span 12; padding:16px; border-radius: 16px; border:var(--outline) solid var(--border);
-      background: linear-gradient(180deg, rgba(255,255,255,.06), rgba(255,255,255,.03)); position:relative; overflow:visible; box-shadow: var(--shadow); }
-    .stat .label{ color: var(--muted); font-size:12px; font-weight:700; letter-spacing:.06em; text-transform:uppercase; }
-    .stat .value{ margin-top:6px; font-family: 'JetBrains Mono', ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace; font-weight:800; font-size: clamp(18px, 3vw, 26px); line-height:1.25; word-wrap:anywhere; }
-    .stat .sub{ margin-top:6px; color: var(--muted); font-size:12px; }
-
-    /* Small/muted stats */
-    .stat.muted .label{ font-size:11px; opacity:.8 }
-    .stat.muted .value{ font-size: clamp(14px, 2.2vw, 18px); font-weight:700; color: var(--muted); }
-
     /* Composite panel (chart + metrics in one card) */
     .panel{ border: var(--outline) solid var(--border); border-radius:16px; box-shadow: var(--shadow);
             background: linear-gradient(180deg, rgba(255,255,255,.06), rgba(255,255,255,.03)); padding:16px; }
@@ -136,8 +124,6 @@
     @media (min-width: 980px){ .charts{ grid-template-columns: 1fr 1fr; } .charts .chart.full{ grid-column: 1 / -1; } }
     .chart{ border:var(--outline) solid var(--border); border-radius:16px; overflow:hidden; background: #0e1526; box-shadow: var(--shadow); }
     .chart iframe{ display:block; width:100%; height:440px; border:0 }
-    .chart.centered{ display:flex; justify-content:center; }
-    .chart.centered iframe{ width:auto !important; max-width: 980px; margin: 0 auto; }
 
     /* Update/footnote */
     .footnote{ margin-top: 8px; font-size: 12px; color: var(--muted); display:flex; flex-wrap:wrap; gap:16px; }
@@ -222,6 +208,7 @@
             <div class="metric">
               <div class="m-label">Total Treasury</div>
               <div class="m-value" id="treasuryValue"><span class="skeleton">&nbsp;</span></div>
+              <div class="m-sub">100%</div>
             </div>
             <div class="metric">
               <div class="m-label">Stable Protected Capital</div>
@@ -362,7 +349,7 @@
           </iframe>
         </div>
 
-        <div class="chart full centered">
+        <div class="chart full">
           <iframe
             src="https://docs.google.com/spreadsheets/d/e/2PACX-1vT84K0e8A5H3P2gI4upLGkArVFHDtXQ5uyDAfZjEHfnYsxGm0uCHwUxfTHr_zzm4jkzhUGMzdox85DT/pubchart?oid=1508575723&amp;format=interactive"
             loading="lazy" referrerpolicy="no-referrer" title="Treasury Table / Chart 3">
