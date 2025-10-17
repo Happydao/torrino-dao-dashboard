@@ -2,248 +2,514 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Torrino DAO NFT Dashboard</title>
+
+  <!-- Typography -->
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet" />
+
   <style>
-    * {
-      box-sizing: border-box;
+    :root{
+      --bg:#070a12;
+      --bg-2:#0b1220;
+      --panel: rgba(17,24,39,.55);
+      --panel-strong: rgba(17,24,39,.75);
+      --border: rgba(255,255,255,.08);
+      --txt:#e7e9ee;
+      --muted:#a1a8b3;
+      --primary:#00e0ff;   /* neon cyan */
+      --secondary:#a855f7; /* violet */
+      --accent:#00ffa3;    /* solana green */
+      --warning:#ffcc00;
+      --success:#00d38d;
+      --danger:#ff5c7a;
+      --radius:18px;
+      --shadow: 0 10px 30px rgba(0,0,0,.35), 0 0 0 1px var(--border) inset;
     }
 
-    body {
-      font-family: 'Arial', sans-serif;
-      background-color: #030007;
-      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='80' height='105' viewBox='0 0 80 105'%3E%3Cg fill-rule='evenodd'%3E%3Cg id='death-star' fill='%239C92AC' fill-opacity='0.31'%3E%3Cpath d='M20 10a5 5 0 0 1 10 0v50a5 5 0 0 1-10 0V10zm15 35a5 5 0 0 1 10 0v50a5 5 0 0 1-10 0V45zM20 75a5 5 0 0 1 10 0v20a5 5 0 0 1-10 0V75zm30-65a5 5 0 0 1 10 0v50a5 5 0 0 1-10 0V10zm0 65a5 5 0 0 1 10 0v20a5 5 0 0 1-10 0V75zM35 10a5 5 0 0 1 10 0v20a5 5 0 0 1-10 0V10zM5 45a5 5 0 0 1 10 0v50a5 5 0 0 1-10 0V45zm0-35a5 5 0 0 1 10 0v20a5 5 0 0 1-10 0V10zm60 35a5 5 0 0 1 10 0v50a5 5 0 0 1-10 0V45zm0-35a5 5 0 0 1 10 0v20a5 5 0 0 1-10 0V10z' /%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
-      background-size: cover;
-      background-attachment: fixed;
-      background-repeat: no-repeat;
-      background-position: center;
-      color: #e0e0e0;
-      margin: 0;
-      padding: 20px;
+    *{ box-sizing: border-box }
+
+    html,body{ height:100% }
+
+    body{
+      margin:0;
+      font-family: 'Inter', system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+      color: var(--txt);
+      background:
+        radial-gradient(1200px 600px at 100% -10%, rgba(168,85,247,.18), transparent 60%),
+        radial-gradient(800px 400px at -10% 20%, rgba(0,255,163,.12), transparent 60%),
+        linear-gradient(180deg, var(--bg), var(--bg-2));
+      overflow-x:hidden;
+      letter-spacing:.2px;
     }
 
-    h1, h2 {
-      color: #ffcc00;
-      margin-top: 0;
+    /* Soft grid glow background */
+    .backgrid{
+      position: fixed;
+      inset: 0;
+      background-image:
+        linear-gradient(rgba(255,255,255,.03) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255,255,255,.03) 1px, transparent 1px);
+      background-size: 22px 22px, 22px 22px;
+      mask-image: radial-gradient(1200px 600px at 50% -10%, rgba(0,0,0,.7), transparent 75%);
+      pointer-events:none;
+      z-index:0;
     }
 
-    .header {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      flex-wrap: wrap;
+    .wrapper{
+      position: relative;
+      z-index:1;
+      max-width:1200px;
+      margin: 36px auto 80px;
+      padding: 0 18px;
+    }
+
+    /* Header */
+    .header{
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap:16px;
       margin-bottom: 20px;
     }
 
-    .logo img {
-      height: 50px;
+    .brand{
+      display:flex;
+      align-items:center;
+      gap:14px;
+    }
+    .brand img{
+      width:56px;height:56px; border-radius:14px; object-fit:contain;
+      filter: drop-shadow(0 6px 18px rgba(0,224,255,.25));
+    }
+    .brand .title{
+      display:flex; flex-direction:column;
+    }
+    .brand h1{
+      margin:0;
+      font-size: clamp(20px, 3.2vw, 28px);
+      font-weight:800;
+      letter-spacing:.3px;
+      background: linear-gradient(90deg, var(--primary), var(--secondary), var(--accent));
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+    }
+    .brand small{
+      color: var(--muted);
+      margin-top:2px;
+      font-weight:500;
     }
 
-    .top-links {
-      display: flex;
-      flex-wrap: wrap;
-      align-items: center;
-      gap: 10px;
+    .top-links{
+      display:flex; align-items:center; flex-wrap:wrap; gap:10px;
     }
-
-    .top-links a.icon-link {
-      background: #cccccc;
-      border-radius: 8px;
-      padding: 6px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      width: 34px;
-      height: 34px;
-    }
-
-    .top-links img {
-      height: 20px;
-      width: 20px;
-    }
-
-    .top-links a.text-link {
-      padding: 8px 12px;
-      background: #2a2a2a;
-      color: #ffcc00;
-      text-decoration: none;
-      border-radius: 6px;
+    .chip, .icon-btn{
+      display:inline-flex; align-items:center; gap:8px;
+      padding:10px 12px;
+      text-decoration:none;
+      color: var(--txt);
+      background: linear-gradient(180deg, rgba(255,255,255,.05), rgba(255,255,255,.02));
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      box-shadow: var(--shadow);
+      transition: transform .15s ease, border-color .2s ease, box-shadow .2s ease, background .2s ease;
+      backdrop-filter: blur(8px);
+      -webkit-backdrop-filter: blur(8px);
+      font-weight:600;
       font-size: 14px;
-      border: 1px solid #333;
-      display: flex;
-      align-items: center;
-      gap: 6px;
+    }
+    .chip:hover, .icon-btn:hover{
+      transform: translateY(-1px);
+      border-color: rgba(255,255,255,.18);
+      box-shadow: 0 10px 28px rgba(0,224,255,.08), 0 0 0 1px rgba(255,255,255,.08) inset;
+    }
+    .icon-btn{
+      width:42px; height:42px; padding:0; justify-content:center;
+    }
+    .icon-btn img{ width:20px; height:20px; filter: saturate(1.1) brightness(1.05) }
+
+    /* Panels & sections */
+    .section{
+      padding: 18px;
+      border-radius: var(--radius);
+      background: linear-gradient(180deg, rgba(255,255,255,.06), rgba(255,255,255,.025));
+      border: 1px solid var(--border);
+      box-shadow: var(--shadow);
+      backdrop-filter: blur(10px);
+      -webkit-backdrop-filter: blur(10px);
+      margin-top:18px;
+    }
+    .section h2{
+      margin: 4px 0 14px;
+      font-size: clamp(18px, 2.2vw, 22px);
+      font-weight:800;
+      letter-spacing:.2px;
+    }
+    .eyebrow{
+      display:inline-flex; align-items:center; gap:8px;
+      font-size:12px; font-weight:700; text-transform:uppercase; letter-spacing:.18em;
+      color: var(--accent);
     }
 
-    .card {
-      background-color: #1e1e1e;
-      padding: 20px;
-      margin: 20px auto;
-      border-radius: 12px;
-      box-shadow: 0 0 20px #ffcc00a0;
-      border: 1px solid #ffcc00;
-      max-width: 700px;
-      width: 100%;
-      text-align: center;
+    /* Stats grid */
+    .stat-grid{
+      display:grid; gap:12px;
+      grid-template-columns: repeat(12, 1fr);
+    }
+    .stat{
+      grid-column: span 12;
+      padding:16px;
+      border-radius: 16px;
+      border:1px solid var(--border);
+      background: linear-gradient(180deg, rgba(255,255,255,.04), rgba(255,255,255,.02));
+      position:relative; overflow:hidden;
+    }
+    .stat::after{
+      content:"";
+      position:absolute; inset:-1px;
+      border-radius:16px;
+      pointer-events:none;
+      background: linear-gradient(90deg, rgba(0,224,255,.16), rgba(168,85,247,.16), rgba(0,255,163,.16));
+      mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+      -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+      -webkit-mask-composite: xor; mask-composite: exclude;
+      padding:1px;
+      opacity:.55;
+    }
+    .stat .label{
+      color: var(--muted); font-size:12px; font-weight:600; letter-spacing:.06em;
+    }
+    .stat .value{
+      margin-top:6px;
+      font-family: 'JetBrains Mono', ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+      font-weight:700;
+      font-size: clamp(18px, 3vw, 26px);
+      line-height:1.25;
+      word-wrap:anywhere;
+    }
+    .stat .sub{
+      margin-top:6px; color: var(--muted); font-size:12px;
     }
 
-    .chart-container {
-      margin-top: 20px;
-      text-align: center;
-      padding: 15px;
-      border-radius: 12px;
-      background-color: #1e1e1e;
-      border: 1px solid #ffcc00;
-      box-shadow: 0 0 20px #ffcc00a0;
-      max-width: 700px;
-      width: 100%;
-      margin-left: auto;
-      margin-right: auto;
+    /* Responsive columns for stats */
+    @media (min-width: 640px){
+      .stat.x3 { grid-column: span 4; }
+      .stat.x2 { grid-column: span 6; }
+      .stat.x1 { grid-column: span 12; }
+    }
+    @media (min-width: 980px){
+      .stat.x3 { grid-column: span 3; }
+      .stat.x2 { grid-column: span 6; }
+      .stat.x1 { grid-column: span 12; }
     }
 
-    iframe {
-      width: 100%;
-      border: none;
-      height: 400px;
+    /* Discounts & buttons */
+    .buy-actions{
+      display:flex; flex-wrap:wrap; gap:10px; margin-top:12px;
+    }
+    .btn{
+      appearance:none;
+      border:none;
+      cursor:pointer;
+      font-weight:800;
+      letter-spacing:.2px;
+      padding:12px 16px;
+      border-radius:12px;
+      background: linear-gradient(90deg, var(--primary), var(--accent));
+      color:#0b1220;
+      box-shadow: 0 10px 26px rgba(0,224,255,.22);
+      text-decoration:none;
+      display:inline-flex; align-items:center; gap:8px;
+      transition: transform .12s ease, filter .12s ease, box-shadow .12s ease;
+    }
+    .btn:hover{ transform: translateY(-1px); filter:brightness(1.02) }
+
+    .note{
+      color: var(--muted);
+      font-size: 14px;
+      line-height:1.6;
+    }
+    .highlight{ color: var(--warning); font-weight:700 }
+
+    /* Charts grid */
+    .charts{
+      display:grid; gap:12px; margin-top:8px;
+      grid-template-columns: 1fr;
+    }
+    @media (min-width: 980px){
+      .charts{ grid-template-columns: 1fr 1fr; }
+      .charts .chart.full{ grid-column: 1 / -1; }
+    }
+    .chart{
+      border:1px solid var(--border);
+      border-radius:16px;
+      overflow:hidden;
+      background: #0e1526;
+      box-shadow: var(--shadow);
+    }
+    .chart iframe{ display:block; width:100%; height:440px; border:0 }
+
+    /* Update bar */
+    .update{
+      margin-top: 8px;
+      font-size: 12px;
+      color: var(--muted);
     }
 
-    .update-info {
-      margin-top: 10px;
-      font-size: 0.9em;
-      color: #ffcc00;
+    /* Skeleton loading */
+    .skeleton{
+      position: relative;
+      background: linear-gradient(90deg, rgba(255,255,255,.06), rgba(255,255,255,.03), rgba(255,255,255,.06));
+      background-size: 200% 100%;
+      animation: shine 1.1s linear infinite;
+      color: transparent !important;
+      border-radius: 8px;
+      display:inline-block;
+      line-height:1.1;
+    }
+    @keyframes shine{
+      0% { background-position: 200% 0 }
+      100% { background-position: -200% 0 }
     }
 
-    @media (max-width: 600px) {
-      h1 {
-        font-size: 1.5em;
-      }
+    /* Small helpers */
+    .row{ display:grid; gap:12px; grid-template-columns:1fr; }
+    @media(min-width: 900px){ .row{ grid-template-columns: 1fr 1fr } }
 
-      h2 {
-        font-size: 1.2em;
-      }
-
-      .card {
-        padding: 15px;
-      }
-
-      .logo img {
-        height: 40px;
-      }
-    }
+    a{ color: var(--primary) }
   </style>
 </head>
 <body>
-  <div class="header">
-    <div class="logo">
-      <img src="torrino-dao.png" alt="Torrino DAO Logo" />
-    </div>
-    <div class="top-links">
-      <a class="icon-link" href="https://github.com/Happydao/torrino-dao-dashboard" target="_blank">
-        <img src="https://cdn-icons-png.flaticon.com/512/733/733553.png" alt="GitHub" />
-      </a>
-      <a class="icon-link" href="https://discord.gg/yYkwEjcKa9" target="_blank">
-        <img src="https://cdn-icons-png.flaticon.com/512/3670/3670157.png" alt="Discord" />
-      </a>
-      <a class="icon-link" href="https://twitter.com/Torrino_DAO" target="_blank">
-        <img src="https://cdn-icons-png.flaticon.com/512/5968/5968958.png" alt="Twitter (X)" />
-      </a>
-      <a class="text-link" href="https://jup.ag/portfolio/EKjb5grMX19c3cAZa5LQjqksDpqqVLTGZrswh79WkPdD" target="_blank">
-        💼 Jupiter Treasury
-      </a>
-    </div>
+  <div class="backgrid" aria-hidden="true"></div>
+
+  <div class="wrapper">
+    <!-- HEADER -->
+    <header class="header">
+      <div class="brand">
+        <img src="torrino-dao.png" alt="Torrino DAO Logo" />
+        <div class="title">
+          <h1>Torrino DAO — NFT Dashboard</h1>
+          <small>On-chain analytics • NFTs • Treasury</small>
+        </div>
+      </div>
+
+      <nav class="top-links">
+        <a class="icon-btn" href="https://github.com/Happydao/torrino-dao-dashboard" target="_blank" aria-label="GitHub">
+          <img src="https://cdn-icons-png.flaticon.com/512/733/733553.png" alt="GitHub" />
+        </a>
+        <a class="icon-btn" href="https://discord.gg/yYkwEjcKa9" target="_blank" aria-label="Discord">
+          <img src="https://cdn-icons-png.flaticon.com/512/3670/3670157.png" alt="Discord" />
+        </a>
+        <a class="icon-btn" href="https://twitter.com/Torrino_DAO" target="_blank" aria-label="Twitter (X)">
+          <img src="https://cdn-icons-png.flaticon.com/512/5968/5968958.png" alt="Twitter (X)" />
+        </a>
+        <a class="chip" href="https://jup.ag/portfolio/EKjb5grMX19c3cAZa5LQjqksDpqqVLTGZrswh79WkPdD" target="_blank" rel="noopener">
+          💼 Jupiter Treasury
+        </a>
+      </nav>
+    </header>
+
+    <!-- TOP STATS -->
+    <section class="section" aria-labelledby="overview">
+      <div class="eyebrow">Overview</div>
+      <h2 id="overview">Treasury & Market</h2>
+
+      <div class="stat-grid" role="list">
+        <div class="stat x3" role="listitem">
+          <div class="label">Total Treasury</div>
+          <div class="value" id="treasuryValue" aria-live="polite"><span class="skeleton">&nbsp;&nbsp;&nbsp;&nbsp;</span></div>
+        </div>
+
+        <div class="stat x3" role="listitem">
+          <div class="label">Stable Protected Capital</div>
+          <div class="value"><span id="stableValue"><span class="skeleton">&nbsp;&nbsp;&nbsp;&nbsp;</span></span></div>
+          <div class="sub">= <span id="stablePercentage"><span class="skeleton">&nbsp;</span></span>% of treasury</div>
+        </div>
+
+        <div class="stat x3" role="listitem">
+          <div class="label">Gen 1 Treasury (90%)</div>
+          <div class="value" id="treasuryGen1"><span class="skeleton">&nbsp;&nbsp;&nbsp;</span></div>
+        </div>
+
+        <div class="stat x3" role="listitem">
+          <div class="label">Gen 2 Treasury (10%)</div>
+          <div class="value" id="treasuryGen2"><span class="skeleton">&nbsp;&nbsp;&nbsp;</span></div>
+        </div>
+
+        <div class="stat x2" role="listitem">
+          <div class="label">Current SOL Price</div>
+          <div class="value" id="solPrice"><span class="skeleton">&nbsp;&nbsp;</span></div>
+          <div class="sub">Live reference from data.json</div>
+        </div>
+
+        <div class="stat x2" role="listitem">
+          <div class="label">Last Updated</div>
+          <div class="value" id="lastUpdated"><span class="skeleton">&nbsp;&nbsp;&nbsp;</span></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- NFT REAL VALUE -->
+    <section class="section" aria-labelledby="nft-values">
+      <div class="eyebrow">NFT</div>
+      <h2 id="nft-values">Current NFT Real Value</h2>
+
+      <div class="row">
+        <div>
+          <div class="stat">
+            <div class="label">Torrino DAO (Gen 1 — 500 pcs)</div>
+            <div class="value">
+              <span id="nftGen1Value"><span class="skeleton">&nbsp;&nbsp;</span></span>
+              <span class="sub">(<span id="nftGen1ValueSol"><span class="skeleton">&nbsp;</span></span>)</span>
+            </div>
+          </div>
+        </div>
+        <div>
+          <div class="stat">
+            <div class="label">Solnauta (Gen 2 — 888 pcs)</div>
+            <div class="value">
+              <span id="nftGen2Value"><span class="skeleton">&nbsp;&nbsp;</span></span>
+              <span class="sub">(<span id="nftGen2ValueSol"><span class="skeleton">&nbsp;</span></span>)</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <p class="note" style="margin-top:12px">
+        <strong>📢 NFT Discount Analysis:</strong><br/>
+        I prezzi di listing sono confrontati con il <em>real value</em> in base al treasury. Se il listing è inferiore, l’NFT è scontato e può rappresentare un’opportunità d’acquisto rispetto alla valutazione corrente.
+      </p>
+
+      <p class="note">
+        <strong>💡 Protected Capital & NFT Value:</strong><br/>
+        Il <em>Protected Capital</em> è la quota del treasury in stable (USDC/USDT/USDY) che preserva valore a prescindere dal mercato. Con un NFT scontato esponi il tuo acquisto sia alla parte volatile sia alla parte protetta: <span class="highlight">alto sconto + alta % protetta</span> = potenziale di crescita + conservazione del capitale.
+      </p>
+    </section>
+
+    <!-- DISCOUNTS -->
+    <section class="section" aria-labelledby="discounts">
+      <div class="eyebrow">Market</div>
+      <h2 id="discounts">Discounts on Listed NFTs</h2>
+
+      <div class="row">
+        <div>
+          <div class="stat">
+            <div class="label">📉 Torrino DAO (Gen 1)</div>
+            <div class="value">
+              <span id="gen1ListingPrice"><span class="skeleton">&nbsp;&nbsp;</span></span>
+            </div>
+            <div class="sub">➡️ Diff from real value: <strong><span id="gen1Discount"><span class="skeleton">&nbsp;</span></span>%</strong></div>
+            <div class="buy-actions">
+              <a class="btn" href="https://www.tensor.trade/trade/torrino_dao" target="_blank" rel="noopener">🛒 Buy Torrino DAO</a>
+            </div>
+          </div>
+        </div>
+
+        <div>
+          <div class="stat">
+            <div class="label">📉 Solnauta (Gen 2)</div>
+            <div class="value">
+              <span id="gen2ListingPrice"><span class="skeleton">&nbsp;&nbsp;</span></span>
+            </div>
+            <div class="sub">➡️ Diff from real value: <strong><span id="gen2Discount"><span class="skeleton">&nbsp;</span></span>%</strong></div>
+            <div class="buy-actions">
+              <a class="btn" href="https://www.tensor.trade/trade/solnauta" target="_blank" rel="noopener">🛒 Buy Solnauta</a>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="update">🕒 Data source last updated: <span id="updateMirror"><span class="skeleton">&nbsp;&nbsp;</span></span></div>
+    </section>
+
+    <!-- CHARTS -->
+    <section class="section" aria-labelledby="charts">
+      <div class="eyebrow">Analytics</div>
+      <h2 id="charts">Treasury Charts</h2>
+
+      <div class="charts">
+        <div class="chart">
+          <iframe
+            src="https://docs.google.com/spreadsheets/d/e/2PACX-1vT84K0e8A5H3P2gI4upLGkArVFHDtXQ5uyDAfZjEHfnYsxGm0uCHwUxfTHr_zzm4jkzhUGMzdox85DT/pubchart?oid=908001184&format=interactive"
+            loading="lazy" referrerpolicy="no-referrer" title="Treasury Chart 1">
+          </iframe>
+        </div>
+
+        <div class="chart">
+          <iframe
+            src="https://docs.google.com/spreadsheets/d/e/2PACX-1vT84K0e8A5H3P2gI4upLGkArVFHDtXQ5uyDAfZjEHfnYsxGm0uCHwUxfTHr_zzm4jkzhUGMzdox85DT/pubchart?oid=1345237562&format=interactive"
+            loading="lazy" referrerpolicy="no-referrer" title="Treasury Chart 2">
+          </iframe>
+        </div>
+
+        <div class="chart full">
+          <iframe
+            src="https://docs.google.com/spreadsheets/d/e/2PACX-1vT84K0e8A5H3P2gI4upLGkArVFHDtXQ5uyDAfZjEHfnYsxGm0uCHwUxfTHr_zzm4jkzhUGMzdox85DT/pubchart?oid=1508575723&amp;format=interactive"
+            loading="lazy" referrerpolicy="no-referrer" title="Treasury Table / Chart 3">
+          </iframe>
+        </div>
+      </div>
+    </section>
+
+    <footer class="section" style="text-align:center">
+      <small class="note">Built for the community • Stay safe • DYOR</small>
+    </footer>
   </div>
-
-  <div class="card">
-    <h1>Torrino DAO - NFT Analysis</h1>
-    <p><strong>💰 Total Treasury:</strong> <span id="treasuryValue"></span></p>
-    <p><strong>🔒 Stable Protected Capital:</strong> <span id="stableValue"></span> (<span id="stablePercentage"></span>% of treasury)</p>
-    <p><strong>🔹 Gen 1 Treasury (90%):</strong> <span id="treasuryGen1"></span></p>
-    <p><strong>🔸 Gen 2 Treasury (10%):</strong> <span id="treasuryGen2"></span></p>
-    <p><strong>🔹 Current SOL Price:</strong> <span id="solPrice"></span></p>
-    <p class="update-info">🕒 Last updated: <span id="lastUpdated"></span></p>
-  </div>
-
-  <div class="card">
-    <h2>🖼️ Current NFT Real Value</h2>
-    <p>🔹 Torrino DAO (Gen 1 - 500pcs): <span id="nftGen1Value"></span> (<span id="nftGen1ValueSol"></span>)</p>
-    <p>🔸 Solnauta (Gen 2 - 888pcs): <span id="nftGen2Value"></span> (<span id="nftGen2ValueSol"></span>)</p>
-    <br/>
-    <p>📢 <strong>NFT Discount Analysis:</strong><br>
-    NFT listing prices are compared to their real value based on the treasury. If the listing price is lower than the real value, the NFT is considered discounted. This may represent a good buying opportunity based on the current treasury valuation.</p>
-
-    <p>💡 <strong>Note: Protected Capital and NFT Value</strong><br>
-    "Protected Capital" refers to the portion of the treasury held in stablecoins (USDC, USDT, USDY) that maintains a stable or yield-generating value, regardless of market conditions. When you buy a discounted NFT, you gain exposure to both the volatile part of the treasury and the protected portion. A high discount combined with a high percentage of protected capital offers a dual benefit: growth potential and capital preservation.</p>
-  </div>
-
-  <div class="card">
-    <h2>📉 Discounts on Listed NFTs</h2>
-    <p>📉 Torrino DAO (Gen 1): <span id="gen1ListingPrice"></span></p>
-    <p>➡️ Difference from real value: <span id="gen1Discount"></span>%</p>
-    <a href="https://www.tensor.trade/trade/torrino_dao" target="_blank" style="display:inline-block;margin:10px;padding:10px 20px;background-color:#ffcc00;color:#121212;text-decoration:none;font-weight:bold;border-radius:8px;">🛒 Buy Torrino DAO</a>
-
-    <p>📉 Solnauta (Gen 2): <span id="gen2ListingPrice"></span></p>
-    <p>➡️ Difference from real value: <span id="gen2Discount"></span>%</p>
-    <a href="https://www.tensor.trade/trade/solnauta" target="_blank" style="display:inline-block;margin:10px;padding:10px 20px;background-color:#ffcc00;color:#121212;text-decoration:none;font-weight:bold;border-radius:8px;">🛒 Buy Solnauta</a>
-  </div>
-
-<div class="card">
-  <h2>📈 Treasury Charts</h2>
-
-  <div class="chart-container">
-    <iframe
-      src="https://docs.google.com/spreadsheets/d/e/2PACX-1vT84K0e8A5H3P2gI4upLGkArVFHDtXQ5uyDAfZjEHfnYsxGm0uCHwUxfTHr_zzm4jkzhUGMzdox85DT/pubchart?oid=908001184&format=interactive"
-      loading="lazy"
-      referrerpolicy="no-referrer"
-      style="width:100%; height:420px; border:0;"
-    ></iframe>
-  </div>
-
-  <div class="chart-container">
-    <iframe
-      src="https://docs.google.com/spreadsheets/d/e/2PACX-1vT84K0e8A5H3P2gI4upLGkArVFHDtXQ5uyDAfZjEHfnYsxGm0uCHwUxfTHr_zzm4jkzhUGMzdox85DT/pubchart?oid=1345237562&format=interactive"
-      loading="lazy"
-      referrerpolicy="no-referrer"
-      style="width:100%; height:420px; border:0;"
-    ></iframe>
-  </div>
-
-  <!-- ✅ Terza tabella dal tuo Google Sheet -->
-  <div class="chart-container">
-    <iframe
-      src="https://docs.google.com/spreadsheets/d/e/2PACX-1vT84K0e8A5H3P2gI4upLGkArVFHDtXQ5uyDAfZjEHfnYsxGm0uCHwUxfTHr_zzm4jkzhUGMzdox85DT/pubchart?oid=1508575723&amp;format=interactive"
-      loading="lazy"
-      referrerpolicy="no-referrer"
-      style="width:100%; height:480px; border:0; background:#fff;"
-    ></iframe>
-  </div>
-</div>
 
   <script>
+    // Helpers: safe formatting while preserving original data if already formatted
+    const fmtCurrency = (v) => {
+      if (v === null || v === undefined) return "N/A";
+      if (typeof v === "number") return "$" + v.toLocaleString("en-US", { maximumFractionDigits: 2 });
+      if (typeof v === "string" && v.trim().startsWith("$")) return v; // already formatted
+      const num = Number(v);
+      return isNaN(num) ? String(v) : "$" + num.toLocaleString("en-US", { maximumFractionDigits: 2 });
+    };
+    const fmtNumber = (v) => {
+      if (v === null || v === undefined) return "N/A";
+      if (typeof v === "number") return v.toLocaleString("en-US", { maximumFractionDigits: 2 });
+      const num = Number(v);
+      return isNaN(num) ? String(v) : num.toLocaleString("en-US", { maximumFractionDigits: 2 });
+    };
+    const setText = (id, val) => {
+      const el = document.getElementById(id);
+      if (!el) return;
+      el.textContent = val;
+      el.classList.remove('skeleton');
+    };
+
     async function fetchNFTData() {
       try {
-        const response = await fetch('data.json');
-        const data = await response.json();
+        const res = await fetch('data.json', { cache: "no-store" });
+        const data = await res.json();
 
-        document.getElementById("lastUpdated").textContent = data.lastUpdated;
-        document.getElementById("treasuryValue").textContent = `$${data.treasuryValue}`;
-        document.getElementById("stableValue").textContent = `$${data.stableValue}`;
-        document.getElementById("stablePercentage").textContent = data.stablePercentage;
-        document.getElementById("treasuryGen1").textContent = `$${data.treasuryGen1}`;
-        document.getElementById("treasuryGen2").textContent = `$${data.treasuryGen2}`;
-        document.getElementById("solPrice").textContent = `$${data.solPrice}`;
+        // mirror update
+        setText("lastUpdated", data.lastUpdated ?? "—");
+        setText("updateMirror", data.lastUpdated ?? "—");
 
-        document.getElementById("nftGen1Value").textContent = `$${data.nftGen1Value}`;
-        document.getElementById("nftGen1ValueSol").textContent = `${data.nftGen1ValueSol} SOL`;
-        document.getElementById("nftGen2Value").textContent = `$${data.nftGen2Value}`;
-        document.getElementById("nftGen2ValueSol").textContent = `${data.nftGen2ValueSol} SOL`;
+        // top stats
+        setText("treasuryValue", fmtCurrency(data.treasuryValue));
+        setText("stableValue", fmtCurrency(data.stableValue));
+        setText("stablePercentage", (data.stablePercentage ?? "—"));
+        setText("treasuryGen1", fmtCurrency(data.treasuryGen1));
+        setText("treasuryGen2", fmtCurrency(data.treasuryGen2));
+        setText("solPrice", fmtCurrency(data.solPrice));
 
-        document.getElementById("gen1ListingPrice").textContent = `$${data.gen1ListingPrice} (${data.gen1ListingPriceSol} SOL)`;
-        document.getElementById("gen1Discount").textContent = data.gen1Discount;
+        // NFT values
+        setText("nftGen1Value", fmtCurrency(data.nftGen1Value));
+        setText("nftGen1ValueSol", `${fmtNumber(data.nftGen1ValueSol)} SOL`);
+        setText("nftGen2Value", fmtCurrency(data.nftGen2Value));
+        setText("nftGen2ValueSol", `${fmtNumber(data.nftGen2ValueSol)} SOL`);
 
-        document.getElementById("gen2ListingPrice").textContent = `$${data.gen2ListingPrice} (${data.gen2ListingPriceSol} SOL)`;
-        document.getElementById("gen2Discount").textContent = data.gen2Discount;
-      } catch (error) {
-        console.error("Error loading data:", error);
+        // Discounts / listings
+        setText("gen1ListingPrice", `${fmtCurrency(data.gen1ListingPrice)} (${fmtNumber(data.gen1ListingPriceSol)} SOL)`);
+        setText("gen1Discount", fmtNumber(data.gen1Discount));
+
+        setText("gen2ListingPrice", `${fmtCurrency(data.gen2ListingPrice)} (${fmtNumber(data.gen2ListingPriceSol)} SOL)`);
+        setText("gen2Discount", fmtNumber(data.gen2Discount));
+      } catch (e) {
+        console.error("Error loading data.json", e);
       }
     }
 
