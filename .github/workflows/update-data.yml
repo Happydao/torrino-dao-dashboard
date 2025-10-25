@@ -51,7 +51,7 @@ jobs:
 
           END="$(date -u +%FT%TZ)"
 
-          # Writer inline (maschera SOLO le secret, non gli address pubblici)
+          # Writer inline (maschera solo le secret)
           mkdir -p .github
           cat > .github/write-logs.mjs <<'NODE'
           import fs from 'fs';
@@ -73,8 +73,6 @@ jobs:
           function maskSecrets(s) {
             if (!s) return '';
             let out = s;
-
-            // Maschera valori reali delle secret se accidentalmente stampati
             const secretKeys = [
               'HELIUS_API_KEY','TENSOR_API_KEY','G_TOKEN',
               'GITHUB_TOKEN','GH_TOKEN','ACTIONS_RUNTIME_TOKEN'
@@ -85,14 +83,10 @@ jobs:
                 out = out.replace(new RegExp(escapeRegex(v), 'g'), '[REDACTED]');
               }
             }
-
-            // Maschera pattern comuni di credenziali in chiaro
             out = out.replace(/([?&#]api[-_]?key=)[^&\s]+/gi, '$1[REDACTED]');
             out = out.replace(/(Authorization:\s*Bearer\s+)[^\s]+/gi, '$1[REDACTED]');
             out = out.replace(/(\bBearer\s+)[A-Za-z0-9._-]+/gi, '$1[REDACTED]');
             out = out.replace(/(\btoken=)[A-Za-z0-9._-]+/gi, '$1[REDACTED]');
-
-            // NIENTE redazione generica: address/mint sono pubblici.
             return out;
           }
 
@@ -155,8 +149,8 @@ jobs:
           git config --local user.email "action@github.com"
           git config --local user.name "GitHub Action"
 
-          # Aggiunge anche i log e l'output aggregato
-          git add data.json totalvalue_output.json logs.txt logs.json logs/
+          # Staggia tutto quello che è cambiato (nessun errore se un file manca)
+          git add -A
 
           if git diff --cached --quiet; then
             echo "Nessuna modifica da committare."
