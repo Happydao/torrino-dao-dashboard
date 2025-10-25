@@ -4,6 +4,9 @@ on:
     - cron: '0 4 * * *'  # Esegue alle 04:00 UTC (05:00 in Italia CET)
   workflow_dispatch:
 
+permissions:
+  contents: write
+
 jobs:
   update-data:
     runs-on: ubuntu-latest
@@ -22,78 +25,88 @@ jobs:
         run: |
           npm install puppeteer axios dotenv
           npm install @solana/web3.js
-          sudo apt-get update && sudo apt-get install -y jq
 
-      # ⬇️ Esegui gli script e scrivi sia logs.json (strutturato) sia logs.txt (umano)
-      - name: Run Scripts and write logs.json + logs.txt
+      # ⬇️ Esegue gli script e genera logs.json + logs.txt senza jq
+      - name: Run scripts and write logs.json + logs.txt
         env:
           G_TOKEN: ${{ secrets.G_TOKEN }}
           HELIUS_API_KEY: ${{ secrets.HELIUS_API_KEY }}
           TENSOR_API_KEY: ${{ secrets.TENSOR_API_KEY }}
+          GITHUB_RUN_ID: ${{ github.run_id }}
         shell: bash
         run: |
-          set +e  # vogliamo sempre salvare i log anche se uno script fallisce
+          set +e  # vogliamo salvare i log anche se uno script fallisce
+
+          # 1) Esegui totalvalue.js e calculate.js catturando stdout/stderr ed exit code
           START="$(date -u +%FT%TZ)"
 
           OUT1="$(node scripts/totalvalue.js 2>&1)"; RC1=$?
           OUT2="$(node scripts/calculate.js 2>&1)"; RC2=$?
 
           END="$(date -u +%FT%TZ)"
-          OK="false"; if [ "$RC1" -eq 0 ] && [ "$RC2" -eq 0 ]; then OK="true"; fi
 
-          # --- LOG TESTUALE (legibile a schermo) ---
-          RAW_TEXT="=== Update Treasury Data ===
-Started at: $START
+          # 2) Genera i file con un piccolo script Node (niente jq/sed)
+          cat > .github/write-logs.mjs <<'NODE'
+          import fs from 'fs';
 
------ totalvalue.js -----
-$OUT1
+          const runId = Number(process.env.GITHUB_RUN_ID || '0');
+          const startedAt = process.env.STARTED_AT || new Date().toISOString();
+          const finishedAt = process.env.FINISHED_AT || new Date().toISOString();
+          const out1 = process.env.OUT1 || '';
+          const out2 = process.env.OUT2 || '';
+          const rc1 = Number(process.env.RC1 || 1);
+          const rc2 = Number(process.env.RC2 || 1);
+          const ok = (rc1 === 0 && rc2 === 0);
 
------ calculate.js -----
-$OUT2
+          // maschera grezza di possibili token lunghi
+          const mask = s => (s || '').replace(/[A-Za-z0-9_\-]{32,}/g, '[REDACTED]');
 
-Finished at: $END
-Status: $OK"
+          const raw = [
+            '=== Update Treasury Data ===',
+            `Started at: ${startedAt}`,
+            '',
+            '----- totalvalue.js -----',
+            mask(out1),
+            '',
+            '----- calculate.js -----',
+            mask(out2),
+            '',
+            `Finished at: ${finishedAt}`,
+            `Status: ${ok}`
+          ].join('\n');
 
-          # (opzionale) maschera eventuali segreti se mai finissero nei log
-          RAW_TEXT_MASKED="$(printf "%s" "$RAW_TEXT" \
-            | sed -E 's/([A-Za-z0-9_]*API[_A-Za-z0-9]*=)?[A-Za-z0-9]{24,}/[REDACTED]/g')"
+          // logs.txt (leggibile)
+          fs.writeFileSync('logs.txt', raw, 'utf8');
 
-          # Scrivi logs.txt (root) e copia storica
-          printf "%s\n" "$RAW_TEXT_MASKED" > logs.txt
-          TS_SAFE="${START//:/-}"
-          mkdir -p logs
-          cp logs.txt "logs/${TS_SAFE}_run-${GITHUB_RUN_ID}.txt"
+          // logs.json (strutturato e INDENTATO)
+          const payload = {
+            runId,
+            startedAt,
+            finishedAt,
+            ok,
+            steps: [
+              { name: 'totalvalue.js', exitCode: rc1, output: mask(out1) },
+              { name: 'calculate.js', exitCode: rc2, output: mask(out2) }
+            ],
+            raw
+          };
+          fs.writeFileSync('logs.json', JSON.stringify(payload, null, 2), 'utf8');
 
-          # --- LOG JSON STRUTTURATO (per la tua pagina/JS) ---
-          jq -n \
-            --arg runId "${GITHUB_RUN_ID}" \
-            --arg startedAt "$START" \
-            --arg finishedAt "$END" \
-            --arg ok "$OK" \
-            --arg out1 "$OUT1" --argjson rc1 "$RC1" \
-            --arg out2 "$OUT2" --argjson rc2 "$RC2" \
-            --arg raw "$RAW_TEXT_MASKED" \
-            '{
-              runId: ($runId|tonumber),
-              startedAt: $startedAt,
-              finishedAt: $finishedAt,
-              ok: ($ok=="true"),
-              steps: [
-                { name: "totalvalue.js", exitCode: $rc1, output: $out1 },
-                { name: "calculate.js", exitCode: $rc2, output: $out2 }
-              ],
-              raw: $raw
-            }' > logs.json
+          // copie storiche
+          const tsSafe = startedAt.replace(/:/g, '-');
+          fs.mkdirSync('logs', { recursive: true });
+          fs.copyFileSync('logs.txt', `logs/${tsSafe}_run-${runId}.txt`);
+          fs.copyFileSync('logs.json', `logs/${tsSafe}_run-${runId}.json`);
+          NODE
 
-          # Copia storica JSON (opzionale)
-          cp logs.json "logs/${TS_SAFE}_run-${GITHUB_RUN_ID}.json"
-
-          echo "📄 logs.txt e logs.json creati."
+          node .github/write-logs.mjs \
+            STARTED_AT="$START" FINISHED_AT="$END" \
+            OUT1="$OUT1" OUT2="$OUT2" RC1="$RC1" RC2="$RC2"
 
       - name: Check file changes
         run: |
           echo "📂 Anteprima logs.txt:"
-          head -n 50 logs.txt || true
+          head -n 40 logs.txt || true
           echo ""
           echo "📂 Anteprima logs.json:"
           head -c 1000 logs.json || true
