@@ -59,7 +59,7 @@
     .brand{ display:flex; align-items:center; gap:14px; }
     .brand img{
       width:64px; height:auto; object-fit:contain; display:block;
-      border-radius:0; /* FIX: no rounding => no clipping */
+      border-radius:0;
       filter: drop-shadow(0 6px 18px rgba(0,224,255,.25));
     }
     .brand .title{ display:flex; flex-direction:column; }
@@ -92,7 +92,7 @@
     .section h2{ margin: 4px 0 14px; font-size: clamp(18px, 2.2vw, 22px); font-weight:800; letter-spacing:.2px; }
     .eyebrow{ display:inline-flex; align-items:center; gap:8px; font-size:12px; font-weight:700; text-transform:uppercase; letter-spacing:.18em; color: var(--accent); }
 
-    /* Composite panel (chart + metrics in one card) */
+    /* Composite panel */
     .panel{ border: var(--outline) solid var(--border); border-radius:16px; box-shadow: var(--shadow);
             background: linear-gradient(180deg, rgba(255,255,255,.06), rgba(255,255,255,.03)); padding:16px; }
     .composite-grid{ display:grid; grid-template-columns: 1fr; gap:16px; align-items:center; }
@@ -142,7 +142,6 @@
     .mini-pie{ display:flex; align-items:center; gap:14px; padding:12px; border-radius:14px; border:var(--outline) solid var(--border); box-shadow: var(--shadow);
       background: linear-gradient(180deg, rgba(255,255,255,.06), rgba(255,255,255,.03)); }
     .pie{ width:92px; height:92px; border-radius:50%; position:relative; flex:0 0 auto; background:#0b1220; }
-    /* Center disc without text */
     .pie::after{ content:""; position:absolute; inset:12px; border-radius:50%; background:#0e1526; display:block; }
     .legend{ display:flex; flex-direction:column; gap:6px; font-size:13px; }
     .legend b{ font-weight:800 }
@@ -152,6 +151,82 @@
     /* Footer */
     footer{ text-align:center }
     footer small{ color: var(--muted) }
+
+    /* ====== NEW: heading actions (right aligned link) ====== */
+    .heading-actions{
+      display:flex; justify-content:flex-end; gap:10px; margin-top:-6px; margin-bottom: 8px; flex-wrap:wrap;
+    }
+
+    /* ====== NEW: Modal styles for logs ====== */
+    .modal{
+      position: fixed; inset:0; display:none; place-items:center; z-index: 50;
+      background: radial-gradient(1000px 600px at 50% -10%, rgba(0,224,255,.12), transparent 70%),
+                  rgba(5,8,15,.66);
+      backdrop-filter: blur(4px);
+    }
+    .modal.open{ display:grid; }
+    .modal-card{
+      width:min(980px, 94vw); max-height:min(86vh, 840px);
+      border-radius: 18px;
+      border: var(--outline) solid var(--border);
+      box-shadow: 0 24px 60px rgba(0,0,0,.5), 0 0 0 2px rgba(255,255,255,.06) inset;
+      background: linear-gradient(180deg, rgba(255,255,255,.08), rgba(255,255,255,.035));
+      overflow:hidden;
+      display:flex; flex-direction:column;
+    }
+    .modal-header{
+      padding:14px 16px; display:flex; align-items:center; justify-content:space-between; gap:10px;
+      border-bottom: 1px solid var(--border);
+      background: linear-gradient(180deg, rgba(255,255,255,.08), rgba(255,255,255,.02));
+    }
+    .modal-title{
+      font-weight:800; letter-spacing:.25px; font-size:16px;
+      display:flex; align-items:center; gap:10px;
+    }
+    .close-btn{
+      appearance:none; border:none; background:transparent; color:var(--txt); cursor:pointer;
+      width:36px; height:36px; border-radius:10px;
+      display:inline-grid; place-items:center;
+    }
+    .close-btn:hover{ background: rgba(255,255,255,.08) }
+
+    .modal-tools{
+      display:flex; align-items:center; gap:8px; flex-wrap:wrap;
+    }
+    .tool-btn{
+      appearance:none; border:none; cursor:pointer; font-weight:700; padding:8px 10px; border-radius:10px;
+      background: linear-gradient(180deg, rgba(255,255,255,.08), rgba(255,255,255,.04));
+      border: var(--outline) solid var(--border); color: var(--txt);
+    }
+    .tool-btn:hover{ transform: translateY(-1px); box-shadow: 0 8px 20px rgba(0,224,255,.14) }
+
+    .modal-body{
+      padding: 0; overflow:auto; background:#0a0f1f;
+    }
+    .logview{
+      margin:0; padding:16px; font-family:'JetBrains Mono', ui-monospace, monospace; font-size:12.5px; line-height:1.5;
+      white-space:pre-wrap; word-break:break-word; color:#e7e9ee;
+      min-height: 300px; max-height: 60vh;
+      background:
+        linear-gradient(180deg, rgba(0,0,0,.0), rgba(0,0,0,.0)),
+        repeating-linear-gradient(0deg, rgba(255,255,255,.04) 0px, rgba(255,255,255,.04) 1px, transparent 1px, transparent 22px);
+    }
+
+    .modal-footer{
+      display:flex; align-items:center; justify-content:space-between; gap:10px; padding:10px 14px; color:var(--muted);
+      border-top: 1px solid var(--border); background: rgba(255,255,255,.03);
+      font-size:12px;
+    }
+
+    .switch{
+      display:inline-flex; align-items:center; gap:8px; padding:6px 8px; border-radius:10px;
+      border: var(--outline) solid var(--border); background: rgba(255,255,255,.02);
+      user-select:none;
+    }
+    .switch input{ accent-color: var(--accent); width:16px; height:16px }
+
+    /* Small helper for the raw link */
+    .raw-link{ text-decoration:none; }
   </style>
 </head>
 <body>
@@ -189,7 +264,15 @@
       <div class="eyebrow">Overview</div>
       <h2 id="overview">Treasury &amp; Market</h2>
 
-      <!-- CARD 1: Treasury Composition + metrics in the same card -->
+      <!-- NEW: right-side action to open logs modal -->
+      <div class="heading-actions">
+        <button class="chip" id="openLogsBtn" type="button" aria-haspopup="dialog" aria-controls="logsModal">
+          🧾 Public Treasury Logs
+        </button>
+        <noscript><a class="chip" href="logs.txt" target="_blank" rel="noopener">Open raw logs.txt</a></noscript>
+      </div>
+
+      <!-- CARD 1: Treasury Composition + metrics -->
       <div class="panel composite" style="margin-top:10px">
         <div class="composite-grid">
           <div class="left">
@@ -219,7 +302,7 @@
         </div>
       </div>
 
-      <!-- CARD 2: Treasury by Generation (Value) + metrics in the same card -->
+      <!-- CARD 2: Treasury by Generation (Value) -->
       <div class="panel composite" style="margin-top:12px">
         <div class="composite-grid">
           <div class="left">
@@ -249,7 +332,7 @@
         </div>
       </div>
 
-      <!-- Footnote: small SOL price & last update -->
+      <!-- Footnote -->
       <div class="footnote">
         <div>Current SOL Price: <strong id="footSol"><span class="skeleton">&nbsp;</span></strong></div>
         <div>Last updated: <strong id="footUpdated"><span class="skeleton">&nbsp;</span></strong></div>
@@ -363,6 +446,30 @@
     </footer>
   </div>
 
+  <!-- ===== NEW: Logs Modal ===== -->
+  <div class="modal" id="logsModal" role="dialog" aria-modal="true" aria-labelledby="logsTitle" aria-describedby="logsDesc">
+    <div class="modal-card">
+      <div class="modal-header">
+        <div class="modal-title" id="logsTitle">🧾 Public Treasury Calculation Logs <small style="color:var(--muted); font-weight:600;">(logs.txt)</small></div>
+        <div class="modal-tools">
+          <button class="tool-btn" id="refreshLogsBtn" type="button">Refresh</button>
+          <label class="switch"><input type="checkbox" id="autoRefreshToggle" /> Live refresh</label>
+          <label class="switch"><input type="checkbox" id="autoScrollToggle" checked /> Auto-scroll</label>
+          <button class="tool-btn" id="copyLogsBtn" type="button">Copy</button>
+          <a class="tool-btn raw-link" href="logs.txt" target="_blank" rel="noopener">Open raw</a>
+          <button class="close-btn" id="closeLogsBtn" aria-label="Close">✕</button>
+        </div>
+      </div>
+      <div class="modal-body" id="logsDesc">
+        <pre class="logview" id="logsContent">Loading…</pre>
+      </div>
+      <div class="modal-footer">
+        <div>Source: <code>/logs.txt</code> • Updated <span id="logsUpdated">—</span></div>
+        <div style="opacity:.85">Tip: enable <strong>Live refresh</strong> while a run is in progress.</div>
+      </div>
+    </div>
+  </div>
+
   <script>
     // ===== Formatting helpers =====
     const fmtUsdBig = (v) => {
@@ -371,7 +478,6 @@
       const opts = Number.isInteger(num) ? { maximumFractionDigits: 0 } : { maximumFractionDigits: 2 };
       return "$" + num.toLocaleString("en-US", opts) + " USD";
     };
-    // NFT/Market sections: no grouping (plain), keep up to 2 decimals
     const fmtUsdPlain = (v) => {
       const num = Number(v);
       if (isNaN(num)) return String(v);
@@ -392,7 +498,6 @@
       if(!el) return;
       const p = Math.max(0, Math.min(100, Number(pct) || 0));
       el.style.background = `conic-gradient(${colorA} 0 ${p}%, ${colorB} 0 ${100}%)`;
-      // no center label anymore
     }
 
     async function fetchNFTData() {
@@ -400,7 +505,7 @@
         const res = await fetch('data.json', { cache: 'no-store' });
         const data = await res.json();
 
-        // ===== Top stats in composite cards =====
+        // Top stats
         setText('treasuryValue', fmtUsdBig(data.treasuryValue));
         setText('stableValue', fmtUsdBig(data.stableValue));
         const stablePct = Number(data.stablePercentage ?? (Number(data.stableValue)/Number(data.treasuryValue)*100));
@@ -409,19 +514,19 @@
         setText('treasuryGen1', fmtUsdBig(data.treasuryGen1));
         setText('treasuryGen2', fmtUsdBig(data.treasuryGen2));
 
-        // ===== NFT values (no grouping) =====
+        // NFT values
         setText('nftGen1Value', fmtUsdPlain(data.nftGen1Value));
         setText('nftGen1ValueSol', `${fmtNoGroup(data.nftGen1ValueSol)} SOL`);
         setText('nftGen2Value', fmtUsdPlain(data.nftGen2Value));
         setText('nftGen2ValueSol', `${fmtNoGroup(data.nftGen2ValueSol)} SOL`);
 
-        // ===== Discounts / listings (no grouping) =====
+        // Discounts
         setText('gen1ListingPrice', `${fmtUsdPlain(data.gen1ListingPrice)} (${fmtNoGroup(data.gen1ListingPriceSol)} SOL)`);
         setText('gen1Discount', fmtNoGroup(data.gen1Discount));
         setText('gen2ListingPrice', `${fmtUsdPlain(data.gen2ListingPrice)} (${fmtNoGroup(data.gen2ListingPriceSol)} SOL)`);
         setText('gen2Discount', fmtNoGroup(data.gen2Discount));
 
-        // ===== Mini pies =====
+        // Pies
         const investedPct = isFinite(stablePct) ? (100 - Number(stablePct)) : 0;
         const root = getComputedStyle(document.documentElement);
         setPie(document.getElementById('pieStable'), stablePct, root.getPropertyValue('--accent'), root.getPropertyValue('--secondary'));
@@ -439,7 +544,7 @@
         setText('legendGen1Pct', `(${Math.round(gen1Pct)}%)`);
         setText('legendGen2Pct', `(${Math.round(gen2Pct)}%)`);
 
-        // ===== Footnotes =====
+        // Footnotes
         setText('footUpdated', data.lastUpdated ?? '—');
         setText('marketUpdated', data.lastUpdated ?? '—');
         setText('footSol', fmtUsdPlain(data.solPrice));
@@ -450,6 +555,92 @@
     }
 
     fetchNFTData();
+
+    // ===== NEW: Logs modal controller =====
+    const openBtn = document.getElementById('openLogsBtn');
+    const modal = document.getElementById('logsModal');
+    const closeBtn = document.getElementById('closeLogsBtn');
+    const refreshBtn = document.getElementById('refreshLogsBtn');
+    const copyBtn = document.getElementById('copyLogsBtn');
+    const logsContent = document.getElementById('logsContent');
+    const logsUpdated = document.getElementById('logsUpdated');
+    const autoScrollToggle = document.getElementById('autoScrollToggle');
+    const autoRefreshToggle = document.getElementById('autoRefreshToggle');
+
+    let refreshTimer = null;
+
+    function escapeHtml(str){
+      return str.replace(/[&<>]/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;'}[c]));
+    }
+
+    async function loadLogs(){
+      try{
+        const res = await fetch('logs.txt?ts=' + Date.now(), { cache: 'no-store' });
+        if(!res.ok){
+          logsContent.textContent = 'logs.txt not found yet. Run the workflow once to generate it.';
+          logsUpdated.textContent = '—';
+          return;
+        }
+        const txt = await res.text();
+        // Light post-processing: keep exactly as-is, just escape HTML
+        logsContent.innerHTML = escapeHtml(txt);
+        logsUpdated.textContent = new Date().toLocaleString();
+        if(autoScrollToggle.checked){
+          logsContent.parentElement.scrollTop = logsContent.parentElement.scrollHeight;
+        }
+      }catch(err){
+        logsContent.textContent = 'Error loading logs.txt: ' + err;
+        logsUpdated.textContent = '—';
+      }
+    }
+
+    function openModal(){
+      modal.classList.add('open');
+      loadLogs();
+      if(autoRefreshToggle.checked){
+        startAutoRefresh();
+      }
+      // Close on backdrop click
+      modal.addEventListener('click', backdropCloseHandler);
+      // Esc key
+      document.addEventListener('keydown', escHandler);
+    }
+
+    function closeModal(){
+      modal.classList.remove('open');
+      stopAutoRefresh();
+      modal.removeEventListener('click', backdropCloseHandler);
+      document.removeEventListener('keydown', escHandler);
+    }
+
+    function backdropCloseHandler(e){
+      if(e.target === modal){ closeModal(); }
+    }
+    function escHandler(e){
+      if(e.key === 'Escape'){ closeModal(); }
+    }
+
+    function startAutoRefresh(){
+      stopAutoRefresh();
+      refreshTimer = setInterval(loadLogs, 5000);
+    }
+    function stopAutoRefresh(){
+      if(refreshTimer){ clearInterval(refreshTimer); refreshTimer = null; }
+    }
+
+    // Wire up controls
+    openBtn?.addEventListener('click', openModal);
+    closeBtn?.addEventListener('click', closeModal);
+    refreshBtn?.addEventListener('click', loadLogs);
+    autoRefreshToggle?.addEventListener('change', (e)=> e.target.checked ? startAutoRefresh() : stopAutoRefresh());
+    copyBtn?.addEventListener('click', async ()=>{
+      try{
+        const text = logsContent.textContent || '';
+        await navigator.clipboard.writeText(text);
+        copyBtn.textContent = 'Copied!';
+        setTimeout(()=> copyBtn.textContent = 'Copy', 1200);
+      }catch(_){}
+    });
   </script>
 </body>
 </html>
