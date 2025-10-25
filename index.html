@@ -14,18 +14,18 @@
       --bg-2:#0b1220;
       --panel: rgba(17,24,39,.55);
       --panel-strong: rgba(17,24,39,.75);
-      --border: rgba(255,255,255,.22); /* stronger */
+      --border: rgba(255,255,255,.22);
       --txt:#e7e9ee;
       --muted:#a1a8b3;
-      --primary:#00e0ff;   /* neon cyan */
-      --secondary:#a855f7; /* violet */
-      --accent:#00ffa3;    /* solana green */
+      --primary:#00e0ff;
+      --secondary:#a855f7;
+      --accent:#00ffa3;
       --warning:#ffcc00;
       --success:#00d38d;
       --danger:#ff5c7a;
       --radius:18px;
-      --shadow: 0 14px 36px rgba(0,0,0,.45), 0 0 0 2px var(--border) inset; /* thicker outline */
-      --outline: 2px; /* card borders more accentuated */
+      --shadow: 0 14px 36px rgba(0,0,0,.45), 0 0 0 2px var(--border) inset;
+      --outline: 2px;
     }
 
     *{ box-sizing: border-box }
@@ -92,6 +92,14 @@
     .section h2{ margin: 4px 0 14px; font-size: clamp(18px, 2.2vw, 22px); font-weight:800; letter-spacing:.2px; }
     .eyebrow{ display:inline-flex; align-items:center; gap:8px; font-size:12px; font-weight:700; text-transform:uppercase; letter-spacing:.18em; color: var(--accent); }
 
+    /* NEW: Section header with right-aligned actions */
+    .section-header{
+      display:flex; align-items:flex-end; justify-content:space-between;
+      gap:14px; margin-bottom: 10px; flex-wrap:wrap;
+    }
+    .section-header .title-stack{ display:flex; flex-direction:column; }
+    .section-header .actions{ display:flex; align-items:center; gap:10px; }
+
     /* Composite panel */
     .panel{ border: var(--outline) solid var(--border); border-radius:16px; box-shadow: var(--shadow);
             background: linear-gradient(180deg, rgba(255,255,255,.06), rgba(255,255,255,.03)); padding:16px; }
@@ -152,12 +160,7 @@
     footer{ text-align:center }
     footer small{ color: var(--muted) }
 
-    /* ====== NEW: heading actions (right aligned link) ====== */
-    .heading-actions{
-      display:flex; justify-content:flex-end; gap:10px; margin-top:-6px; margin-bottom: 8px; flex-wrap:wrap;
-    }
-
-    /* ====== NEW: Modal styles for logs ====== */
+    /* ====== Modal styles for logs ====== */
     .modal{
       position: fixed; inset:0; display:none; place-items:center; z-index: 50;
       background: radial-gradient(1000px 600px at 50% -10%, rgba(0,224,255,.12), transparent 70%),
@@ -200,9 +203,7 @@
     }
     .tool-btn:hover{ transform: translateY(-1px); box-shadow: 0 8px 20px rgba(0,224,255,.14) }
 
-    .modal-body{
-      padding: 0; overflow:auto; background:#0a0f1f;
-    }
+    .modal-body{ padding: 0; overflow:auto; background:#0a0f1f; }
     .logview{
       margin:0; padding:16px; font-family:'JetBrains Mono', ui-monospace, monospace; font-size:12.5px; line-height:1.5;
       white-space:pre-wrap; word-break:break-word; color:#e7e9ee;
@@ -211,7 +212,6 @@
         linear-gradient(180deg, rgba(0,0,0,.0), rgba(0,0,0,.0)),
         repeating-linear-gradient(0deg, rgba(255,255,255,.04) 0px, rgba(255,255,255,.04) 1px, transparent 1px, transparent 22px);
     }
-
     .modal-footer{
       display:flex; align-items:center; justify-content:space-between; gap:10px; padding:10px 14px; color:var(--muted);
       border-top: 1px solid var(--border); background: rgba(255,255,255,.03);
@@ -225,7 +225,6 @@
     }
     .switch input{ accent-color: var(--accent); width:16px; height:16px }
 
-    /* Small helper for the raw link */
     .raw-link{ text-decoration:none; }
   </style>
 </head>
@@ -261,15 +260,17 @@
 
     <!-- TREASURY & MARKET -->
     <section class="section" aria-labelledby="overview">
-      <div class="eyebrow">Overview</div>
-      <h2 id="overview">Treasury &amp; Market</h2>
-
-      <!-- NEW: right-side action to open logs modal -->
-      <div class="heading-actions">
-        <button class="chip" id="openLogsBtn" type="button" aria-haspopup="dialog" aria-controls="logsModal">
-          🧾 Public Treasury Logs
-        </button>
-        <noscript><a class="chip" href="logs.txt" target="_blank" rel="noopener">Open raw logs.txt</a></noscript>
+      <div class="section-header">
+        <div class="title-stack">
+          <div class="eyebrow">Overview</div>
+          <h2 id="overview">Treasury &amp; Market</h2>
+        </div>
+        <div class="actions">
+          <button class="chip" id="openLogsBtn" type="button" aria-haspopup="dialog" aria-controls="logsModal" title="View calculation logs">
+            🧾 Public Treasury Logs
+          </button>
+          <noscript><a class="chip" href="logs.txt" target="_blank" rel="noopener">Open raw logs.txt</a></noscript>
+        </div>
       </div>
 
       <!-- CARD 1: Treasury Composition + metrics -->
@@ -446,7 +447,7 @@
     </footer>
   </div>
 
-  <!-- ===== NEW: Logs Modal ===== -->
+  <!-- Logs Modal -->
   <div class="modal" id="logsModal" role="dialog" aria-modal="true" aria-labelledby="logsTitle" aria-describedby="logsDesc">
     <div class="modal-card">
       <div class="modal-header">
@@ -556,7 +557,7 @@
 
     fetchNFTData();
 
-    // ===== NEW: Logs modal controller =====
+    // ===== Logs modal controller =====
     const openBtn = document.getElementById('openLogsBtn');
     const modal = document.getElementById('logsModal');
     const closeBtn = document.getElementById('closeLogsBtn');
@@ -582,7 +583,6 @@
           return;
         }
         const txt = await res.text();
-        // Light post-processing: keep exactly as-is, just escape HTML
         logsContent.innerHTML = escapeHtml(txt);
         logsUpdated.textContent = new Date().toLocaleString();
         if(autoScrollToggle.checked){
@@ -600,9 +600,7 @@
       if(autoRefreshToggle.checked){
         startAutoRefresh();
       }
-      // Close on backdrop click
       modal.addEventListener('click', backdropCloseHandler);
-      // Esc key
       document.addEventListener('keydown', escHandler);
     }
 
@@ -613,22 +611,12 @@
       document.removeEventListener('keydown', escHandler);
     }
 
-    function backdropCloseHandler(e){
-      if(e.target === modal){ closeModal(); }
-    }
-    function escHandler(e){
-      if(e.key === 'Escape'){ closeModal(); }
-    }
+    function backdropCloseHandler(e){ if(e.target === modal){ closeModal(); } }
+    function escHandler(e){ if(e.key === 'Escape'){ closeModal(); } }
 
-    function startAutoRefresh(){
-      stopAutoRefresh();
-      refreshTimer = setInterval(loadLogs, 5000);
-    }
-    function stopAutoRefresh(){
-      if(refreshTimer){ clearInterval(refreshTimer); refreshTimer = null; }
-    }
+    function startAutoRefresh(){ stopAutoRefresh(); refreshTimer = setInterval(loadLogs, 5000); }
+    function stopAutoRefresh(){ if(refreshTimer){ clearInterval(refreshTimer); refreshTimer = null; } }
 
-    // Wire up controls
     openBtn?.addEventListener('click', openModal);
     closeBtn?.addEventListener('click', closeModal);
     refreshBtn?.addEventListener('click', loadLogs);
