@@ -1,7 +1,7 @@
 name: Update Treasury Data
 on:
   schedule:
-    - cron: '0 4 * * *'  # Esegue alle 04:00 UTC (05:00 in Italia CET)
+    - cron: '0 4 * * *'  # 04:00 UTC (05:00/06:00 IT in base all'ora legale)
   workflow_dispatch:
 
 permissions:
@@ -26,8 +26,8 @@ jobs:
           npm install puppeteer axios dotenv
           npm install @solana/web3.js
 
-      # ⬇️ Esegue gli script e genera logs.json + logs.txt senza jq
-      - name: Run scripts and write logs.json + logs.txt
+      # ▶️ Esegue gli script con log in diretta e li salva su file
+      - name: Run scripts with live logging + build logs.json & logs.txt
         env:
           G_TOKEN: ${{ secrets.G_TOKEN }}
           HELIUS_API_KEY: ${{ secrets.HELIUS_API_KEY }}
@@ -35,73 +35,80 @@ jobs:
           GITHUB_RUN_ID: ${{ github.run_id }}
         shell: bash
         run: |
-          set +e  # vogliamo salvare i log anche se uno script fallisce
+          set -o pipefail
 
-          # 1) Esegui totalvalue.js e calculate.js catturando stdout/stderr ed exit code
           START="$(date -u +%FT%TZ)"
 
-          OUT1="$(node scripts/totalvalue.js 2>&1)"; RC1=$?
-          OUT2="$(node scripts/calculate.js 2>&1)"; RC2=$?
+          # Esecuzione con streaming + copia su file
+          node scripts/totalvalue.js 2>&1 | tee out_totalvalue.log
+          RC1=${PIPESTATUS[0]}
+
+          node scripts/calculate.js 2>&1 | tee out_calculate.log
+          RC2=${PIPESTATUS[0]}
 
           END="$(date -u +%FT%TZ)"
 
-          # 2) Genera i file con un piccolo script Node (niente jq/sed)
+          # Writer JS che legge i file (niente jq/apt)
           cat > .github/write-logs.mjs <<'NODE'
           import fs from 'fs';
 
           const runId = Number(process.env.GITHUB_RUN_ID || '0');
           const startedAt = process.env.STARTED_AT || new Date().toISOString();
           const finishedAt = process.env.FINISHED_AT || new Date().toISOString();
-          const out1 = process.env.OUT1 || '';
-          const out2 = process.env.OUT2 || '';
+          const out1File = process.env.OUT1_FILE || 'out_totalvalue.log';
+          const out2File = process.env.OUT2_FILE || 'out_calculate.log';
           const rc1 = Number(process.env.RC1 || 1);
           const rc2 = Number(process.env.RC2 || 1);
           const ok = (rc1 === 0 && rc2 === 0);
 
-          // maschera grezza di possibili token lunghi
+          const read = (p) => fs.existsSync(p) ? fs.readFileSync(p, 'utf8') : '';
           const mask = s => (s || '').replace(/[A-Za-z0-9_\-]{32,}/g, '[REDACTED]');
+
+          const out1 = mask(read(out1File));
+          const out2 = mask(read(out2File));
 
           const raw = [
             '=== Update Treasury Data ===',
             `Started at: ${startedAt}`,
             '',
             '----- totalvalue.js -----',
-            mask(out1),
+            out1,
             '',
             '----- calculate.js -----',
-            mask(out2),
+            out2,
             '',
             `Finished at: ${finishedAt}`,
             `Status: ${ok}`
           ].join('\n');
 
-          // logs.txt (leggibile)
           fs.writeFileSync('logs.txt', raw, 'utf8');
 
-          // logs.json (strutturato e INDENTATO)
           const payload = {
             runId,
             startedAt,
             finishedAt,
             ok,
             steps: [
-              { name: 'totalvalue.js', exitCode: rc1, output: mask(out1) },
-              { name: 'calculate.js', exitCode: rc2, output: mask(out2) }
+              { name: 'totalvalue.js', exitCode: rc1, output: out1 },
+              { name: 'calculate.js', exitCode: rc2, output: out2 }
             ],
             raw
           };
           fs.writeFileSync('logs.json', JSON.stringify(payload, null, 2), 'utf8');
 
-          // copie storiche
           const tsSafe = startedAt.replace(/:/g, '-');
           fs.mkdirSync('logs', { recursive: true });
           fs.copyFileSync('logs.txt', `logs/${tsSafe}_run-${runId}.txt`);
           fs.copyFileSync('logs.json', `logs/${tsSafe}_run-${runId}.json`);
           NODE
 
-          node .github/write-logs.mjs \
-            STARTED_AT="$START" FINISHED_AT="$END" \
-            OUT1="$OUT1" OUT2="$OUT2" RC1="$RC1" RC2="$RC2"
+          # ⚠️ Qui PASSO davvero le env al processo Node (prima era argomento, non env)
+          STARTED_AT="$START" \
+          FINISHED_AT="$END" \
+          RC1="$RC1" RC2="$RC2" \
+          OUT1_FILE="out_totalvalue.log" \
+          OUT2_FILE="out_calculate.log" \
+          node .github/write-logs.mjs
 
       - name: Check file changes
         run: |
