@@ -24,25 +24,47 @@ jobs:
           npm install @solana/web3.js
           sudo apt-get update && sudo apt-get install -y jq
 
-      # ⬇️ Esegui gli script e genera logs.json (più copia storica opzionale)
-      - name: Run Scripts and write logs.json
+      # ⬇️ Esegui gli script e scrivi sia logs.json (strutturato) sia logs.txt (umano)
+      - name: Run Scripts and write logs.json + logs.txt
         env:
           G_TOKEN: ${{ secrets.G_TOKEN }}
           HELIUS_API_KEY: ${{ secrets.HELIUS_API_KEY }}
           TENSOR_API_KEY: ${{ secrets.TENSOR_API_KEY }}
         shell: bash
         run: |
-          set +e  # non interrompere su errore: vogliamo comunque salvare il log
+          set +e  # vogliamo sempre salvare i log anche se uno script fallisce
           START="$(date -u +%FT%TZ)"
 
-          # Esegui i due script catturando output ed exit code
           OUT1="$(node scripts/totalvalue.js 2>&1)"; RC1=$?
           OUT2="$(node scripts/calculate.js 2>&1)"; RC2=$?
 
           END="$(date -u +%FT%TZ)"
           OK="false"; if [ "$RC1" -eq 0 ] && [ "$RC2" -eq 0 ]; then OK="true"; fi
 
-          # Costruisci logs.json con struttura chiara
+          # --- LOG TESTUALE (legibile a schermo) ---
+          RAW_TEXT="=== Update Treasury Data ===
+Started at: $START
+
+----- totalvalue.js -----
+$OUT1
+
+----- calculate.js -----
+$OUT2
+
+Finished at: $END
+Status: $OK"
+
+          # (opzionale) maschera eventuali segreti se mai finissero nei log
+          RAW_TEXT_MASKED="$(printf "%s" "$RAW_TEXT" \
+            | sed -E 's/([A-Za-z0-9_]*API[_A-Za-z0-9]*=)?[A-Za-z0-9]{24,}/[REDACTED]/g')"
+
+          # Scrivi logs.txt (root) e copia storica
+          printf "%s\n" "$RAW_TEXT_MASKED" > logs.txt
+          TS_SAFE="${START//:/-}"
+          mkdir -p logs
+          cp logs.txt "logs/${TS_SAFE}_run-${GITHUB_RUN_ID}.txt"
+
+          # --- LOG JSON STRUTTURATO (per la tua pagina/JS) ---
           jq -n \
             --arg runId "${GITHUB_RUN_ID}" \
             --arg startedAt "$START" \
@@ -50,6 +72,7 @@ jobs:
             --arg ok "$OK" \
             --arg out1 "$OUT1" --argjson rc1 "$RC1" \
             --arg out2 "$OUT2" --argjson rc2 "$RC2" \
+            --arg raw "$RAW_TEXT_MASKED" \
             '{
               runId: ($runId|tonumber),
               startedAt: $startedAt,
@@ -59,30 +82,21 @@ jobs:
                 { name: "totalvalue.js", exitCode: $rc1, output: $out1 },
                 { name: "calculate.js", exitCode: $rc2, output: $out2 }
               ],
-              raw: ("----- totalvalue.js -----\n" + $out1
-                    + "\n\n----- calculate.js -----\n" + $out2)
+              raw: $raw
             }' > logs.json
 
-          # (Opzionale) copia storica con timestamp
-          TS_SAFE="${START//:/-}"
-          mkdir -p logs
+          # Copia storica JSON (opzionale)
           cp logs.json "logs/${TS_SAFE}_run-${GITHUB_RUN_ID}.json"
 
-          # Stampa anteprima
-          echo "📄 logs.json creato:"
-          head -c 1000 logs.json || true
-          echo -e "\n---- fine anteprima ----"
+          echo "📄 logs.txt e logs.json creati."
 
       - name: Check file changes
         run: |
-          echo "📂 Anteprima data.json:"
-          (head -c 1000 data.json 2>/dev/null || echo "data.json non trovato")
+          echo "📂 Anteprima logs.txt:"
+          head -n 50 logs.txt || true
           echo ""
           echo "📂 Anteprima logs.json:"
-          head -c 1000 logs.json
-          echo ""
-          echo "📂 File in logs/:"
-          ls -lah logs || true
+          head -c 1000 logs.json || true
           echo ""
           echo "📂 Git status:"
           git status
@@ -92,6 +106,6 @@ jobs:
         run: |
           git config --local user.email "action@github.com"
           git config --local user.name "GitHub Action"
-          git add data.json logs.json logs
-          git commit -m "🔄 Aggiornamento tesoreria + logs.json" || echo "Nessun cambiamento da committare"
+          git add data.json logs.json logs.txt logs
+          git commit -m "🔄 Aggiornamento tesoreria + logs.json + logs.txt" || echo "Nessun cambiamento da committare"
           git push origin main
