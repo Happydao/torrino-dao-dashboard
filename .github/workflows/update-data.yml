@@ -1,7 +1,8 @@
 name: Update Treasury Data
+
 on:
   schedule:
-    - cron: '0 4 * * *'  # 04:00 UTC (05:00/06:00 IT in base all'ora legale)
+    - cron: '0 4 * * *'  # 04:00 UTC
   workflow_dispatch:
 
 permissions:
@@ -10,36 +11,38 @@ permissions:
 jobs:
   update-data:
     runs-on: ubuntu-latest
+
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
         with:
           token: ${{ secrets.G_TOKEN }}
 
       - name: Set up Node.js
-        uses: actions/setup-node@v3
+        uses: actions/setup-node@v4
         with:
           node-version: '18'
+          cache: 'npm'
 
       - name: Install dependencies
         run: |
-          npm install puppeteer axios dotenv
-          npm install @solana/web3.js
+          npm ci || true
+          npm install puppeteer axios dotenv @solana/web3.js
 
-      # ▶️ Esegue gli script con log in diretta e li salva su file
+      # Esegue gli script con log in diretta e costruisce logs.txt + logs.json
       - name: Run scripts with live logging + build logs.json & logs.txt
+        shell: bash
         env:
           G_TOKEN: ${{ secrets.G_TOKEN }}
           HELIUS_API_KEY: ${{ secrets.HELIUS_API_KEY }}
           TENSOR_API_KEY: ${{ secrets.TENSOR_API_KEY }}
           GITHUB_RUN_ID: ${{ github.run_id }}
-        shell: bash
         run: |
           set -o pipefail
 
           START="$(date -u +%FT%TZ)"
 
-          # Esecuzione con streaming + copia su file
+          # Esecuzione con streaming su Actions e scrittura su file
           node scripts/totalvalue.js 2>&1 | tee out_totalvalue.log
           RC1=${PIPESTATUS[0]}
 
@@ -48,7 +51,8 @@ jobs:
 
           END="$(date -u +%FT%TZ)"
 
-          # Writer JS che legge i file (niente jq/apt)
+          # Writer inline (maschera SOLO le secret, non gli address pubblici)
+          mkdir -p .github
           cat > .github/write-logs.mjs <<'NODE'
           import fs from 'fs';
 
@@ -62,10 +66,38 @@ jobs:
           const ok = (rc1 === 0 && rc2 === 0);
 
           const read = (p) => fs.existsSync(p) ? fs.readFileSync(p, 'utf8') : '';
-          const mask = s => (s || '').replace(/[A-Za-z0-9_\-]{32,}/g, '[REDACTED]');
 
-          const out1 = mask(read(out1File));
-          const out2 = mask(read(out2File));
+          function escapeRegex(str) {
+            return str.replace(/[-\/\\^$*+?.()|[\]{}]/g, '\\$&');
+          }
+          function maskSecrets(s) {
+            if (!s) return '';
+            let out = s;
+
+            // Maschera valori reali delle secret se accidentalmente stampati
+            const secretKeys = [
+              'HELIUS_API_KEY','TENSOR_API_KEY','G_TOKEN',
+              'GITHUB_TOKEN','GH_TOKEN','ACTIONS_RUNTIME_TOKEN'
+            ];
+            for (const k of secretKeys) {
+              const v = process.env[k];
+              if (v && typeof v === 'string' && v.length > 0) {
+                out = out.replace(new RegExp(escapeRegex(v), 'g'), '[REDACTED]');
+              }
+            }
+
+            // Maschera pattern comuni di credenziali in chiaro
+            out = out.replace(/([?&#]api[-_]?key=)[^&\s]+/gi, '$1[REDACTED]');
+            out = out.replace(/(Authorization:\s*Bearer\s+)[^\s]+/gi, '$1[REDACTED]');
+            out = out.replace(/(\bBearer\s+)[A-Za-z0-9._-]+/gi, '$1[REDACTED]');
+            out = out.replace(/(\btoken=)[A-Za-z0-9._-]+/gi, '$1[REDACTED]');
+
+            // NIENTE redazione generica: address/mint sono pubblici.
+            return out;
+          }
+
+          const out1 = maskSecrets(read(out1File));
+          const out2 = maskSecrets(read(out2File));
 
           const raw = [
             '=== Update Treasury Data ===',
@@ -96,13 +128,13 @@ jobs:
           };
           fs.writeFileSync('logs.json', JSON.stringify(payload, null, 2), 'utf8');
 
+          // Copie storiche (per GitHub Pages)
           const tsSafe = startedAt.replace(/:/g, '-');
           fs.mkdirSync('logs', { recursive: true });
           fs.copyFileSync('logs.txt', `logs/${tsSafe}_run-${runId}.txt`);
           fs.copyFileSync('logs.json', `logs/${tsSafe}_run-${runId}.json`);
           NODE
 
-          # ⚠️ Qui PASSO davvero le env al processo Node (prima era argomento, non env)
           STARTED_AT="$START" \
           FINISHED_AT="$END" \
           RC1="$RC1" RC2="$RC2" \
@@ -110,22 +142,25 @@ jobs:
           OUT2_FILE="out_calculate.log" \
           node .github/write-logs.mjs
 
-      - name: Check file changes
-        run: |
-          echo "📂 Anteprima logs.txt:"
-          head -n 40 logs.txt || true
-          echo ""
-          echo "📂 Anteprima logs.json:"
-          head -c 1000 logs.json || true
-          echo ""
-          echo "📂 Git status:"
-          git status
-        continue-on-error: true
+          echo "----- logs.txt (prime 50 righe) -----"
+          head -n 50 logs.txt || true
+          echo "----- logs.json (bytes) -----"
+          wc -c logs.json || true
 
       - name: Commit and push changes
+        if: always()
+        env:
+          G_TOKEN: ${{ secrets.G_TOKEN }}
         run: |
           git config --local user.email "action@github.com"
           git config --local user.name "GitHub Action"
-          git add data.json logs.json logs.txt logs
-          git commit -m "🔄 Aggiornamento tesoreria + logs.json + logs.txt" || echo "Nessun cambiamento da committare"
-          git push origin main
+
+          # Aggiunge anche i log e l'output aggregato
+          git add data.json totalvalue_output.json logs.txt logs.json logs/
+
+          if git diff --cached --quiet; then
+            echo "Nessuna modifica da committare."
+          else
+            git commit -m "🔄 Update data.json + publish logs [skip ci]"
+            git push origin ${{ github.ref_name }}
+          fi
