@@ -1,81 +1,111 @@
-name: Treasury Snapshot + Full Log
-
+name: Update Treasury Data
 on:
-  workflow_dispatch:       # avvio manuale
   schedule:
-    - cron: "0 * * * *"    # ogni ora
-
-permissions:
-  contents: write          # serve per pushare i file in docs/
+    - cron: '0 4 * * *'  # Esegue alle 04:00 UTC (05:00 in Italia CET)
+  workflow_dispatch:
 
 jobs:
-  run-and-publish:
+  update-data:
     runs-on: ubuntu-latest
-
     steps:
-      - name: Checkout
-        uses: actions/checkout@v4
-
-      - name: Setup Node
-        uses: actions/setup-node@v4
+      - name: Checkout repository
+        uses: actions/checkout@v3
         with:
-          node-version: 20
+          token: ${{ secrets.G_TOKEN }}
 
-      - name: Install deps
-        run: npm ci || npm i
+      - name: Set up Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: '18'
 
-      - name: Run token.js and capture full log
+      - name: Install dependencies
+        run: |
+          npm install puppeteer axios dotenv
+          npm install @solana/web3.js
+          sudo apt-get update && sudo apt-get install -y jq
+
+      # ⬇️ Esegui gli script e scrivi sia logs.json (strutturato) sia logs.txt (umano)
+      - name: Run Scripts and write logs.json + logs.txt
         env:
+          G_TOKEN: ${{ secrets.G_TOKEN }}
           HELIUS_API_KEY: ${{ secrets.HELIUS_API_KEY }}
-          # WALLET_ADDRESS: ${{ vars.WALLET_ADDRESS }}  # opzionale
+          TENSOR_API_KEY: ${{ secrets.TENSOR_API_KEY }}
+        shell: bash
         run: |
-          set -e
-          node token.js | tee run.log
+          set +e  # vogliamo sempre salvare i log anche se uno script fallisce
+          START="$(date -u +%FT%TZ)"
 
-      - name: Save full log file to docs/logs and build index
+          OUT1="$(node scripts/totalvalue.js 2>&1)"; RC1=$?
+          OUT2="$(node scripts/calculate.js 2>&1)"; RC2=$?
+
+          END="$(date -u +%FT%TZ)"
+          OK="false"; if [ "$RC1" -eq 0 ] && [ "$RC2" -eq 0 ]; then OK="true"; fi
+
+          # --- LOG TESTUALE (legibile a schermo) ---
+          RAW_TEXT="=== Update Treasury Data ===
+Started at: $START
+
+----- totalvalue.js -----
+$OUT1
+
+----- calculate.js -----
+$OUT2
+
+Finished at: $END
+Status: $OK"
+
+          # (opzionale) maschera eventuali segreti se mai finissero nei log
+          RAW_TEXT_MASKED="$(printf "%s" "$RAW_TEXT" \
+            | sed -E 's/([A-Za-z0-9_]*API[_A-Za-z0-9]*=)?[A-Za-z0-9]{24,}/[REDACTED]/g')"
+
+          # Scrivi logs.txt (root) e copia storica
+          printf "%s\n" "$RAW_TEXT_MASKED" > logs.txt
+          TS_SAFE="${START//:/-}"
+          mkdir -p logs
+          cp logs.txt "logs/${TS_SAFE}_run-${GITHUB_RUN_ID}.txt"
+
+          # --- LOG JSON STRUTTURATO (per la tua pagina/JS) ---
+          jq -n \
+            --arg runId "${GITHUB_RUN_ID}" \
+            --arg startedAt "$START" \
+            --arg finishedAt "$END" \
+            --arg ok "$OK" \
+            --arg out1 "$OUT1" --argjson rc1 "$RC1" \
+            --arg out2 "$OUT2" --argjson rc2 "$RC2" \
+            --arg raw "$RAW_TEXT_MASKED" \
+            '{
+              runId: ($runId|tonumber),
+              startedAt: $startedAt,
+              finishedAt: $finishedAt,
+              ok: ($ok=="true"),
+              steps: [
+                { name: "totalvalue.js", exitCode: $rc1, output: $out1 },
+                { name: "calculate.js", exitCode: $rc2, output: $out2 }
+              ],
+              raw: $raw
+            }' > logs.json
+
+          # Copia storica JSON (opzionale)
+          cp logs.json "logs/${TS_SAFE}_run-${GITHUB_RUN_ID}.json"
+
+          echo "📄 logs.txt e logs.json creati."
+
+      - name: Check file changes
         run: |
-          set -e
-          mkdir -p docs/logs
-          NOW="$(date -u +%FT%TZ)"                             # es. 2025-10-25T21:05:00Z
-          SAFE_TS="${NOW//:/-}"                                # ':' -> '-' per filename
-          DEST="docs/logs/${SAFE_TS}_run-${GITHUB_RUN_ID}.log" # filename con timestamp+run
-          mv run.log "$DEST"
-          cp "$DEST" docs/logs/latest.txt
+          echo "📂 Anteprima logs.txt:"
+          head -n 50 logs.txt || true
+          echo ""
+          echo "📂 Anteprima logs.json:"
+          head -c 1000 logs.json || true
+          echo ""
+          echo "📂 Git status:"
+          git status
+        continue-on-error: true
 
-          # Aggiorna/crea l'indice JSON dei log
-          if [ ! -f docs/logs/index.json ]; then
-            echo "[]" > docs/logs/index.json
-          fi
-
-          SIZE=$(wc -c < "$DEST" | tr -d ' ')
-          TMP="docs/logs/index.new.json"
-          jq --arg file "$(basename "$DEST")" \
-             --arg ts "$NOW" \
-             --arg run "${GITHUB_RUN_ID}" \
-             --arg size "$SIZE" \
-             '([{file:$file, updatedAt:$ts, runId: ($run|tonumber), size: ($size|tonumber)}] + .)
-              | sort_by(.updatedAt) | reverse
-              | .[:100]' docs/logs/index.json > "$TMP"
-          mv "$TMP" docs/logs/index.json
-
-          # (Opzionale) pruna i file log più vecchi non presenti nell’indice:
-          jq -r '.[].file' docs/logs/index.json > /tmp/keep.txt
-          ls docs/logs/*.log | while read f; do
-            base=$(basename "$f")
-            if ! grep -qx "$base" /tmp/keep.txt; then rm -f "$f"; fi
-          done
-
-      - name: Extract JSON line to docs/data.json
+      - name: Commit and push changes
         run: |
-          mkdir -p docs
-          JSON_LINE=$(grep -Eo '\{.*\}' docs/logs/latest.txt | tail -n1 || true)
-          if [ -z "$JSON_LINE" ]; then
-            echo "⚠️ Nessuna riga JSON trovata nel log"; exit 1;
-          fi
-          echo "$JSON_LINE" | jq --arg now "$(date -u +%FT%TZ)" '.updatedAt=$now' > docs/data.json
-
-      - name: Commit & push docs/*
-        uses: stefanzweifel/git-auto-commit-action@v5
-        with:
-          commit_message: "chore: publish snapshot & full log"
-          file_pattern: docs/*
+          git config --local user.email "action@github.com"
+          git config --local user.name "GitHub Action"
+          git add data.json logs.json logs.txt logs
+          git commit -m "🔄 Aggiornamento tesoreria + logs.json + logs.txt" || echo "Nessun cambiamento da committare"
+          git push origin main
