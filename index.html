@@ -824,16 +824,14 @@
     }
 
     const prefersTap = !hoverCapable || coarsePointer || isTouchDevice || isNarrow;
+    if (breakdownBtn) breakdownBtn.textContent = 'Tap for details';
     if (!prefersTap) {
-      if (breakdownBtn) breakdownBtn.textContent = 'Hover for details';
       breakdownBtn?.addEventListener('mouseenter', openTreasuryModal);
       breakdownBtn?.addEventListener('mouseleave', scheduleTreasuryClose);
       treasuryModal?.addEventListener('mouseenter', () => {
         if (treasuryCloseTimer) clearTimeout(treasuryCloseTimer);
       });
       treasuryModal?.addEventListener('mouseleave', scheduleTreasuryClose);
-    } else {
-      if (breakdownBtn) breakdownBtn.textContent = 'Tap for details';
     }
     breakdownBtn?.addEventListener('click', openTreasuryModal);
     breakdownBtn?.addEventListener('touchend', (e) => {
