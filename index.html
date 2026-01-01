@@ -702,6 +702,7 @@
         entries.push({ label, icon, value });
       };
       for (const line of lines) {
+        if (line.includes('💰 Tokens (ex-stable):')) pick('Tokens', '💰', line);
         if (line.includes('💰 Tokens:')) pick('Tokens', '💰', line);
         if (line.includes('💵 Stablecoins:')) pick('Stablecoins', '💵', line);
         if (line.includes('🔹 Staking:')) pick('Staking', '🔹', line);

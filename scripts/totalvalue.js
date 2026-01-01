@@ -64,8 +64,11 @@ const calculateTotalTreasury = async () => {
         for (const script of scripts) {
             await executeScript(script);
         }
+        const tokenValue = Number(results["token.js"] || 0);
+        const nonStableTokenValue = Math.max(0, tokenValue - Number(totalStableValue || 0));
+
         console.log("\n📝 **Treasury Summary**:");
-        console.log(`💰 Tokens: $${results["token.js"] || 0}`);
+        console.log(`💰 Tokens (ex-stable): $${nonStableTokenValue.toFixed(2)}`);
         console.log(`💵 Stablecoins: $${totalStableValue.toFixed(2)}`);
         console.log(`🔹 Staking: $${results["staking.js"] || 0}`);
         console.log(`🎨 NFT: $${results["nft.js"] || 0}`);
@@ -74,6 +77,7 @@ const calculateTotalTreasury = async () => {
         const treasuryData = {
             totalTreasury: totalTreasury.toFixed(2),
             tokenValue: results["token.js"] || 0,
+            nonStableTokenValue: nonStableTokenValue.toFixed(2),
             stakingValue: results["staking.js"] || 0,
             nftValue: results["nft.js"] || 0,
             totalstablevalue: totalStableValue.toFixed(2)  // valore stablecoin
