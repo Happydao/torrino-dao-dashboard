@@ -4,6 +4,8 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="description" content="Torrino DAO NFT dashboard with treasury highlights, activity stats, member tools, and market links." />
+  <link rel="icon" type="image/png" href="favicon.png" />
+  <link rel="shortcut icon" type="image/png" href="favicon.png" />
   <title>Torrino DAO NFT Dashboard</title>
 
   <!-- Typography -->
@@ -118,12 +120,12 @@
 
     .brand{ display:flex; align-items:center; gap:14px; }
     .brand img{
-      width:64px; height:auto; object-fit:contain; display:block;
+      width:90px; height:auto; object-fit:contain; display:block;
       border-radius:0;
       filter: drop-shadow(0 6px 18px rgba(0,224,255,.25));
     }
     .brand .title{ display:flex; flex-direction:column; }
-    .brand h1{ margin:0; font-size: clamp(20px, 3.2vw, 28px); font-weight:800; letter-spacing:.3px;
+    .brand h1{ margin:0; font-size: clamp(28px, 4.5vw, 39px); font-weight:800; letter-spacing:.3px;
       font-family: var(--font-display);
       background: linear-gradient(90deg, var(--primary), var(--secondary), var(--accent));
       -webkit-background-clip: text; background-clip: text; color: transparent; }
@@ -156,6 +158,14 @@
     }
     .chip-stack .chip-title{ font-weight:700; }
     .chip-stack .chip-sub{ font-size:11px; color:var(--muted); font-weight:600; }
+
+    @media (max-width: 720px){
+      .header{ flex-direction:column; align-items:flex-start; }
+      .top-links{ width:100%; margin-top:12px; flex-wrap:nowrap; gap:8px; }
+      .top-links .chip{ padding:8px 10px; font-size:12px; }
+      .top-links .icon-btn{ width:36px; height:36px; }
+      .top-links .icon-btn img{ width:18px; height:18px; }
+    }
 
     /* Panels & sections */
     .section{
@@ -402,7 +412,7 @@
         <a class="chip back-chip" href="https://torrino.space" target="_blank" rel="noopener noreferrer" aria-label="Back to torrino.space">
           &larr; Back to torrino.space
         </a>
-        <a class="chip back-chip" href="https://torrino.space" target="_blank" rel="noopener noreferrer" aria-label="Back to Torrino Hub">
+        <a class="chip back-chip" href="https://happydao.github.io/torrino-dao-hub/" target="_blank" rel="noopener noreferrer" aria-label="Back to Torrino Hub">
           &larr; Back to Torrino Hub
         </a>
         <a class="icon-btn" href="https://twitter.com/Torrino_DAO" target="_blank" rel="noopener noreferrer" aria-label="Twitter (X)">
