@@ -7,26 +7,28 @@
   <title>Torrino DAO NFT Dashboard</title>
 
   <!-- Typography -->
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700&family=Space+Grotesk:wght@500;600;700&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet" />
 
   <style>
     :root{
-      --bg:#070a12;
-      --bg-2:#0b1220;
-      --panel: rgba(17,24,39,.55);
-      --panel-strong: rgba(17,24,39,.75);
-      --border: rgba(255,255,255,.22);
-      --txt:#e7e9ee;
-      --muted:#a1a8b3;
-      --primary:#00e0ff;
-      --secondary:#a855f7;
-      --accent:#00ffa3;
+      --bg:#0a0f14;
+      --bg-2:#0f1622;
+      --panel: rgba(12,20,28,.78);
+      --panel-strong: rgba(15,26,36,.9);
+      --border: rgba(111,227,255,.2);
+      --txt:#eef4f6;
+      --muted:#a7b9c4;
+      --primary:#5ad1ff;
+      --secondary:#8c5bff;
+      --accent:#4ce5d2;
       --warning:#ffcc00;
       --success:#00d38d;
       --danger:#ff5c7a;
       --radius:18px;
-      --shadow: 0 14px 36px rgba(0,0,0,.45), 0 0 0 2px var(--border) inset;
+      --shadow: 0 18px 40px rgba(0,0,0,.35), 0 0 0 2px var(--border) inset;
       --outline: 2px;
+      --font-body: "Manrope", system-ui, -apple-system, sans-serif;
+      --font-display: "Space Grotesk", system-ui, -apple-system, sans-serif;
     }
 
     *{ box-sizing: border-box }
@@ -34,22 +36,53 @@
 
     body{
       margin:0;
-      font-family: 'Inter', system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+      font-family: var(--font-body);
       color: var(--txt);
-      background:
-        radial-gradient(1200px 600px at 100% -10%, rgba(168,85,247,.18), transparent 60%),
-        radial-gradient(800px 400px at -10% 20%, rgba(0,255,163,.12), transparent 60%),
-        linear-gradient(180deg, var(--bg), var(--bg-2));
+      background: var(--bg);
       overflow-x:hidden;
       letter-spacing:.2px;
     }
 
-    .backgrid{ position: fixed; inset: 0; pointer-events:none; z-index:0;
+    .bg{
+      position: fixed; inset:0; pointer-events:none; z-index:0;
+      background:
+        radial-gradient(1200px 600px at 10% 0%, rgba(76,229,210,.18), transparent 65%),
+        radial-gradient(900px 600px at 90% 10%, rgba(140,91,255,.22), transparent 70%),
+        linear-gradient(180deg, var(--bg) 0%, #0c141c 35%, #0a1016 100%);
+    }
+    .bg__glow{
+      position:absolute; border-radius:50%; mix-blend-mode:screen; opacity:.8;
+      animation: float 18s ease-in-out infinite alternate;
+    }
+    .bg__glow--one{
+      width:620px; height:620px;
+      background: radial-gradient(circle at 30% 30%, rgba(76,229,210,.32), transparent 65%);
+      top:-220px; left:-120px;
+    }
+    .bg__glow--two{
+      width:540px; height:540px;
+      background: radial-gradient(circle at 70% 30%, rgba(140,91,255,.25), transparent 60%);
+      bottom:-220px; right:-120px; animation-delay:-6s;
+    }
+    .bg__glow--three{
+      width:420px; height:420px;
+      background: radial-gradient(circle at 50% 50%, rgba(90,209,255,.2), transparent 60%);
+      top:40%; right:10%; animation-delay:-12s;
+    }
+    .bg__stars{
+      position:absolute; inset:0;
       background-image:
-        linear-gradient(rgba(255,255,255,.03) 1px, transparent 1px),
-        linear-gradient(90deg, rgba(255,255,255,.03) 1px, transparent 1px);
-      background-size: 22px 22px, 22px 22px;
-      mask-image: radial-gradient(1200px 600px at 50% -10%, rgba(0,0,0,.7), transparent 75%);
+        radial-gradient(1px 1px at 20% 30%, rgba(255,255,255,.25) 45%, transparent 46%),
+        radial-gradient(1px 1px at 80% 20%, rgba(255,255,255,.2) 45%, transparent 46%),
+        radial-gradient(1px 1px at 40% 70%, rgba(255,255,255,.22) 45%, transparent 46%),
+        radial-gradient(1px 1px at 70% 60%, rgba(255,255,255,.18) 45%, transparent 46%),
+        radial-gradient(1px 1px at 10% 80%, rgba(255,255,255,.14) 45%, transparent 46%);
+      opacity:.35;
+    }
+
+    @keyframes float{
+      from{ transform: translate3d(0,0,0) scale(1); }
+      to{ transform: translate3d(0,-12px,0) scale(1.02); }
     }
 
     .wrapper{ position: relative; z-index:1; max-width:1200px; margin: 36px auto 80px; padding: 0 18px; }
@@ -65,6 +98,7 @@
     }
     .brand .title{ display:flex; flex-direction:column; }
     .brand h1{ margin:0; font-size: clamp(20px, 3.2vw, 28px); font-weight:800; letter-spacing:.3px;
+      font-family: var(--font-display);
       background: linear-gradient(90deg, var(--primary), var(--secondary), var(--accent));
       -webkit-background-clip: text; background-clip: text; color: transparent; }
     .brand small{ color: var(--muted); margin-top:2px; font-weight:500; }
@@ -91,15 +125,21 @@
     .back-chip:hover{
       background: linear-gradient(135deg, rgba(32,150,114,.95), rgba(66,120,196,.95));
     }
+    .chip-stack{
+      flex-direction:column; align-items:flex-start; gap:2px; padding:10px 14px; line-height:1.1;
+    }
+    .chip-stack .chip-title{ font-weight:700; }
+    .chip-stack .chip-sub{ font-size:11px; color:var(--muted); font-weight:600; }
 
     /* Panels & sections */
     .section{
       padding: 18px; border-radius: var(--radius);
-      background: linear-gradient(180deg, rgba(255,255,255,.08), rgba(255,255,255,.035));
+      background: linear-gradient(180deg, rgba(12,20,28,.86), rgba(12,20,28,.6));
       border: var(--outline) solid var(--border); box-shadow: var(--shadow);
       backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px); margin-top:18px;
     }
-    .section h2{ margin: 4px 0 14px; font-size: clamp(18px, 2.2vw, 22px); font-weight:800; letter-spacing:.2px; }
+    .section h2{ margin: 4px 0 14px; font-size: clamp(18px, 2.2vw, 22px); font-weight:800; letter-spacing:.2px;
+      font-family: var(--font-display); }
     .eyebrow{ display:inline-flex; align-items:center; gap:8px; font-size:12px; font-weight:700; text-transform:uppercase; letter-spacing:.18em; color: var(--accent); }
 
     /* NEW: Section header with right-aligned actions */
@@ -112,7 +152,7 @@
 
     /* Composite panel */
     .panel{ border: var(--outline) solid var(--border); border-radius:16px; box-shadow: var(--shadow);
-            background: linear-gradient(180deg, rgba(255,255,255,.06), rgba(255,255,255,.03)); padding:16px; }
+            background: linear-gradient(180deg, rgba(15,26,36,.92), rgba(12,20,28,.65)); padding:16px; }
     .composite-grid{ display:grid; grid-template-columns: 1fr; gap:16px; align-items:center; }
     .composite-grid .left{ min-width:0 }
     .composite-grid .right{ min-width:0 }
@@ -161,6 +201,20 @@
       background: linear-gradient(180deg, rgba(255,255,255,.06), rgba(255,255,255,.03)); }
     .pie{ width:92px; height:92px; border-radius:50%; position:relative; flex:0 0 auto; background:#0b1220; }
     .pie::after{ content:""; position:absolute; inset:12px; border-radius:50%; background:#0e1526; display:block; }
+    .pie-center-btn{
+      position:absolute; inset:0; margin:auto; width:54px; height:54px; border-radius:50%;
+      border: 1px solid rgba(255,255,255,.18);
+      background: rgba(12,20,28,.9);
+      color: var(--txt); font-size:10px; font-weight:700; text-transform:uppercase; letter-spacing:.08em;
+      display:flex; align-items:center; justify-content:center; z-index:2; cursor:pointer;
+      transition: transform .15s ease, box-shadow .2s ease, border-color .2s ease;
+      box-shadow: 0 8px 18px rgba(0,0,0,.35);
+    }
+    .pie-center-btn:hover{
+      transform: translateY(-1px) scale(1.02);
+      border-color: rgba(76,229,210,.6);
+      box-shadow: 0 12px 24px rgba(76,229,210,.18);
+    }
     .legend{ display:flex; flex-direction:column; gap:6px; font-size:13px; }
     .legend b{ font-weight:800 }
     .badge{ display:inline-flex; align-items:center; gap:6px; }
@@ -228,6 +282,35 @@
       font-size:12px;
     }
 
+    /* ====== Mini modal for treasury breakdown ====== */
+    .mini-modal{
+      position: fixed; inset:0; display:none; place-items:center; z-index: 55;
+      background: rgba(6,10,16,.55);
+      backdrop-filter: blur(3px);
+    }
+    .mini-modal.open{ display:grid; }
+    .mini-modal-card{
+      width:min(460px, 92vw);
+      border-radius: 16px;
+      border: var(--outline) solid var(--border);
+      box-shadow: 0 20px 50px rgba(0,0,0,.5), 0 0 0 2px rgba(255,255,255,.06) inset;
+      background: linear-gradient(180deg, rgba(12,20,28,.9), rgba(12,20,28,.7));
+      overflow:hidden;
+    }
+    .mini-modal-header{
+      display:flex; align-items:center; justify-content:space-between;
+      padding: 12px 14px; border-bottom: 1px solid var(--border);
+      background: linear-gradient(180deg, rgba(255,255,255,.06), rgba(255,255,255,.02));
+    }
+    .mini-modal-title{ font-weight:800; font-size:14px; letter-spacing:.3px; font-family: var(--font-display); }
+    .mini-modal-body{ padding: 12px 14px; }
+    .mini-list{ display:flex; flex-direction:column; gap:8px; font-size:14px; }
+    .mini-row{ display:flex; align-items:center; justify-content:space-between; gap:8px; }
+    .mini-label{ display:flex; align-items:center; gap:6px; font-weight:600; }
+    .mini-value{ font-family: 'JetBrains Mono', ui-monospace; font-weight:700; }
+    .mini-pct{ color: var(--muted); font-weight:600; margin-left:6px; font-size:12px; }
+    .mini-note{ display:block; margin-top:10px; color: var(--muted); font-size:12px; }
+
     .switch{
       display:inline-flex; align-items:center; gap:8px; padding:6px 8px; border-radius:10px;
       border: var(--outline) solid var(--border); background: rgba(255,255,255,.02);
@@ -240,7 +323,12 @@
   </style>
 </head>
 <body>
-  <div class="backgrid" aria-hidden="true"></div>
+  <div class="bg" aria-hidden="true">
+    <div class="bg__glow bg__glow--one"></div>
+    <div class="bg__glow bg__glow--two"></div>
+    <div class="bg__glow bg__glow--three"></div>
+    <div class="bg__stars"></div>
+  </div>
 
   <div class="wrapper">
     <!-- HEADER -->
@@ -257,11 +345,11 @@
         <a class="chip back-chip" href="https://torrino.space" target="_blank" rel="noopener noreferrer" aria-label="Back to torrino.space">
           &larr; Back to torrino.space
         </a>
+        <a class="chip back-chip" href="https://torrino.space" target="_blank" rel="noopener noreferrer" aria-label="Back to Torrino Hub">
+          &larr; Back to Torrino Hub
+        </a>
         <a class="icon-btn" href="https://twitter.com/Torrino_DAO" target="_blank" rel="noopener noreferrer" aria-label="Twitter (X)">
           <img class="x-icon" src="https://cdn-icons-png.flaticon.com/512/5968/5968958.png" alt="Twitter (X)" />
-        </a>
-        <a class="chip" href="https://app.step.finance/it/portfolio?wallet=EKjb5grMX19c3cAZa5LQjqksDpqqVLTGZrswh79WkPdD" target="_blank" rel="noopener" aria-label="Step Finance Portfolio">
-          📊 Step Finance Portfolio
         </a>
       </nav>
     </header>
@@ -277,6 +365,10 @@
           <button class="chip" id="openLogsBtn" type="button" aria-haspopup="dialog" aria-controls="logsModal" title="View calculation logs">
             👁️ Treasury Overview
           </button>
+          <a class="chip chip-stack" href="https://solscan.io/account/EKjb5grMX19c3cAZa5LQjqksDpqqVLTGZrswh79WkPdD" target="_blank" rel="noopener" aria-label="Treasury Address (Solscan)">
+            <span class="chip-title">Treasury Address (Solscan)</span>
+            <span class="chip-sub">EKjb…WkPdD</span>
+          </a>
           <noscript><a class="chip" href="logs/latest.txt" target="_blank" rel="noopener">Open raw logs</a></noscript>
         </div>
       </div>
@@ -287,7 +379,11 @@
           <div class="left">
             <div class="label" style="text-transform:uppercase; letter-spacing:.06em; font-size:12px; color:var(--muted); font-weight:700;">Treasury Composition (Stable vs Invested)</div>
             <div class="mini-pie" style="margin-top:10px">
-              <div class="pie" id="pieStable"></div>
+              <div class="pie" id="pieStable">
+                <button class="pie-center-btn" id="treasuryBreakdownBtn" type="button" aria-haspopup="dialog" aria-controls="treasuryModal" title="Hover or tap for breakdown">
+                  Details
+                </button>
+              </div>
               <div class="legend">
                 <b>Allocation</b>
                 <div class="badge"><span class="dot" style="background:var(--accent)"></span> Stable Coins <span id="legendStable" style="margin-left:6px; font-weight:700"></span></div>
@@ -320,8 +416,8 @@
               <div class="pie" id="pieGen"></div>
               <div class="legend">
                 <b>Value Allocation</b>
-                <div class="badge"><span class="dot" style="background:var(--primary)"></span> Gen 1 share <span id="legendGen1" style="margin-left:6px; font-weight:700"></span></div>
-                <div class="badge"><span class="dot" style="background:var(--danger)"></span> Gen 2 share <span id="legendGen2" style="margin-left:6px; font-weight:700"></span></div>
+                <div class="badge"><span class="dot" style="background:var(--primary)"></span> 90% Treasury Allocation &ndash; Gen 1 Torrino Dao</div>
+                <div class="badge"><span class="dot" style="background:var(--danger)"></span> 10% Treasury Allocation &ndash; Gen 2 Solnauta</div>
               </div>
             </div>
           </div>
@@ -455,6 +551,20 @@
     </footer>
   </div>
 
+  <!-- Treasury Breakdown Modal -->
+  <div class="mini-modal" id="treasuryModal" role="dialog" aria-modal="true" aria-labelledby="treasuryTitle" aria-describedby="treasuryDesc">
+    <div class="mini-modal-card">
+      <div class="mini-modal-header">
+        <div class="mini-modal-title" id="treasuryTitle">Treasury Breakdown</div>
+        <button class="close-btn" id="closeTreasuryBtn" aria-label="Close">✕</button>
+      </div>
+      <div class="mini-modal-body" id="treasuryDesc">
+        <div class="mini-list" id="treasuryList">Loading…</div>
+        <small class="mini-note">Source: logs/latest.txt</small>
+      </div>
+    </div>
+  </div>
+
   <!-- Logs Modal -->
   <div class="modal" id="logsModal" role="dialog" aria-modal="true" aria-labelledby="logsTitle" aria-describedby="logsDesc">
     <div class="modal-card">
@@ -564,6 +674,108 @@
     }
 
     fetchNFTData();
+
+    // ===== Treasury breakdown (from latest logs) =====
+    const breakdownBtn = document.getElementById('treasuryBreakdownBtn');
+    const treasuryModal = document.getElementById('treasuryModal');
+    const treasuryList = document.getElementById('treasuryList');
+    const closeTreasuryBtn = document.getElementById('closeTreasuryBtn');
+    const hoverCapable = window.matchMedia('(hover: hover)').matches;
+    let treasuryCloseTimer = null;
+
+    const fmtUsdShort = (v) => {
+      if (!isFinite(v)) return '—';
+      return '$' + Number(v).toLocaleString('en-US', { maximumFractionDigits: 2 });
+    };
+    const fmtPct = (v) => isFinite(v) ? `${v.toFixed(1)}%` : '—';
+
+    function parseTreasurySummary(raw){
+      const start = raw.indexOf('📝 **Treasury Summary**:');
+      if (start === -1) return null;
+      const lines = raw.slice(start).split('\n');
+      const entries = [];
+      const pick = (label, icon, line) => {
+        const match = line.match(/\$([0-9.,]+)/);
+        if (!match) return;
+        const value = Number(match[1].replace(/,/g, ''));
+        if (!isFinite(value)) return;
+        entries.push({ label, icon, value });
+      };
+      for (const line of lines) {
+        if (line.includes('💰 Tokens:')) pick('Tokens', '💰', line);
+        if (line.includes('💵 Stablecoins:')) pick('Stablecoins', '💵', line);
+        if (line.includes('🔹 Staking:')) pick('Staking', '🔹', line);
+        if (line.includes('🎨 NFT:')) pick('NFT', '🎨', line);
+        if (line.includes('🏦 Total treasury value')) break;
+      }
+      if (!entries.length) return null;
+      const total = entries.reduce((sum, e) => sum + e.value, 0);
+      return { entries, total };
+    }
+
+    function renderTreasuryBreakdown(summary){
+      if (!summary) {
+        treasuryList.textContent = 'Treasury summary not found in logs.';
+        return;
+      }
+      const { entries, total } = summary;
+      treasuryList.innerHTML = '';
+      entries.forEach((entry) => {
+        const row = document.createElement('div');
+        row.className = 'mini-row';
+        const label = document.createElement('div');
+        label.className = 'mini-label';
+        label.textContent = `${entry.icon} ${entry.label}`;
+        const value = document.createElement('div');
+        value.className = 'mini-value';
+        const pct = total > 0 ? (entry.value / total) * 100 : NaN;
+        value.innerHTML = `${fmtUsdShort(entry.value)} <span class="mini-pct">(${fmtPct(pct)})</span>`;
+        row.appendChild(label);
+        row.appendChild(value);
+        treasuryList.appendChild(row);
+      });
+    }
+
+    async function loadTreasuryBreakdown(){
+      try{
+        const res = await fetch('logs/latest.txt?ts=' + Date.now(), { cache: 'no-store' });
+        if(!res.ok){
+          treasuryList.textContent = 'logs/latest.txt not found yet. Run the workflow once to generate it.';
+          return;
+        }
+        const txt = await res.text();
+        renderTreasuryBreakdown(parseTreasurySummary(txt));
+      }catch(err){
+        treasuryList.textContent = 'Error loading logs/latest.txt: ' + err;
+      }
+    }
+
+    function openTreasuryModal(){
+      treasuryModal.classList.add('open');
+      loadTreasuryBreakdown();
+    }
+    function closeTreasuryModal(){
+      treasuryModal.classList.remove('open');
+    }
+    function scheduleTreasuryClose(){
+      if (treasuryCloseTimer) clearTimeout(treasuryCloseTimer);
+      treasuryCloseTimer = setTimeout(closeTreasuryModal, 180);
+    }
+
+    if (hoverCapable) {
+      breakdownBtn?.addEventListener('mouseenter', openTreasuryModal);
+      breakdownBtn?.addEventListener('mouseleave', scheduleTreasuryClose);
+      treasuryModal?.addEventListener('mouseenter', () => {
+        if (treasuryCloseTimer) clearTimeout(treasuryCloseTimer);
+      });
+      treasuryModal?.addEventListener('mouseleave', scheduleTreasuryClose);
+    } else {
+      breakdownBtn?.addEventListener('click', openTreasuryModal);
+    }
+    closeTreasuryBtn?.addEventListener('click', closeTreasuryModal);
+    treasuryModal?.addEventListener('click', (e) => {
+      if (e.target === treasuryModal) closeTreasuryModal();
+    });
 
     // ===== Logs modal controller =====
     const openBtn = document.getElementById('openLogsBtn');
