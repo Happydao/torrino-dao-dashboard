@@ -100,6 +100,36 @@ jobs:
           fs.mkdirSync('logs', { recursive: true });
           fs.copyFileSync('logs.txt', `logs/${tsSafe}_run-${runId}.txt`);
           fs.copyFileSync('logs.json', `logs/${tsSafe}_run-${runId}.json`);
+          fs.copyFileSync('logs.txt', 'logs/latest.txt');
+          fs.copyFileSync('logs.json', 'logs/latest.json');
+
+          const entries = fs.readdirSync('logs');
+          const runs = new Map();
+          for (const entry of entries) {
+            if (entry === 'latest.txt' || entry === 'latest.json') continue;
+            const match = entry.match(/^(.*)_run-\\d+\\.(txt|json)$/);
+            if (!match) continue;
+            const base = match[1];
+            const stats = fs.statSync(`logs/${entry}`);
+            const current = runs.get(base);
+            const mtime = stats.mtimeMs || 0;
+            if (!current || mtime > current.mtime) {
+              runs.set(base, { mtime });
+            }
+          }
+          const sorted = Array.from(runs.entries())
+            .sort((a, b) => b[1].mtime - a[1].mtime)
+            .map(([base]) => base);
+          const keep = new Set(sorted.slice(0, 30));
+          for (const entry of entries) {
+            if (entry === 'latest.txt' || entry === 'latest.json') continue;
+            const match = entry.match(/^(.*)_run-\\d+\\.(txt|json)$/);
+            if (!match) continue;
+            const base = match[1];
+            if (!keep.has(base)) {
+              fs.unlinkSync(`logs/${entry}`);
+            }
+          }
           NODE
 
           # ⚠️ Qui PASSO davvero le env al processo Node (prima era argomento, non env)

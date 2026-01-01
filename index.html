@@ -3,6 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="description" content="Torrino DAO NFT dashboard with treasury highlights, activity stats, member tools, and market links." />
   <title>Torrino DAO NFT Dashboard</title>
 
   <!-- Typography -->
@@ -81,6 +82,15 @@
     .icon-btn{ width:42px; height:42px; padding:0; justify-content:center; }
     .icon-btn img{ width:20px; height:20px; filter: saturate(1.1) brightness(1.05) }
     .icon-btn img.x-icon{ filter: invert(1) brightness(1.2) !important; }
+    .back-chip{
+      padding:10px 16px; font-weight:700; letter-spacing:.2px;
+      background: linear-gradient(135deg, rgba(24,120,94,.9), rgba(42,86,156,.9));
+      border-color: rgba(180,255,230,.35);
+      box-shadow: 0 14px 34px rgba(16,188,162,.18), inset 0 0 0 1px rgba(255,255,255,.06);
+    }
+    .back-chip:hover{
+      background: linear-gradient(135deg, rgba(32,150,114,.95), rgba(66,120,196,.95));
+    }
 
     /* Panels & sections */
     .section{
@@ -226,6 +236,7 @@
     .switch input{ accent-color: var(--accent); width:16px; height:16px }
 
     .raw-link{ text-decoration:none; }
+    .footer-credit a{ color:#4aa3ff; text-decoration: underline; text-underline-offset: 3px; }
   </style>
 </head>
 <body>
@@ -243,13 +254,10 @@
       </div>
 
       <nav class="top-links">
-        <a class="icon-btn" href="https://github.com/Happydao/torrino-dao-dashboard" target="_blank" aria-label="GitHub">
-          <img src="https://cdn-icons-png.flaticon.com/512/733/733553.png" alt="GitHub" />
+        <a class="chip back-chip" href="https://torrino.space" target="_blank" rel="noopener noreferrer" aria-label="Back to torrino.space">
+          &larr; Back to torrino.space
         </a>
-        <a class="icon-btn" href="https://discord.gg/yYkwEjcKa9" target="_blank" aria-label="Discord">
-          <img src="https://cdn-icons-png.flaticon.com/512/3670/3670157.png" alt="Discord" />
-        </a>
-        <a class="icon-btn" href="https://twitter.com/Torrino_DAO" target="_blank" aria-label="Twitter (X)">
+        <a class="icon-btn" href="https://twitter.com/Torrino_DAO" target="_blank" rel="noopener noreferrer" aria-label="Twitter (X)">
           <img class="x-icon" src="https://cdn-icons-png.flaticon.com/512/5968/5968958.png" alt="Twitter (X)" />
         </a>
         <a class="chip" href="https://app.step.finance/it/portfolio?wallet=EKjb5grMX19c3cAZa5LQjqksDpqqVLTGZrswh79WkPdD" target="_blank" rel="noopener" aria-label="Step Finance Portfolio">
@@ -267,9 +275,9 @@
         </div>
         <div class="actions">
           <button class="chip" id="openLogsBtn" type="button" aria-haspopup="dialog" aria-controls="logsModal" title="View calculation logs">
-            🧾 Public Treasury Logs
+            👁️ Treasury Overview
           </button>
-          <noscript><a class="chip" href="logs.txt" target="_blank" rel="noopener">Open raw logs.txt</a></noscript>
+          <noscript><a class="chip" href="logs/latest.txt" target="_blank" rel="noopener">Open raw logs</a></noscript>
         </div>
       </div>
 
@@ -443,7 +451,7 @@
     </section>
 
     <footer class="section">
-      <small>Built by the community. Stay tuned.</small>
+      <small class="footer-credit">© 2025 Torrino DAO — Crafted with passion by HAPPY — <a href="https://happydev.fi" target="_blank" rel="noopener">happydev.fi</a></small>
     </footer>
   </div>
 
@@ -451,13 +459,13 @@
   <div class="modal" id="logsModal" role="dialog" aria-modal="true" aria-labelledby="logsTitle" aria-describedby="logsDesc">
     <div class="modal-card">
       <div class="modal-header">
-        <div class="modal-title" id="logsTitle">🧾 Public Treasury Calculation Logs <small style="color:var(--muted); font-weight:600;">(logs.txt)</small></div>
+        <div class="modal-title" id="logsTitle">🧾 Public Treasury Calculation Logs <small style="color:var(--muted); font-weight:600;">(logs/latest.txt)</small></div>
         <div class="modal-tools">
           <button class="tool-btn" id="refreshLogsBtn" type="button">Refresh</button>
           <label class="switch"><input type="checkbox" id="autoRefreshToggle" /> Live refresh</label>
           <label class="switch"><input type="checkbox" id="autoScrollToggle" checked /> Auto-scroll</label>
           <button class="tool-btn" id="copyLogsBtn" type="button">Copy</button>
-          <a class="tool-btn raw-link" href="logs.txt" target="_blank" rel="noopener">Open raw</a>
+          <a class="tool-btn raw-link" href="logs/latest.txt" target="_blank" rel="noopener">Open raw</a>
           <button class="close-btn" id="closeLogsBtn" aria-label="Close">✕</button>
         </div>
       </div>
@@ -465,7 +473,7 @@
         <pre class="logview" id="logsContent">Loading…</pre>
       </div>
       <div class="modal-footer">
-        <div>Source: <code>/logs.txt</code> • Updated <span id="logsUpdated">—</span></div>
+        <div>Source: <code>/logs/latest.txt</code> • Updated <span id="logsUpdated">—</span></div>
         <div style="opacity:.85">Tip: enable <strong>Live refresh</strong> while a run is in progress.</div>
       </div>
     </div>
@@ -576,9 +584,9 @@
 
     async function loadLogs(){
       try{
-        const res = await fetch('logs.txt?ts=' + Date.now(), { cache: 'no-store' });
+        const res = await fetch('logs/latest.txt?ts=' + Date.now(), { cache: 'no-store' });
         if(!res.ok){
-          logsContent.textContent = 'logs.txt not found yet. Run the workflow once to generate it.';
+          logsContent.textContent = 'logs/latest.txt not found yet. Run the workflow once to generate it.';
           logsUpdated.textContent = '—';
           return;
         }
@@ -589,7 +597,7 @@
           logsContent.parentElement.scrollTop = logsContent.parentElement.scrollHeight;
         }
       }catch(err){
-        logsContent.textContent = 'Error loading logs.txt: ' + err;
+        logsContent.textContent = 'Error loading logs/latest.txt: ' + err;
         logsUpdated.textContent = '—';
       }
     }

@@ -30,12 +30,12 @@ const fetchWithRetry = async (url, options = {}, maxRetries = MAX_RETRIES, delay
       if (!response.ok) throw new Error(`HTTP Error: ${response.status}`);
       return await response.json();
     } catch (error) {
-      console.error(`⚠️ Errore API (tentativo ${attempt}/${maxRetries}):`, error.message);
+      console.error(`⚠️ API error (attempt ${attempt}/${maxRetries}):`, error.message);
       if (attempt < maxRetries) {
-        console.log(`⏳ Ritento tra ${delay / 1000} secondi...`);
+        console.log(`⏳ Retrying in ${delay / 1000} seconds...`);
         await new Promise(res => setTimeout(res, delay));
       } else {
-        console.error(`❌ Fallimento API dopo ${maxRetries} tentativi.`);
+        console.error(`❌ API failed after ${maxRetries} attempts.`);
       }
     }
   }
@@ -48,14 +48,14 @@ const getSolPrice = async () => {
     const data = await fetchWithRetry(JUPITER_API_URL);
     return data?.[SOL_MINT]?.usdPrice || 0;
   } catch (error) {
-    console.error("❌ Errore nel recupero del prezzo di SOL:", error.message);
+    console.error("❌ Error fetching SOL price:", error.message);
     return 0;
   }
 };
 
 // Dati staking via Helius
 const getStakedTokenAccounts = async () => {
-  console.log("🔄 Recupero stake accounts da Helius...");
+  console.log("🔄 Fetching stake accounts from Helius...");
   const solPrice = await getSolPrice();
 
   const requestBody = JSON.stringify({
@@ -85,13 +85,13 @@ const getStakedTokenAccounts = async () => {
   });
 
   if (!data || !data.result || data.result.length === 0) {
-    console.log("✅ Nessun token in staking trovato.");
+    console.log("✅ No staked tokens found.");
     console.log(JSON.stringify({ totalStakedValue: 0 }));
     return 0;
   }
 
   let totalStakedValue = 0;
-  console.log("📜 Token in staking:");
+  console.log("📜 Staked tokens:");
 
   for (const stakeAccount of data.result) {
     const lamports = stakeAccount.account?.lamports;
@@ -104,20 +104,20 @@ const getStakedTokenAccounts = async () => {
     totalStakedValue += usdValue;
 
     console.log(`🔹 Stake Account: ${stakeAccount.pubkey}`);
-    console.log(`   Quantità stakata: ${solAmount.toFixed(4)} SOL`);
-    console.log(`   Valore in USD: $${usdValue.toFixed(2)}`);
-    console.log(`   Delegato a: ${validator}\n`);
+    console.log(`   Staked amount: ${solAmount.toFixed(4)} SOL`);
+    console.log(`   USD value: $${usdValue.toFixed(2)}`);
+    console.log(`   Delegated to: ${validator}\n`);
   }
 
-  console.log(`💰 Valore totale stakato: $${totalStakedValue.toFixed(2)} USD`);
+  console.log(`💰 Total staked value: $${totalStakedValue.toFixed(2)} USD`);
   console.log(JSON.stringify({ totalStakedValue }));
   return totalStakedValue;
 };
 
 // Avvia lo script
 getStakedTokenAccounts()
-  .then(() => console.log("\n🔹 Processo di staking completato!"))
+  .then(() => console.log("\n🔹 Staking process completed!"))
   .catch((error) => {
-    console.error("❌ Errore durante il recupero dello staking:", error.message);
+    console.error("❌ Error fetching staking data:", error.message);
     process.exit(1);
   });

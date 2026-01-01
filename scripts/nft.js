@@ -69,9 +69,9 @@ const fetchWithRetry = async (url, options, maxRetries = 5, delay = 3000) => {
             if (!response.ok) throw new Error(`HTTP Error: ${response.status}`);
             return await response.json();
         } catch (error) {
-            console.error(`⚠️ Errore API: ${error.message} (Tentativo ${attempt}/${maxRetries})`);
+            console.error(`⚠️ API error: ${error.message} (Attempt ${attempt}/${maxRetries})`);
             if (attempt < maxRetries) await new Promise(res => setTimeout(res, delay));
-            else console.error(`❌ Fallimento API dopo ${maxRetries} tentativi.`);
+            else console.error(`❌ API failed after ${maxRetries} attempts.`);
         }
     }
     return null;
@@ -79,11 +79,11 @@ const fetchWithRetry = async (url, options, maxRetries = 5, delay = 3000) => {
 
 // Recupera tutti gli NFT dal wallet
 const getNFTsFromHelius = async () => {
-    console.log("🔄 Recupero NFT dal wallet con Helius...");
+    console.log("🔄 Fetching NFTs from wallet via Helius...");
     let page = 1, nftList = [];
 
     while (true) {
-        console.log(`📜 Recupero pagina ${page}...`);
+        console.log(`📜 Fetching page ${page}...`);
 
         try {
             const data = await fetchWithRetry(HELIUS_RPC_URL, {
@@ -98,25 +98,25 @@ const getNFTsFromHelius = async () => {
             });
 
             if (!data?.result?.items || data.result.items.length === 0) {
-                console.log("✅ Nessun altro NFT trovato.");
+                console.log("✅ No more NFTs found.");
                 break;
             }
 
             data.result.items.forEach(nft => {
                 const mint = nft.id;
-                const name = nft.content?.metadata?.name || "Sconosciuto";
+                const name = nft.content?.metadata?.name || "Unknown";
                 if (!scamNFTs.has(name)) {
-                    console.log(`✅ NFT valido trovato: ${name} (${mint})`);
+                    console.log(`✅ Valid NFT found: ${name} (${mint})`);
                     nftList.push({ mint, name });
                 } else {
-                    console.log(`🚫 Scam ignorato: ${name} (${mint})`);
+                    console.log(`🚫 Ignored scam: ${name} (${mint})`);
                 }
             });
 
-            console.log(`📦 Pagina ${page}: ${data.result.items.length} NFT trovati.`);
+            console.log(`📦 Page ${page}: ${data.result.items.length} NFTs found.`);
             page++;
         } catch (error) {
-            console.error("❌ Errore nel recupero degli NFT:", error.message);
+            console.error("❌ Error fetching NFTs:", error.message);
             break;
         }
 
@@ -132,7 +132,7 @@ const getSolPrice = async () => {
         const data = await fetchWithRetry(COINGECKO_API, {}, 5, 3000);
         return data?.solana?.usd || 0;
     } catch (error) {
-        console.error("❌ Errore nel recupero del prezzo di SOL:", error.message);
+        console.error("❌ Error fetching SOL price:", error.message);
         return 0;
     }
 };
@@ -142,10 +142,10 @@ const analyzeNFTs = async () => {
     const nfts = await getNFTsFromHelius();
     let totalSolValue = 0;
 
-    if (nfts.length === 0) return console.log("🚫 Nessun NFT da analizzare.");
+    if (nfts.length === 0) return console.log("🚫 No NFTs to analyze.");
 
     for (const nft of nfts) {
-        console.log(`🔍 Elaborazione NFT: ${nft.name} (${nft.mint})`);
+        console.log(`🔍 Processing NFT: ${nft.name} (${nft.mint})`);
         const collectionName = await fetchWithRetry(`${MAGIC_EDEN_API_BASE}/tokens/${nft.mint}`, {}, 5, REQUEST_DELAY_MAGICEDEN);
 
         if (collectionName?.collection) {
@@ -154,12 +154,12 @@ const analyzeNFTs = async () => {
 
             if (floorPrice > 0) {
                 totalSolValue += floorPrice;
-                console.log(`📝 NFT: ${nft.name} | Collezione: ${collectionName.collection} | Floor: ${floorPrice.toFixed(4)} SOL`);
+                console.log(`📝 NFT: ${nft.name} | Collection: ${collectionName.collection} | Floor: ${floorPrice.toFixed(4)} SOL`);
             } else {
-                console.log(`🟡 NFT: ${nft.name} | Collezione: ${collectionName.collection} | Nessun valore di mercato.`);
+                console.log(`🟡 NFT: ${nft.name} | Collection: ${collectionName.collection} | No market value.`);
             }
         } else {
-            console.log(`❌ Collezione non trovata per ${nft.name} (${nft.mint})`);
+            console.log(`❌ Collection not found for ${nft.name} (${nft.mint})`);
         }
 
         await new Promise(resolve => setTimeout(resolve, REQUEST_DELAY_MAGICEDEN));
@@ -168,9 +168,9 @@ const analyzeNFTs = async () => {
     const solPriceUSD = await getSolPrice();
     totalNFTValue = totalSolValue * solPriceUSD;
 
-    console.log("\n💎 **Riepilogo** 💎");
-    console.log(`📊 Valore totale in SOL: ${totalSolValue.toFixed(4)} SOL`);
-    console.log(`💰 Valore totale in USD: $${totalNFTValue.toFixed(2)}`);
+    console.log("\n💎 **Summary** 💎");
+    console.log(`📊 Total value in SOL: ${totalSolValue.toFixed(4)} SOL`);
+    console.log(`💰 Total value in USD: $${totalNFTValue.toFixed(2)}`);
 };
 
 analyzeNFTs()
@@ -179,7 +179,7 @@ analyzeNFTs()
         totalNFTValue = isNaN(totalNFTValue) ? 0 : totalNFTValue;
 
         // Log separato per evitare interferenze
-        console.log(`\n🔹 Valore registrato in totalNFTValue: $${totalNFTValue.toFixed(2)}`);
+        console.log(`\n🔹 Value recorded in totalNFTValue: $${totalNFTValue.toFixed(2)}`);
 
         // Aggiungiamo un marcatore per il JSON
         console.log("--- JSON OUTPUT START ---");
@@ -187,7 +187,7 @@ analyzeNFTs()
         console.log("--- JSON OUTPUT END ---");
     })
     .catch((error) => {
-        console.error("❌ Errore durante l'analisi degli NFT:", error);
+        console.error("❌ Error during NFT analysis:", error);
 
         // In caso di errore, restituiamo un JSON valido con valore 0
         console.log("--- JSON OUTPUT START ---");

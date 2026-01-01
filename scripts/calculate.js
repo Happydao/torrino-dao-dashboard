@@ -12,7 +12,7 @@ async function getSolPrice() {
         const response = await axios.get('https://api.coingecko.com/api/v3/simple/price?ids=solana&vs_currencies=usd');
         return response.data.solana.usd;
     } catch (error) {
-        console.error("❌ Errore nel recupero del prezzo di SOL:", error);
+        console.error("❌ Error fetching SOL price:", error);
         return null;
     }
 }
@@ -33,7 +33,7 @@ async function getListingPrices() {
             gen2: gen2Response.data.mints.length > 0 ? (gen2Response.data.mints[0].listing.price / 1e9) * 1.06 : null
         };
     } catch (error) {
-        console.error("❌ Errore nel recupero dei prezzi di listing NFT:", error);
+        console.error("❌ Error fetching NFT listing prices:", error);
         return { gen1: null, gen2: null };
     }
 }
@@ -42,10 +42,10 @@ function getTreasuryFromTotalValue() {
     try {
         const outputData = fs.readFileSync(totalValuePath, 'utf8');
         const totalValueData = JSON.parse(outputData);
-        console.log("✅ Dati letti da totalvalue_output.json:", totalValueData);
+        console.log("✅ Data read from totalvalue_output.json:", totalValueData);
         return totalValueData;
     } catch (error) {
-        console.error("❌ Errore nel recupero del valore della tesoreria:", error);
+        console.error("❌ Error fetching treasury value:", error);
         return null;
     }
 }
@@ -55,21 +55,21 @@ function calculateDifferencePercent(listing, real) {
 }
 
 function getLabel(diff) {
-    if (diff < 0) return "In sconto";
-    if (diff > 0) return "Sopravvalutato";
-    return "Pari al valore reale";
+    if (diff < 0) return "Discounted";
+    if (diff > 0) return "Overvalued";
+    return "Fair value";
 }
 
 async function main() {
     try {
         const totalValueData = getTreasuryFromTotalValue();
-        if (!totalValueData) throw new Error("Valore della tesoreria non disponibile");
+        if (!totalValueData) throw new Error("Treasury value unavailable");
 
         const treasuryValue = parseFloat(totalValueData.totalTreasury);
         const stableValue = parseFloat(totalValueData.totalstablevalue) || 0;
 
         const solPrice = await getSolPrice();
-        if (!solPrice) throw new Error("Prezzo SOL non disponibile");
+        if (!solPrice) throw new Error("SOL price unavailable");
 
         const listingPrices = await getListingPrices();
 
@@ -102,11 +102,11 @@ async function main() {
         };
 
         fs.writeFileSync(dataJsonPath, JSON.stringify(data, null, 2));
-        console.log("✅ data.json aggiornato con successo!");
-        console.log("📂 Contenuto aggiornato:", JSON.stringify(data, null, 2));
+        console.log("✅ data.json updated successfully!");
+        console.log("📂 Updated content:", JSON.stringify(data, null, 2));
 
     } catch (error) {
-        console.error("❌ Errore generale:", error);
+        console.error("❌ General error:", error);
     }
 }
 

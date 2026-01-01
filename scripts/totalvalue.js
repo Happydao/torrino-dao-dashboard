@@ -6,7 +6,7 @@ let totalStableValue = 0;
 
 const executeScript = (script) => {
     return new Promise((resolve) => {
-        console.log(`▶️ Eseguendo ${script}...`);
+        console.log(`▶️ Running ${script}...`);
         const process = spawn("node", [`scripts/${script}`]);
         let outputData = "";
 
@@ -16,7 +16,7 @@ const executeScript = (script) => {
         });
 
         process.stderr.on("data", (data) => {
-            console.error(`⚠️ Errore in ${script}:`, data.toString());
+            console.error(`⚠️ Error in ${script}:`, data.toString());
         });
 
         process.on("close", (code) => {
@@ -36,21 +36,21 @@ const executeScript = (script) => {
                         results[script] = tokenValue;
                         totalStableValue = stableValue;  
                         totalTreasury += tokenValue;
-                        console.log(`✅ Valore totale ${script}: $${tokenValue.toFixed(2)} USD`);
-                        console.log(`💵 Valore stablecoin: $${stableValue.toFixed(2)} USD`);
+                        console.log(`✅ Total value ${script}: $${tokenValue.toFixed(2)} USD`);
+                        console.log(`💵 Stablecoin value: $${stableValue.toFixed(2)} USD`);
                     } else {
                         const value = parseFloat(match[1]);
                         results[script] = value;
                         totalTreasury += value;
-                        console.log(`✅ Valore totale ${script}: $${value.toFixed(2)} USD`);
+                        console.log(`✅ Total value ${script}: $${value.toFixed(2)} USD`);
                     }
                     resolve(match[1]);
                 } else {
-                    console.error(`⚠️ Nessun valore trovato in ${script}`);
+                    console.error(`⚠️ No value found in ${script}`);
                     resolve(0);
                 }
             } catch (error) {
-                console.error(`⚠️ Errore in ${script}:`, error.message);
+                console.error(`⚠️ Error in ${script}:`, error.message);
                 resolve(0);
             }
         });
@@ -64,12 +64,12 @@ const calculateTotalTreasury = async () => {
         for (const script of scripts) {
             await executeScript(script);
         }
-        console.log("\n📝 **Riepilogo Tesoreria**:");
-        console.log(`💰 Token: $${results["token.js"] || 0}`);
-        console.log(`💵 Stablecoin: $${totalStableValue.toFixed(2)}`);
+        console.log("\n📝 **Treasury Summary**:");
+        console.log(`💰 Tokens: $${results["token.js"] || 0}`);
+        console.log(`💵 Stablecoins: $${totalStableValue.toFixed(2)}`);
         console.log(`🔹 Staking: $${results["staking.js"] || 0}`);
         console.log(`🎨 NFT: $${results["nft.js"] || 0}`);
-        console.log(`🏦 Valore totale tesoreria: $${totalTreasury.toFixed(2)} USD`);
+        console.log(`🏦 Total treasury value: $${totalTreasury.toFixed(2)} USD`);
 
         const treasuryData = {
             totalTreasury: totalTreasury.toFixed(2),
@@ -85,10 +85,10 @@ const calculateTotalTreasury = async () => {
 
         // 🔹 Salva i dati in un file per essere usati da `calculate.js`
         fs.writeFileSync("totalvalue_output.json", JSON.stringify(treasuryData, null, 2));
-        console.log("✅ `totalvalue_output.json` salvato con successo!");
+        console.log("✅ `totalvalue_output.json` saved successfully!");
 
     } catch (error) {
-        console.error("❌ Errore nel calcolo della tesoreria:", error);
+        console.error("❌ Error calculating treasury:", error);
     }
 };
 

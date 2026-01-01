@@ -8,7 +8,7 @@ const WALLET_ADDRESS =
   process.env.WALLET_ADDRESS || 'EKjb5grMX19c3cAZa5LQjqksDpqqVLTGZrswh79WkPdD';
 const HELIUS_API_KEY = process.env.HELIUS_API_KEY;
 if (!HELIUS_API_KEY) {
-  console.error('❌ Variabile HELIUS_API_KEY mancante. Mettila in .env o nei GitHub Secrets.');
+  console.error('❌ HELIUS_API_KEY is missing. Set it in .env or GitHub Secrets.');
   process.exit(1);
 }
 
@@ -52,9 +52,9 @@ async function fetchWithRetry(url, config = {}) {
     try {
       return await axios.get(url, { timeout: TIMEOUT, ...config });
     } catch (err) {
-      console.warn(`⚠️ Tentativo GET ${attempt} fallito: ${err.message}`);
+      console.warn(`⚠️ GET attempt ${attempt} failed: ${err.message}`);
       if (attempt < MAX_RETRIES) await sleep(RETRY_DELAY);
-      else throw new Error(`❌ Errore persistente dopo ${MAX_RETRIES} tentativi (GET)`);
+      else throw new Error(`❌ Persistent error after ${MAX_RETRIES} attempts (GET)`);
     }
   }
 }
@@ -64,9 +64,9 @@ async function postWithRetry(url, body, config = {}) {
     try {
       return await axios.post(url, body, { timeout: TIMEOUT, ...config });
     } catch (err) {
-      console.warn(`⚠️ Tentativo POST ${attempt} fallito: ${err.message}`);
+      console.warn(`⚠️ POST attempt ${attempt} failed: ${err.message}`);
       if (attempt < MAX_RETRIES) await sleep(RETRY_DELAY);
-      else throw new Error(`❌ Errore persistente dopo ${MAX_RETRIES} tentativi (POST)`);
+      else throw new Error(`❌ Persistent error after ${MAX_RETRIES} attempts (POST)`);
     }
   }
 }
@@ -278,7 +278,7 @@ async function fetchNativeSolViaRpc(address) {
 // ========== MAIN ==========
 async function getTokenAccounts() {
   try {
-    console.log('🔄 Recupero token da Helius DAS API...');
+    console.log('🔄 Fetching tokens from Helius DAS API...');
     const response = await fetchBalancesFromHelius(WALLET_ADDRESS);
 
     const tokens = (response.data.tokens || [])
@@ -317,7 +317,7 @@ async function getTokenAccounts() {
 
     const missing = allMints.filter((m) => !prices[m]);
     if (missing.length) {
-      console.log(`🔁 Fallback DeFiLlama per ${missing.length} token senza prezzo…`);
+      console.log(`🔁 Fallback to DeFiLlama for ${missing.length} tokens without price…`);
       const llama = await fetchLlamaPrices(missing);
       Object.keys(llama).forEach((m) =>
         console.log(`   ↳ DeFiLlama: ${m} → ${llama[m].usdPrice} USD`)
@@ -355,14 +355,14 @@ async function getTokenAccounts() {
         const label = meta.symbol ? `${meta.name} (${meta.symbol})` : `${meta.name}`;
         console.log(`✅ ${label} [${token.mint}]`);
         console.log(
-          `   Quantità: ${token.realAmount.toLocaleString('en-US', { maximumFractionDigits: 6 })}`
+          `   Amount: ${token.realAmount.toLocaleString('en-US', { maximumFractionDigits: 6 })}`
         );
-        console.log(`   Prezzo: ${price.toFixed(6)} USD`);
-        console.log(`   Totale: ${tokenValue.toFixed(2)} USD\n`);
+        console.log(`   Price: ${price.toFixed(6)} USD`);
+        console.log(`   Total: ${tokenValue.toFixed(2)} USD\n`);
       } else {
         const meta = getNiceNameSymbol(token.mint, token.tokenName, metaMap);
         const label = meta.symbol ? `${meta.name} (${meta.symbol})` : `${meta.name}`;
-        console.log(`⚠️ Nessun prezzo disponibile per ${label} [${token.mint}]`);
+        console.log(`⚠️ No price available for ${label} [${token.mint}]`);
       }
     }
 
@@ -382,24 +382,24 @@ async function getTokenAccounts() {
 
         console.log(`✅ SOL (native)`);
         console.log(
-          `   Quantità: ${nativeSOL.toLocaleString('en-US', { maximumFractionDigits: 6 })}`
+          `   Amount: ${nativeSOL.toLocaleString('en-US', { maximumFractionDigits: 6 })}`
         );
-        console.log(`   Prezzo: ${Number(solPrice).toFixed(6)} USD`);
-        console.log(`   Totale: ${solValue.toFixed(2)} USD\n`);
+        console.log(`   Price: ${Number(solPrice).toFixed(6)} USD`);
+        console.log(`   Total: ${solValue.toFixed(2)} USD\n`);
       } else {
-        console.log('⚠️ Prezzo SOL non disponibile (WSOL).');
+        console.log('⚠️ SOL price not available (WSOL).');
       }
     }
 
     // === Riepilogo ===
-    console.log(`\n📋 RIEPILOGO VALORI TOKEN:`);
+    console.log(`\n📋 TOKEN VALUE SUMMARY:`);
     tokenValues.forEach(({ mint, value, name, symbol }) => {
       const label = symbol ? `${name} (${symbol})` : name;
       console.log(`${mint} - ${label} - ${value.toFixed(2)} USD`);
     });
 
-    console.log(`\n💰 VALORE TOTALE TESORERIA: ${totalTreasuryValue.toFixed(2)} USD`);
-    console.log(`💵 VALORE TOTALE STABLECOIN: ${totalStableValue.toFixed(2)} USD`);
+    console.log(`\n💰 TOTAL TREASURY VALUE: ${totalTreasuryValue.toFixed(2)} USD`);
+    console.log(`💵 TOTAL STABLECOIN VALUE: ${totalStableValue.toFixed(2)} USD`);
     // ⚠️ JSON finale: formato identico al tuo script originale
     console.log(
       '\n' +
@@ -409,7 +409,7 @@ async function getTokenAccounts() {
         })
     );
   } catch (error) {
-    console.error("❌ Errore durante l'esecuzione:", error.message);
+    console.error("❌ Error during execution:", error.message);
     process.exit(1);
   }
 }
