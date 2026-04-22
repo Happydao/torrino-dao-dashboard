@@ -97,11 +97,17 @@ const getStakedTokenAccounts = async () => {
   if (!data || !data.result || data.result.length === 0) {
     console.log("✅ No staked tokens found.");
     writeJsonFile(STAKING_DATA_PATH, {
+      lastUpdated: new Date().toLocaleDateString("it-IT", {
+        timeZone: "Europe/Rome",
+        day: "2-digit",
+        month: "2-digit",
+        year: "2-digit",
+      }),
       updatedAt: new Date().toISOString(),
       wallet: WALLET_ADDRESS,
-      solPriceUsd: solPrice,
-      totalStakedSol: 0,
-      totalStakedValue: 0,
+      solPrice: solPrice,
+      totalAmountSol: 0,
+      totalValue: 0,
       positions: [],
     });
     console.log(JSON.stringify({ totalStakedValue: 0 }));
@@ -139,12 +145,25 @@ const getStakedTokenAccounts = async () => {
   }
 
   writeJsonFile(STAKING_DATA_PATH, {
+    lastUpdated: new Date().toLocaleDateString("it-IT", {
+      timeZone: "Europe/Rome",
+      day: "2-digit",
+      month: "2-digit",
+      year: "2-digit",
+    }),
     updatedAt: new Date().toISOString(),
     wallet: WALLET_ADDRESS,
-    solPriceUsd: solPrice,
-    totalStakedSol,
-    totalStakedValue,
-    positions: positions.sort((a, b) => b.valueUsd - a.valueUsd),
+    solPrice: solPrice,
+    totalAmountSol: totalStakedSol,
+    totalValue: totalStakedValue,
+    positions: positions
+      .map((position) => ({
+        amountSol: position.amountSol,
+        value: position.valueUsd,
+        stakeAccount: position.stakeAccount,
+        validator: position.validator,
+      }))
+      .sort((a, b) => b.value - a.value),
   });
   console.log(`✅ Detailed staking data saved to ${path.relative(ROOT_DIR, STAKING_DATA_PATH)}`);
 

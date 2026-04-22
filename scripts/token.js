@@ -423,23 +423,29 @@ async function getTokenAccounts() {
     console.log(`💵 TOTAL STABLECOIN VALUE: ${totalStableValue.toFixed(2)} USD`);
 
     const output = {
+      lastUpdated: new Date().toLocaleDateString('it-IT', {
+        timeZone: 'Europe/Rome',
+        day: '2-digit',
+        month: '2-digit',
+        year: '2-digit',
+      }),
       updatedAt: new Date().toISOString(),
       wallet: WALLET_ADDRESS,
-      totalTokenValue: totalTreasuryValue,
-      totalStableValue,
-      totalNonStableTokenValue: Math.max(0, totalTreasuryValue - totalStableValue),
+      totalValue: totalTreasuryValue,
+      stableValue: totalStableValue,
+      nonStableValue: Math.max(0, totalTreasuryValue - totalStableValue),
       tokens: tokenValues
         .map((token) => ({
-          mint: token.mint,
           name: token.name,
           symbol: token.symbol,
           amount: token.amount,
+          price: token.priceUsd,
+          value: token.valueUsd,
+          mint: token.mint,
           decimals: token.decimals,
-          priceUsd: token.priceUsd,
-          valueUsd: token.valueUsd,
           isStable: token.isStable,
         }))
-        .sort((a, b) => b.valueUsd - a.valueUsd),
+        .sort((a, b) => b.value - a.value),
     };
     writeJsonFile(TOKENS_DATA_PATH, output);
     console.log(`✅ Detailed token data saved to ${path.relative(ROOT_DIR, TOKENS_DATA_PATH)}`);

@@ -155,11 +155,17 @@ const analyzeNFTs = async () => {
 
     if (nfts.length === 0) {
         writeJsonFile(NFT_DATA_PATH, {
+            lastUpdated: new Date().toLocaleDateString("it-IT", {
+                timeZone: "Europe/Rome",
+                day: "2-digit",
+                month: "2-digit",
+                year: "2-digit",
+            }),
             updatedAt: new Date().toISOString(),
             wallet: WALLET_ADDRESS,
-            solPriceUsd: 0,
-            totalNFTValueSol: 0,
-            totalNFTValueUsd: 0,
+            solPrice: 0,
+            totalValueSol: 0,
+            totalValue: 0,
             nfts: [],
         });
         return console.log("🚫 No NFTs to analyze.");
@@ -221,12 +227,27 @@ const analyzeNFTs = async () => {
     }
 
     writeJsonFile(NFT_DATA_PATH, {
+        lastUpdated: new Date().toLocaleDateString("it-IT", {
+            timeZone: "Europe/Rome",
+            day: "2-digit",
+            month: "2-digit",
+            year: "2-digit",
+        }),
         updatedAt: new Date().toISOString(),
         wallet: WALLET_ADDRESS,
-        solPriceUsd: solPriceUSD,
-        totalNFTValueSol: totalSolValue,
-        totalNFTValueUsd: totalNFTValue,
-        nfts: nftValues.sort((a, b) => (b.valueUsd || 0) - (a.valueUsd || 0)),
+        solPrice: solPriceUSD,
+        totalValueSol: totalSolValue,
+        totalValue: totalNFTValue,
+        nfts: nftValues
+            .map((nft) => ({
+                name: nft.name,
+                collection: nft.collection,
+                floorSol: nft.floorSol,
+                value: nft.valueUsd,
+                mint: nft.mint,
+                hasPrice: nft.hasPrice,
+            }))
+            .sort((a, b) => (b.value || 0) - (a.value || 0)),
     });
     console.log(`✅ Detailed NFT data saved to ${path.relative(ROOT_DIR, NFT_DATA_PATH)}`);
 
