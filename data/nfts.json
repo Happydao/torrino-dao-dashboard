@@ -1,16 +1,16 @@
 {
   "lastUpdated": "22/04/26",
-  "updatedAt": "2026-04-22T09:19:47.422Z",
+  "updatedAt": "2026-04-22T09:28:35.845Z",
   "wallet": "EKjb5grMX19c3cAZa5LQjqksDpqqVLTGZrswh79WkPdD",
   "solPrice": 88.5,
-  "totalValueSol": 18.375700000000002,
-  "totalValue": 1626.2494500000003,
+  "totalValueSol": 18.4659,
+  "totalValue": 1634.23215,
   "nfts": [
     {
       "name": "Claynosaurz #363",
       "collection": "claynosaurz",
-      "floorSol": 10.7626,
-      "value": 952.4901000000001,
+      "floorSol": 10.8528,
+      "value": 960.4728,
       "mint": "9hanoN6tzWZ5ypwTUcUxEtj6jEkSyEWgQb94ZmoFqBQK",
       "hasPrice": true
     },
