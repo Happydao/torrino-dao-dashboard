@@ -5,6 +5,9 @@ on:
     - cron: '20 4 * * *'  # Esegue alle 04:20 UTC (05:20 in Italia CET)
   workflow_dispatch:  # Permette l'esecuzione manuale
 
+env:
+  FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
+
 jobs:
   update-sheet:
     runs-on: ubuntu-latest
