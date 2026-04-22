@@ -1,8 +1,198 @@
 {
-  "updatedAt": "2026-04-22T05:53:22.000Z",
+  "updatedAt": "2026-04-22T08:54:16.308Z",
   "wallet": "EKjb5grMX19c3cAZa5LQjqksDpqqVLTGZrswh79WkPdD",
-  "solPriceUsd": 88.134461,
-  "totalNFTValueSol": 18.5441,
-  "totalNFTValueUsd": 1633.1788869999998,
-  "nfts": []
+  "solPriceUsd": 87.87,
+  "totalNFTValueSol": 18.541020000000003,
+  "totalNFTValueUsd": 1629.1994274000003,
+  "nfts": [
+    {
+      "mint": "9hanoN6tzWZ5ypwTUcUxEtj6jEkSyEWgQb94ZmoFqBQK",
+      "name": "Claynosaurz #363",
+      "collection": "claynosaurz",
+      "floorSol": 10.8759,
+      "valueSol": 10.8759,
+      "valueUsd": 955.665333,
+      "hasPrice": true
+    },
+    {
+      "mint": "AhAJeBoeLSTxJg4AwGKAt3RboQ4PpBsiQqvjtVY2hdig",
+      "name": "Valannium Ring #73",
+      "collection": "valannium_ring",
+      "floorSol": 2.331,
+      "valueSol": 2.331,
+      "valueUsd": 204.82497,
+      "hasPrice": true
+    },
+    {
+      "mint": "Dz7h57SRzPM5UfoYBSoxbdd44iwNTrgDFeb42Ahqa1yU",
+      "name": "Okay Bear #3817",
+      "collection": "okay_bears",
+      "floorSol": 1.30734,
+      "valueSol": 1.30734,
+      "valueUsd": 114.8759658,
+      "hasPrice": true
+    },
+    {
+      "mint": "A8WSJbmXDuGeJewnJXrVJAoWtFRctiE5GyXVvarVNNWB",
+      "name": "Okay Bear #1414",
+      "collection": "okay_bears",
+      "floorSol": 1.30734,
+      "valueSol": 1.30734,
+      "valueUsd": 114.8759658,
+      "hasPrice": true
+    },
+    {
+      "mint": "2G69irHUmfcmc3rmQ1VdpTrdRXi3GbePuWWPxr6Lrqhw",
+      "name": "Okay Bear #9135",
+      "collection": "okay_bears",
+      "floorSol": 1.30734,
+      "valueSol": 1.30734,
+      "valueUsd": 114.8759658,
+      "hasPrice": true
+    },
+    {
+      "mint": "GSwiKVPZDqc3GUjUxhBpB7s66zKiD8WwR1SAgAxCWEAA",
+      "name": "y00t #814",
+      "collection": "y00ts",
+      "floorSol": 1.078,
+      "valueSol": 1.078,
+      "valueUsd": 94.72386000000002,
+      "hasPrice": true
+    },
+    {
+      "mint": "8FwNXN2hccb2U957iuyupmAhzarWYSvcdHxPSRKuyHqy",
+      "name": "Portals #728",
+      "collection": "portals",
+      "floorSol": 0.245,
+      "valueSol": 0.245,
+      "valueUsd": 21.52815,
+      "hasPrice": true
+    },
+    {
+      "mint": "3tuw2aqL4kL8CAhe8BGT7WtwaDmd28tawpkPZSGBfgvy",
+      "name": "Mad Lads Inth Pool #7228",
+      "collection": "mad_lads_inthpool",
+      "floorSol": 0.088,
+      "valueSol": 0.088,
+      "valueUsd": 7.73256,
+      "hasPrice": true
+    },
+    {
+      "mint": "rzxiCwqc2C64nLkrSe3SKZbG4X4MW6891vAS2FoEjCM",
+      "name": "AB Early #02",
+      "collection": "ab_early_02",
+      "floorSol": 0.001,
+      "valueSol": 0.001,
+      "valueUsd": 0.08787,
+      "hasPrice": true
+    },
+    {
+      "mint": "7WUduzoW3SukzW2MpABBJdHAN8NU9xFjqBNGxZV1UiKa",
+      "name": "AB Early #002",
+      "collection": "ab_early_002",
+      "floorSol": 0.0001,
+      "valueSol": 0.0001,
+      "valueUsd": 0.008787000000000001,
+      "hasPrice": true
+    },
+    {
+      "mint": "Hb6CicdHmQpycejVGMp2TujXeAHQSputxk9jVWq1QCce",
+      "name": "JupReward #612",
+      "collection": null,
+      "floorSol": null,
+      "valueSol": 0,
+      "valueUsd": null,
+      "hasPrice": false
+    },
+    {
+      "mint": "FmsWwBY7QjjKEY5YQNqfmHFAtwQVxKLsWpzG7un4Fuct",
+      "name": "$GIFT #1312",
+      "collection": null,
+      "floorSol": null,
+      "valueSol": 0,
+      "valueUsd": null,
+      "hasPrice": false
+    },
+    {
+      "mint": "FZVmx33zVVxNt4QLmR28RoGZoQb4wyujgALzkwW43nT4",
+      "name": "JupPass #311",
+      "collection": null,
+      "floorSol": null,
+      "valueSol": 0,
+      "valueUsd": null,
+      "hasPrice": false
+    },
+    {
+      "mint": "FUJBsucjzXwXpQkP1enBvLXuTfqWNGqiCGo3mMQYzcCx",
+      "name": "$GIFT #1051",
+      "collection": null,
+      "floorSol": null,
+      "valueSol": 0,
+      "valueUsd": null,
+      "hasPrice": false
+    },
+    {
+      "mint": "DdEEacoGDvEYBbqwucb1QdN5owSr8sxrRBggxTbWN35K",
+      "name": "Permit #152",
+      "collection": null,
+      "floorSol": null,
+      "valueSol": 0,
+      "valueUsd": null,
+      "hasPrice": false
+    },
+    {
+      "mint": "DRc7anMVqT6A9xTjpcs5XrxFbfZq66W7kErNLqTkspD2",
+      "name": "Qualified #611",
+      "collection": null,
+      "floorSol": null,
+      "valueSol": 0,
+      "valueUsd": null,
+      "hasPrice": false
+    },
+    {
+      "mint": "CTG9fgUraR7iL9sKnae3mqbLSUdbhAhesnXkfPgdQhpV",
+      "name": "$GIFT #1312",
+      "collection": null,
+      "floorSol": null,
+      "valueSol": 0,
+      "valueUsd": null,
+      "hasPrice": false
+    },
+    {
+      "mint": "9nxXqVdXEqopy2y8AmTH36V5vQ8gdAsCucQybcv14Xuv",
+      "name": "SACHI NFT Jackpot #402166",
+      "collection": null,
+      "floorSol": null,
+      "valueSol": 0,
+      "valueUsd": null,
+      "hasPrice": false
+    },
+    {
+      "mint": "8fUGUwtT3h4Tvb6S1nb8Wa2TzkFD7nRAXSz9h8wmY2wk",
+      "name": "Unknown",
+      "collection": null,
+      "floorSol": null,
+      "valueSol": 0,
+      "valueUsd": null,
+      "hasPrice": false
+    },
+    {
+      "mint": "6hwbMMAtjGrL2PGHd8BiiDPPZ4iG9sjTUDARk3qi5Mm9",
+      "name": "$GIFT #1312",
+      "collection": null,
+      "floorSol": null,
+      "valueSol": 0,
+      "valueUsd": null,
+      "hasPrice": false
+    },
+    {
+      "mint": "5WDG5AYiPSgdjbridzK2PJbujmw8pUPtvjCHcLTMZkwJ",
+      "name": " GIVEAWAY #1523",
+      "collection": null,
+      "floorSol": null,
+      "valueSol": 0,
+      "valueUsd": null,
+      "hasPrice": false
+    }
+  ]
 }
