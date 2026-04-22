@@ -4,7 +4,9 @@
   "description": "Script per il calcolo della tesoreria",
   "main": "totalvalue.js",
   "scripts": {
-    "start": "node scripts/totalvalue.js"
+    "start": "node scripts/totalvalue.js",
+    "calculate": "node scripts/calculate.js",
+    "prune-logs": "node scripts/prune-logs.js"
   },
   "dependencies": {
     "dotenv": "^16.0.3",

@@ -1,4 +1,6 @@
 const fetch = require("node-fetch");
+const fs = require("fs");
+const path = require("path");
 require("dotenv").config();
 
 const HELIUS_API_KEY = process.env.HELIUS_API_KEY;
@@ -10,6 +12,9 @@ const COINGECKO_API = "https://api.coingecko.com/api/v3/simple/price?ids=solana&
 const REQUEST_DELAY_MAGICEDEN = 5000;
 const REQUEST_DELAY_HELIUS = 4000;
 const PAGE_LIMIT = 100;
+const ROOT_DIR = path.join(__dirname, "..");
+const DATA_DIR = path.join(ROOT_DIR, "data");
+const NFT_DATA_PATH = path.join(DATA_DIR, "nfts.json");
 let totalNFTValue = 0;
 
 const scamNFTs = new Set([
@@ -50,6 +55,11 @@ const scamNFTs = new Set([
     "A WOLFS #1879", "Slеrf #1221", "Slеrf #343", "Bоnkеr #313", "Clоud #1947"
 
 ]);
+
+const writeJsonFile = (filePath, payload) => {
+    fs.mkdirSync(path.dirname(filePath), { recursive: true });
+    fs.writeFileSync(filePath, JSON.stringify(payload, null, 2));
+};
 
 // Funzione per effettuare chiamate API con timeout
 const fetchWithTimeout = (url, options = {}, timeout = 10000) => {
@@ -141,8 +151,19 @@ const getSolPrice = async () => {
 const analyzeNFTs = async () => {
     const nfts = await getNFTsFromHelius();
     let totalSolValue = 0;
+    const nftValues = [];
 
-    if (nfts.length === 0) return console.log("🚫 No NFTs to analyze.");
+    if (nfts.length === 0) {
+        writeJsonFile(NFT_DATA_PATH, {
+            updatedAt: new Date().toISOString(),
+            wallet: WALLET_ADDRESS,
+            solPriceUsd: 0,
+            totalNFTValueSol: 0,
+            totalNFTValueUsd: 0,
+            nfts: [],
+        });
+        return console.log("🚫 No NFTs to analyze.");
+    }
 
     for (const nft of nfts) {
         console.log(`🔍 Processing NFT: ${nft.name} (${nft.mint})`);
@@ -154,11 +175,38 @@ const analyzeNFTs = async () => {
 
             if (floorPrice > 0) {
                 totalSolValue += floorPrice;
+                nftValues.push({
+                    mint: nft.mint,
+                    name: nft.name,
+                    collection: collectionName.collection,
+                    floorSol: floorPrice,
+                    valueSol: floorPrice,
+                    valueUsd: null,
+                    hasPrice: true,
+                });
                 console.log(`📝 NFT: ${nft.name} | Collection: ${collectionName.collection} | Floor: ${floorPrice.toFixed(4)} SOL`);
             } else {
+                nftValues.push({
+                    mint: nft.mint,
+                    name: nft.name,
+                    collection: collectionName.collection,
+                    floorSol: null,
+                    valueSol: 0,
+                    valueUsd: null,
+                    hasPrice: false,
+                });
                 console.log(`🟡 NFT: ${nft.name} | Collection: ${collectionName.collection} | No market value.`);
             }
         } else {
+            nftValues.push({
+                mint: nft.mint,
+                name: nft.name,
+                collection: null,
+                floorSol: null,
+                valueSol: 0,
+                valueUsd: null,
+                hasPrice: false,
+            });
             console.log(`❌ Collection not found for ${nft.name} (${nft.mint})`);
         }
 
@@ -167,6 +215,20 @@ const analyzeNFTs = async () => {
 
     const solPriceUSD = await getSolPrice();
     totalNFTValue = totalSolValue * solPriceUSD;
+
+    for (const nft of nftValues) {
+        if (nft.hasPrice) nft.valueUsd = nft.valueSol * solPriceUSD;
+    }
+
+    writeJsonFile(NFT_DATA_PATH, {
+        updatedAt: new Date().toISOString(),
+        wallet: WALLET_ADDRESS,
+        solPriceUsd: solPriceUSD,
+        totalNFTValueSol: totalSolValue,
+        totalNFTValueUsd: totalNFTValue,
+        nfts: nftValues.sort((a, b) => (b.valueUsd || 0) - (a.valueUsd || 0)),
+    });
+    console.log(`✅ Detailed NFT data saved to ${path.relative(ROOT_DIR, NFT_DATA_PATH)}`);
 
     console.log("\n💎 **Summary** 💎");
     console.log(`📊 Total value in SOL: ${totalSolValue.toFixed(4)} SOL`);

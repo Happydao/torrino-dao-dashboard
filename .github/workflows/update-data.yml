@@ -110,16 +110,9 @@ jobs:
             const match = entry.match(/^(.*)_run-\\d+\\.(txt|json)$/);
             if (!match) continue;
             const base = match[1];
-            const stats = fs.statSync(`logs/${entry}`);
-            const current = runs.get(base);
-            const mtime = stats.mtimeMs || 0;
-            if (!current || mtime > current.mtime) {
-              runs.set(base, { mtime });
-            }
+            runs.set(base, true);
           }
-          const sorted = Array.from(runs.entries())
-            .sort((a, b) => b[1].mtime - a[1].mtime)
-            .map(([base]) => base);
+          const sorted = Array.from(runs.keys()).sort((a, b) => b.localeCompare(a));
           const keep = new Set(sorted.slice(0, 30));
           for (const entry of entries) {
             if (entry === 'latest.txt' || entry === 'latest.json') continue;
@@ -156,6 +149,6 @@ jobs:
         run: |
           git config --local user.email "action@github.com"
           git config --local user.name "GitHub Action"
-          git add data.json logs.json logs.txt logs
-          git commit -m "🔄 Aggiornamento tesoreria + logs.json + logs.txt" || echo "Nessun cambiamento da committare"
+          git add data data.json logs.json logs.txt logs
+          git commit -m "🔄 Aggiornamento tesoreria, dettagli asset e logs" || echo "Nessun cambiamento da committare"
           git push origin main

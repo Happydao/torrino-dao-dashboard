@@ -1,6 +1,8 @@
 'use strict';
 
 const axios = require('axios');
+const fs = require('fs');
+const path = require('path');
 require('dotenv').config(); // usa .env in locale; su GitHub Actions userai i Secrets
 
 // ========= CONFIG =========
@@ -15,6 +17,9 @@ if (!HELIUS_API_KEY) {
 const TIMEOUT = Number(process.env.TIMEOUT_MS || 10000);
 const MAX_RETRIES = Number(process.env.MAX_RETRIES || 3);
 const RETRY_DELAY = Number(process.env.RETRY_DELAY_MS || 3000);
+const ROOT_DIR = path.join(__dirname, '..');
+const DATA_DIR = path.join(ROOT_DIR, 'data');
+const TOKENS_DATA_PATH = path.join(DATA_DIR, 'tokens.json');
 
 // Prezzi
 const JUPITER_API_URL = 'https://lite-api.jup.ag/price/v3?ids=';
@@ -38,7 +43,7 @@ const STABLE_TOKENS = {
 // ========= STATE =========
 let totalTreasuryValue = 0;
 let totalStableValue = 0;
-let tokenValues = []; // { mint, value, name, symbol }
+let tokenValues = []; // priced tokens only, used for public data output
 
 // ========= UTILS =========
 const sleep = (ms) => new Promise((r) => setTimeout(r, ms));
@@ -254,6 +259,11 @@ function getNiceNameSymbol(mint, fallbackName, metaMap) {
   return { name, symbol };
 }
 
+function writeJsonFile(filePath, payload) {
+  fs.mkdirSync(path.dirname(filePath), { recursive: true });
+  fs.writeFileSync(filePath, JSON.stringify(payload, null, 2));
+}
+
 // ========== HELIUS / RPC ==========
 async function fetchBalancesFromHelius(address) {
   const url = `https://api.helius.xyz/v0/addresses/${address}/balances?api-key=${HELIUS_API_KEY}`;
@@ -337,14 +347,20 @@ async function getTokenAccounts() {
         totalTreasuryValue += tokenValue;
 
         const meta = getNiceNameSymbol(token.mint, token.tokenName, metaMap);
+        const isStable = Object.values(STABLE_TOKENS).includes(token.mint);
         tokenValues.push({
           mint: token.mint,
+          amount: token.realAmount,
+          decimals: token.decimals,
+          priceUsd: price,
           value: tokenValue,
+          valueUsd: tokenValue,
           name: meta.name,
           symbol: meta.symbol,
+          isStable,
         });
 
-        if (Object.values(STABLE_TOKENS).includes(token.mint)) {
+        if (isStable) {
           totalStableValue += tokenValue;
           const stableName = Object.keys(STABLE_TOKENS).find(
             (k) => STABLE_TOKENS[k] === token.mint
@@ -375,9 +391,14 @@ async function getTokenAccounts() {
 
         tokenValues.push({
           mint: 'SOL',
+          amount: nativeSOL,
+          decimals: 9,
+          priceUsd: Number(solPrice),
           value: solValue,
+          valueUsd: solValue,
           name: 'Solana',
           symbol: 'SOL',
+          isStable: false,
         });
 
         console.log(`✅ SOL (native)`);
@@ -400,6 +421,29 @@ async function getTokenAccounts() {
 
     console.log(`\n💰 TOTAL TREASURY VALUE: ${totalTreasuryValue.toFixed(2)} USD`);
     console.log(`💵 TOTAL STABLECOIN VALUE: ${totalStableValue.toFixed(2)} USD`);
+
+    const output = {
+      updatedAt: new Date().toISOString(),
+      wallet: WALLET_ADDRESS,
+      totalTokenValue: totalTreasuryValue,
+      totalStableValue,
+      totalNonStableTokenValue: Math.max(0, totalTreasuryValue - totalStableValue),
+      tokens: tokenValues
+        .map((token) => ({
+          mint: token.mint,
+          name: token.name,
+          symbol: token.symbol,
+          amount: token.amount,
+          decimals: token.decimals,
+          priceUsd: token.priceUsd,
+          valueUsd: token.valueUsd,
+          isStable: token.isStable,
+        }))
+        .sort((a, b) => b.valueUsd - a.valueUsd),
+    };
+    writeJsonFile(TOKENS_DATA_PATH, output);
+    console.log(`✅ Detailed token data saved to ${path.relative(ROOT_DIR, TOKENS_DATA_PATH)}`);
+
     // ⚠️ JSON finale: formato identico al tuo script originale
     console.log(
       '\n' +

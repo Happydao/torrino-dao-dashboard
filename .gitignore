@@ -1,1 +1,5 @@
 .DS_Store
+.env
+credentials.json
+out_*.log
+totalvalue_output.json

@@ -6,6 +6,8 @@ require('dotenv').config();
 const rootDir = path.join(__dirname, '..');
 const totalValuePath = path.join(rootDir, 'totalvalue_output.json');
 const dataJsonPath = path.join(rootDir, 'data.json');
+const dataDir = path.join(rootDir, 'data');
+const summaryJsonPath = path.join(dataDir, 'summary.json');
 
 async function getSolPrice() {
     try {
@@ -101,7 +103,21 @@ async function main() {
             stablePercentage: Math.round((stableValue / treasuryValue) * 100)
         };
 
+        const summaryData = {
+            ...data,
+            updatedAt: new Date().toISOString(),
+            tokenValue: Number(totalValueData.tokenValue || 0),
+            nonStableTokenValue: Number(totalValueData.nonStableTokenValue || 0),
+            stakingValue: Number(totalValueData.stakingValue || 0),
+            nftValue: Number(totalValueData.nftValue || 0),
+            stableValueExact: stableValue,
+            treasuryValueExact: treasuryValue
+        };
+
+        fs.mkdirSync(dataDir, { recursive: true });
+        fs.writeFileSync(summaryJsonPath, JSON.stringify(summaryData, null, 2));
         fs.writeFileSync(dataJsonPath, JSON.stringify(data, null, 2));
+        console.log("✅ data/summary.json updated successfully!");
         console.log("✅ data.json updated successfully!");
         console.log("📂 Updated content:", JSON.stringify(data, null, 2));
 

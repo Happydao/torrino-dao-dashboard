@@ -1,4 +1,6 @@
 const fetch = require("node-fetch");
+const fs = require("fs");
+const path = require("path");
 require("dotenv").config();
 
 // Configurazione
@@ -11,6 +13,14 @@ const JUPITER_API_URL = `https://lite-api.jup.ag/price/v3?ids=${SOL_MINT}`;
 const MAX_RETRIES = 5;
 const RETRY_DELAY = 3000;
 const TIMEOUT = 10000;
+const ROOT_DIR = path.join(__dirname, "..");
+const DATA_DIR = path.join(ROOT_DIR, "data");
+const STAKING_DATA_PATH = path.join(DATA_DIR, "staking.json");
+
+const writeJsonFile = (filePath, payload) => {
+  fs.mkdirSync(path.dirname(filePath), { recursive: true });
+  fs.writeFileSync(filePath, JSON.stringify(payload, null, 2));
+};
 
 // Fetch con timeout
 const fetchWithTimeout = (url, options = {}, timeout = TIMEOUT) => {
@@ -86,11 +96,21 @@ const getStakedTokenAccounts = async () => {
 
   if (!data || !data.result || data.result.length === 0) {
     console.log("✅ No staked tokens found.");
+    writeJsonFile(STAKING_DATA_PATH, {
+      updatedAt: new Date().toISOString(),
+      wallet: WALLET_ADDRESS,
+      solPriceUsd: solPrice,
+      totalStakedSol: 0,
+      totalStakedValue: 0,
+      positions: [],
+    });
     console.log(JSON.stringify({ totalStakedValue: 0 }));
     return 0;
   }
 
   let totalStakedValue = 0;
+  let totalStakedSol = 0;
+  const positions = [];
   console.log("📜 Staked tokens:");
 
   for (const stakeAccount of data.result) {
@@ -102,12 +122,31 @@ const getStakedTokenAccounts = async () => {
 
     const usdValue = solAmount * solPrice;
     totalStakedValue += usdValue;
+    totalStakedSol += solAmount;
+
+    positions.push({
+      stakeAccount: stakeAccount.pubkey,
+      amountSol: solAmount,
+      priceUsd: solPrice,
+      valueUsd: usdValue,
+      validator,
+    });
 
     console.log(`🔹 Stake Account: ${stakeAccount.pubkey}`);
     console.log(`   Staked amount: ${solAmount.toFixed(4)} SOL`);
     console.log(`   USD value: $${usdValue.toFixed(2)}`);
     console.log(`   Delegated to: ${validator}\n`);
   }
+
+  writeJsonFile(STAKING_DATA_PATH, {
+    updatedAt: new Date().toISOString(),
+    wallet: WALLET_ADDRESS,
+    solPriceUsd: solPrice,
+    totalStakedSol,
+    totalStakedValue,
+    positions: positions.sort((a, b) => b.valueUsd - a.valueUsd),
+  });
+  console.log(`✅ Detailed staking data saved to ${path.relative(ROOT_DIR, STAKING_DATA_PATH)}`);
 
   console.log(`💰 Total staked value: $${totalStakedValue.toFixed(2)} USD`);
   console.log(JSON.stringify({ totalStakedValue }));
