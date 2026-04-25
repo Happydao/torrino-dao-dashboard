@@ -772,10 +772,24 @@
       .footer-copy{ justify-self:center; white-space:nowrap }
       .footer-links{ justify-content:flex-end }
     }
-    @media (max-width:760px){
+    @media (max-width:719px){
       .top-actions{ justify-content:center }
       .top-title{ width:100%; text-align:center }
       .top-title-img{ margin-inline:auto }
+      .chart-top{ flex-wrap:wrap; gap:10px }
+      .chart-tools{
+        width:100%;
+        margin-left:0;
+        justify-content:flex-end;
+      }
+      .chart-zoom-controls{ gap:4px; padding:4px }
+      .chart-zoom-btn{
+        min-width:32px;
+        height:26px;
+        padding:0 7px;
+        font-size:15px;
+      }
+      .chart-zoom-readout{ min-width:48px; font-size:10px }
       .portfolio-layout .table-card{ order:1 }
       .portfolio-layout .allocation-card{ order:2 }
       .asset-table,.asset-table thead,.asset-table tbody,.asset-table tr,.asset-table th,.asset-table td{ display:block }
@@ -799,9 +813,9 @@
       .asset-mobile-card{ padding:8px 9px; border-radius:12px }
       .asset-mobile-head{ gap:5px }
       .asset-mobile-top{ gap:8px }
-      .asset-mobile-name{ font-size:20px; line-height:1.12 }
+      .asset-mobile-name{ font-size:13px; line-height:1.2 }
       .asset-mobile-sub{ font-size:11px }
-      .asset-mobile-value{ font-size:15px }
+      .asset-mobile-value{ font-size:13px }
       .asset-mobile-meta{ gap:6px }
       .asset-mobile-pct{ font-size:13px }
       .asset-mobile-toggle{ padding:4px 9px; font-size:9px }
@@ -818,11 +832,52 @@
       }
       .footer-brand{ grid-column:1; grid-row:1; justify-self:start }
       .footer-links{ grid-column:2; grid-row:1; justify-content:flex-end }
+      .footer-label{ white-space:nowrap }
       .footer-copy{
         grid-column:1 / -1;
         grid-row:2;
         justify-self:center;
         text-align:center;
+      }
+    }
+    @media (max-width:380px){
+      .site-footer-inner{
+        padding:10px 12px;
+        gap:8px;
+      }
+      .footer-wordmark-img{ width:132px; max-width:40vw }
+      .footer-links{ gap:8px }
+      .footer-label{ display:none }
+      .footer-icon{
+        width:32px;
+        height:32px;
+      }
+      .footer-icon svg{
+        width:15px;
+        height:15px;
+      }
+      .chart-zoom-btn[data-zoom-reset]{ display:none }
+      .chart-zoom-readout{ min-width:42px }
+    }
+    @media (max-width:430px){
+      .site-footer-inner{
+        grid-template-columns:minmax(0,1fr);
+        gap:8px;
+      }
+      .footer-brand{
+        grid-column:1;
+        grid-row:1;
+        justify-self:center;
+      }
+      .footer-links{
+        grid-column:1;
+        grid-row:2;
+        justify-content:center;
+      }
+      .footer-label{ display:none }
+      .footer-copy{
+        grid-column:1;
+        grid-row:3;
       }
     }
     @media (max-width:1100px){
@@ -836,6 +891,18 @@
         transform:translateX(36px);
       }
       .treasury-photo-overlay .treasury-stat-actions{ justify-content:center }
+    }
+    @media (min-width:720px) and (max-width:1100px){
+      .portfolio-layout{
+        grid-template-columns:minmax(300px,.72fr) minmax(0,1.28fr);
+      }
+      .asset-table{
+        min-width:760px;
+        table-layout:auto;
+      }
+      .asset-table th,.asset-table td{
+        white-space:nowrap;
+      }
     }
   </style>
 </head>
@@ -1896,7 +1963,11 @@
     function formatEventDate(value) {
       const ms = parseDateMs(value);
       if (!Number.isFinite(ms)) return String(value || '-');
-      return new Date(ms).toLocaleDateString('en-GB', { timeZone: 'UTC' });
+      const d = new Date(ms);
+      const dd = String(d.getUTCDate()).padStart(2, '0');
+      const mm = String(d.getUTCMonth() + 1).padStart(2, '0');
+      const yy = String(d.getUTCFullYear()).slice(-2);
+      return `${dd}/${mm}/${yy}`;
     }
 
     function chartUrl(oid) {
@@ -1998,6 +2069,29 @@
       const compact = Math.abs(num) >= 1000 ? num.toLocaleString('en-US', { maximumFractionDigits: 0 }) : num.toLocaleString('en-US', { maximumFractionDigits: 2 });
       return unit === '$' ? `$${compact}` : compact;
     }
+    function chartAxisValue(value, unit = '$', compact = false) {
+      if (!compact) return chartValue(value, unit);
+      if (!Number.isFinite(Number(value))) return '-';
+      const num = Number(value);
+      const abs = Math.abs(num);
+      let scaled = abs;
+      let suffix = '';
+      if (abs >= 1e9) {
+        scaled = abs / 1e9;
+        suffix = 'B';
+      } else if (abs >= 1e6) {
+        scaled = abs / 1e6;
+        suffix = 'M';
+      } else if (abs >= 1e3) {
+        scaled = abs / 1e3;
+        suffix = 'k';
+      }
+      if (!suffix) return chartValue(num, unit);
+      const decimals = scaled >= 100 ? 0 : (scaled >= 10 ? 1 : 2);
+      const text = `${scaled.toLocaleString('en-US', { maximumFractionDigits: decimals })}${suffix}`;
+      const sign = num < 0 ? '-' : '';
+      return unit === '$' ? `${sign}$${text}` : `${sign}${text}`;
+    }
 
     function ensureHistoryLegend(canvas, config, data) {
       const host = canvas.closest('.nft-chart-plot') || canvas.closest('.chart-local');
@@ -2012,7 +2106,7 @@
         const color = config.colors[index % config.colors.length];
         return `<span class="chart-legend-item"><span class="chart-legend-line" style="border-top-color:${color}"></span>${escapeHtml(label)}</span>`;
       });
-      lineItems.push('<span class="chart-legend-item"><span class="chart-legend-line chart-legend-line--dashed"></span>Launch of Torrino Dao projects</span>');
+      lineItems.push('<span class="chart-legend-item"><span class="chart-legend-line chart-legend-line--dashed"></span>Launch of Torrino DAO projects</span>');
       legend.innerHTML = lineItems.join('');
     }
 
@@ -2222,7 +2316,8 @@
       const parent = canvas.parentElement;
       const rect = parent.getBoundingClientRect();
       const dpr = window.devicePixelRatio || 1;
-      const width = Math.max(320, Math.floor(rect.width));
+      const isMobileViewport = window.matchMedia('(max-width: 760px)').matches;
+      const width = Math.max(isMobileViewport ? 1 : 320, Math.floor(rect.width));
       const height = Math.max(250, Math.floor(rect.height));
       canvas.width = Math.floor(width * dpr);
       canvas.height = Math.floor(height * dpr);
@@ -2233,14 +2328,20 @@
       ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
       ctx.clearRect(0, 0, width, height);
 
+      const isSmallChart = width < 560;
+      const isMobileChart = isMobileViewport && isSmallChart;
       const pad = {
         top: 18,
-        right: width < 560 ? 14 : 24,
-        bottom: width < 560 ? 54 : 42,
-        left: width < 560 ? 50 : 68,
+        right: isMobileChart ? 8 : (isSmallChart ? 14 : 24),
+        bottom: isSmallChart ? 54 : 42,
+        left: isMobileChart ? 36 : (isSmallChart ? 50 : 68),
       };
-      const plotW = width - pad.left - pad.right;
-      const plotH = height - pad.top - pad.bottom;
+      const uiScale = isMobileChart ? Math.max(0.76, Math.min(1, width / 420)) : 1;
+      const axisFontSize = Math.max(9, Math.round(11 * uiScale));
+      const eventFontSize = Math.max(9, Math.round(11 * uiScale));
+      const eventDotRadius = Math.max(2.2, 3 * uiScale);
+      const eventLabelGap = Math.max(5, Math.round(8 * uiScale));
+      const eventHotspotHeight = Math.max(12, Math.round(14 * uiScale));
       const totalPoints = data.points.length;
       const safeState = clampHistoryView(state, totalPoints);
       const visiblePoints = data.points.slice(safeState.start, safeState.end + 1);
@@ -2249,6 +2350,18 @@
       const minValue = Math.min(0, Math.min(...values));
       const topValue = maxValue * 1.08;
       const range = topValue - minValue || 1;
+      ctx.font = `${axisFontSize}px JetBrains Mono, monospace`;
+      const gridCount = isMobileChart ? 4 : 5;
+      let maxYLabelWidth = 0;
+      for (let i = 0; i <= gridCount; i += 1) {
+        const value = minValue + range * (gridCount - i) / gridCount;
+        const label = chartAxisValue(value, config.unit, isMobileChart);
+        maxYLabelWidth = Math.max(maxYLabelWidth, ctx.measureText(label).width);
+      }
+      const axisLeftGap = isMobileChart ? 8 : Math.round(12 * uiScale);
+      pad.left = Math.max(pad.left, Math.ceil(maxYLabelWidth) + axisLeftGap);
+      const plotW = width - pad.left - pad.right;
+      const plotH = height - pad.top - pad.bottom;
       const xFor = (index) => pad.left + (visiblePoints.length <= 1 ? 0 : index / (visiblePoints.length - 1) * plotW);
       const yFor = (value) => pad.top + (topValue - value) / range * plotH;
       const xForDateMs = (dateMs) => {
@@ -2273,10 +2386,9 @@
       ctx.lineWidth = 1;
       ctx.strokeStyle = 'rgba(8,32,49,.12)';
       ctx.fillStyle = 'rgba(8,32,49,.72)';
-      ctx.font = '11px JetBrains Mono, monospace';
+      ctx.font = `${axisFontSize}px JetBrains Mono, monospace`;
       ctx.textAlign = 'right';
       ctx.textBaseline = 'middle';
-      const gridCount = 5;
       for (let i = 0; i <= gridCount; i += 1) {
         const value = minValue + range * (gridCount - i) / gridCount;
         const y = pad.top + plotH * i / gridCount;
@@ -2284,20 +2396,21 @@
         ctx.moveTo(pad.left, y);
         ctx.lineTo(width - pad.right, y);
         ctx.stroke();
-        ctx.fillText(chartValue(value, config.unit), pad.left - 8, y);
+        ctx.fillText(chartAxisValue(value, config.unit, isMobileChart), pad.left - 8, y);
       }
 
-      const tickCount = width < 560 ? 4 : 7;
+      const tickCount = isMobileChart ? (width < 400 ? 3 : 4) : (isSmallChart ? 4 : 7);
       ctx.textAlign = 'center';
       ctx.textBaseline = 'top';
       ctx.fillStyle = 'rgba(8,32,49,.58)';
+      ctx.font = `${axisFontSize}px JetBrains Mono, monospace`;
       for (let i = 0; i < tickCount; i += 1) {
         const index = Math.round(i * (visiblePoints.length - 1) / Math.max(1, tickCount - 1));
         const x = xFor(index);
-        const label = visiblePoints[index]?.date || '';
+        const label = formatEventDate(visiblePoints[index]?.date);
         ctx.save();
         ctx.translate(x, height - pad.bottom + 12);
-        if (width < 560) ctx.rotate(-Math.PI / 6);
+        if (isSmallChart) ctx.rotate(-Math.PI / 6);
         ctx.fillText(label, 0, 0);
         ctx.restore();
       }
@@ -2332,12 +2445,14 @@
 
       const events = chartEventsForKey(config.key);
       const eventHotspots = [];
+      let lastMobileLabelRight = -Infinity;
       events.forEach((event) => {
         const dateMs = parseDateMs(event.date);
         const x = xForDateMs(dateMs);
         if (!Number.isFinite(x)) return;
         const color = event.color || '#f6de8d';
-        const labelOffsetY = (event.label === '$BUMPER' || event.label === '$PUNCHY') ? 20 : 0;
+        const baseOffsetY = event.label === '$PUNCHY' ? 36 : (event.label === '$BUMPER' ? 20 : 0);
+        const labelOffsetY = isMobileChart ? Math.round(baseOffsetY * uiScale) : baseOffsetY;
         const labelY = pad.top + 2 + labelOffsetY;
         const dotY = pad.top + 8 + labelOffsetY;
         ctx.save();
@@ -2350,34 +2465,43 @@
         ctx.lineTo(x, height - pad.bottom);
         ctx.stroke();
         ctx.setLineDash([]);
-        ctx.font = '800 11px JetBrains Mono, monospace';
+        ctx.font = `800 ${eventFontSize}px JetBrains Mono, monospace`;
         ctx.fillStyle = color;
         ctx.beginPath();
-        ctx.arc(x, dotY, 3, 0, Math.PI * 2);
+        ctx.arc(x, dotY, eventDotRadius, 0, Math.PI * 2);
         ctx.fill();
         ctx.textAlign = 'left';
         ctx.textBaseline = 'top';
         const labelText = event.label || '';
         const labelWidth = Math.max(16, ctx.measureText(labelText).width);
-        const rightLabelX = x + 8;
-        const leftLabelX = x - 8 - labelWidth;
+        const rightLabelX = x + eventLabelGap;
+        const leftLabelX = x - eventLabelGap - labelWidth;
         const maxX = width - pad.right - labelWidth;
         const minX = pad.left + 4;
         let labelX = rightLabelX > maxX ? Math.max(minX, leftLabelX) : Math.max(minX, rightLabelX);
         if (event.side === 'left') labelX = Math.max(minX, leftLabelX);
+        let showLabel = true;
+        if (isMobileChart) {
+          const minLabelGap = Math.max(14, Math.round(24 * uiScale));
+          if (labelX <= lastMobileLabelRight + minLabelGap) {
+            showLabel = false;
+          } else {
+            lastMobileLabelRight = labelX + labelWidth;
+          }
+        }
         eventHotspots.push({
           x,
           y1: pad.top,
           y2: height - pad.bottom,
-          labelX,
+          labelX: showLabel ? labelX : x,
           labelY,
-          labelW: labelWidth,
-          labelH: 14,
+          labelW: showLabel ? labelWidth : 0,
+          labelH: showLabel ? eventHotspotHeight : 0,
           title: event.title || `Lunch ${labelText}`,
           label: labelText,
           date: event.date,
         });
-        ctx.fillText(labelText, labelX, labelY);
+        if (showLabel) ctx.fillText(labelText, labelX, labelY);
         ctx.restore();
       });
 
@@ -2394,7 +2518,7 @@
       const pointsX = visiblePoints.map((_, index) => xFor(index));
       const showPointTip = (nearestIndex) => {
         const point = visiblePoints[nearestIndex];
-        tip.innerHTML = `<b>${escapeHtml(point.date)}</b>${point.values.map((value, index) => {
+        tip.innerHTML = `<b>${escapeHtml(formatEventDate(point.date))}</b>${point.values.map((value, index) => {
           const label = escapeHtml(data.labels[index] || 'Value');
           const color = config.colors[index % config.colors.length];
           return `<div class="chart-tip-line"><span class="chart-tip-dot" style="background:${color}"></span><span class="chart-tip-label" style="color:${color}">${label}:</span> <span>${chartValue(value, config.unit)}</span></div>`;
