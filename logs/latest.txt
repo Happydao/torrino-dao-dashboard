@@ -1,5 +1,5 @@
 === Update Treasury Data ===
-Started at: 2026-05-16T06:13:11Z
+Started at: 2026-05-17T06:37:54Z
 
 ----- totalvalue.js -----
 ▶️ Running token.js...
@@ -23,19 +23,20 @@ Started at: 2026-05-16T06:13:11Z
 
 🔁 Fallback to DeFiLlama for 39 tokens without price…
 
-   ↳ DeFiLlama: [REDACTED] → 0.000006376084237935578 USD
-   ↳ DeFiLlama: [REDACTED] → 0.013431013389721302 USD
-   ↳ DeFiLlama: [REDACTED] → 0.005809515108157155 USD
+   ↳ DeFiLlama: [REDACTED] → 0.012919656113678237 USD
 
-   ↳ DeFiLlama: [REDACTED] → 79210.72096813965 USD
-   ↳ DeFiLlama: [REDACTED] → 0.013106325952358088 USD
-   ↳ DeFiLlama: [REDACTED] → 88.43331423447997 USD
-   ↳ DeFiLlama: [REDACTED] → 0.0005758033271215328 USD
-   ↳ DeFiLlama: [REDACTED] → 0.04590418054719023 USD
-   ↳ DeFiLlama: [REDACTED] → 0.13833470893641098 USD
+   ↳ DeFiLlama: [REDACTED] → 0.014004741029867259 USD
+   ↳ DeFiLlama: [REDACTED] → 0.0000060416484801145125 USD
+   ↳ DeFiLlama: [REDACTED] → 0.04475475382853239 USD
+   ↳ DeFiLlama: [REDACTED] → 0.005700770866285599 USD
+   ↳ DeFiLlama: [REDACTED] → 78089.61946849966 USD
 
+   ↳ DeFiLlama: [REDACTED] → 86.77013243943135 USD
+   ↳ DeFiLlama: [REDACTED] → 0.1348268626187799 USD
+   ↳ DeFiLlama: [REDACTED] → 0.0005670706384093188 USD
 
 ⚠️ No price available for Bonk Drop #5 (BK) [[REDACTED]]
+
 ⚠️ No price available for Melea Initiative (MLDAO) [[REDACTED]]
 ⚠️ No price available for memevipz.com 🎁 Airdrop (MEMEDROP) [[REDACTED]]
 ⚠️ No price available for Pyth Network (PYTH) [[REDACTED]]
@@ -44,9 +45,9 @@ Started at: 2026-05-16T06:13:11Z
 ✅ Bella Bumper Play 2 Earn (PISTA) [[REDACTED]]
 
    Amount: 42,500,000
-   Price: 0.002053 USD
+   Price: 0.001993 USD
 
-   Total: 87259.14 USD
+   Total: 84691.50 USD
 
 ⚠️ No price available for Moon Dump (DUMP) [[REDACTED]]
 ✅ Punchy Puff (PUNCHY) [[REDACTED]]
@@ -57,29 +58,32 @@ Started at: 2026-05-16T06:13:11Z
 
 ⚠️ No price available for ITALIA (ITA) [[REDACTED]]
 ✅ WIMDY 2.0 (WIMDY 2.0) [[REDACTED]]
+
    Amount: 1,300,000
+
    Price: 0.000000 USD
    Total: 0.07 USD
 
 ⚠️ No price available for Bonklet (BNKLT) [[REDACTED]]
-
 ⚠️ No price available for SpecterX (X) [[REDACTED]]
-✅ Nummus Aeternitas (NUMMUS) [[REDACTED]]
 
+✅ Nummus Aeternitas (NUMMUS) [[REDACTED]]
    Amount: 669,190.021629
-   Price: 0.007962 USD
-   Total: 5328.24 USD
+   Price: 0.008045 USD
+   Total: 5383.41 USD
 
 ⚠️ No price available for Fock it. (Fock it.) [[REDACTED]]
 ⚠️ No price available for Moon Pump (MOONPUMP) [[REDACTED]]
-⚠️ No price available for AIFANS (AADK) [[REDACTED]]
 
-💵 Stablecoin USDY: 145127.66 USD
+⚠️ No price available for AIFANS (AADK) [[REDACTED]]
+💵 Stablecoin USDY: 145116.29 USD
+
 ✅ Ondo US Dollar Yield (USDY) [[REDACTED]]
 
    Amount: 128,153.246163
-   Price: 1.132454 USD
-   Total: 145127.66 USD
+   Price: 1.132365 USD
+   Total: 145116.29 USD
+
 
 ✅ STEAK (STEAK) [[REDACTED]]
 
@@ -92,27 +96,26 @@ Started at: 2026-05-16T06:13:11Z
 ✅ SynesisOne (SNS) [[REDACTED]]
 
    Amount: 77,779.580537
-   Price: 0.000060 USD
-   Total: 4.69 USD
+   Price: 0.000059 USD
+   Total: 4.59 USD
 
 ✅ Threshold Network Tok (Wormhole) (T) [[REDACTED]]
-
    Amount: 29,151.444673
 
-   Price: 0.005810 USD
-   Total: 169.36 USD
+   Price: 0.005701 USD
+   Total: 166.19 USD
 
 ✅ Jupiter (JUP) [[REDACTED]]
-
    Amount: 27,013.923334
-   Price: 0.207410 USD
+   Price: 0.199867 USD
+   Total: 5399.20 USD
 
-   Total: 5602.96 USD
 
 ✅ Kamino (KMNO) [[REDACTED]]
    Amount: 17,623.716087
-   Price: 0.020617 USD
-   Total: 363.36 USD
+
+   Price: 0.020099 USD
+   Total: 354.22 USD
 
 ✅ Yes Token (YES) [[REDACTED]]
 
@@ -121,199 +124,197 @@ Started at: 2026-05-16T06:13:11Z
    Total: 0.12 USD
 
 ⚠️ No price available for GadZilla (GADZILLA) [[REDACTED]]
+
 ✅ Only1 (LIKE) (LIKE) [[REDACTED]]
 
    Amount: 7,456.12885
-   Price: 0.001307 USD
-   Total: 9.74 USD
+   Price: 0.001302 USD
+   Total: 9.71 USD
 
 ✅ Pudgy Penguins (PENGU) [[REDACTED]]
 
    Amount: 3,490.000266
-   Price: 0.008656 USD
-   Total: 30.21 USD
 
+   Price: 0.008456 USD
+   Total: 29.51 USD
 
 ✅ Lorm The Worm (L) [[REDACTED]]
 
    Amount: 3,188.7
-   Price: 0.000008 USD
-   Total: 0.03 USD
+   Price: 0.000007 USD
+   Total: 0.02 USD
 
 
-💵 Stablecoin USDC: 1517.99 USD
+💵 Stablecoin USDC: 1518.01 USD
 ✅ USD Coin (USDC) [[REDACTED]]
 
    Amount: 1,518.303167
-   Price: 0.999791 USD
-   Total: 1517.99 USD
-
+   Price: 0.999806 USD
+   Total: 1518.01 USD
 
 ⚠️ No price available for orcawall.com (+700 ORСА) (ORCA) [[REDACTED]]
+
 ⚠️ No price available for Porn (PORN) [[REDACTED]]
 ✅ Jito Staked SOL (JitoSOL) [[REDACTED]]
 
    Amount: 467.814865
+   Price: 111.040684 USD
+   Total: 51946.48 USD
 
-   Price: 113.013797 USD
-   Total: 52869.53 USD
 
 ✅ Buttercat (BUTT) [[REDACTED]]
-
    Amount: 300
    Price: 0.000008 USD
    Total: 0.00 USD
 
-
 ✅ Zcash (ZEC) [[REDACTED]]
 
    Amount: 30.545964
-   Price: 501.546458 USD
-   Total: 15320.22 USD
 
+   Price: 515.851721 USD
+   Total: 15757.19 USD
 
 ⚠️ No price available for jupfinally.com 🎁 Airdrop (JUPDROP) [[REDACTED]]
 ✅ SolCex  (SOLCEX) [[REDACTED]]
+
    Amount: 24.4434
-   Price: 0.001851 USD
-   Total: 0.05 USD
+   Price: 0.001782 USD
+   Total: 0.04 USD
 
 
 ✅ Lamas Finance (LMF) [[REDACTED]]
 
    Amount: 13
-   Price: 0.002322 USD
+   Price: 0.002269 USD
    Total: 0.03 USD
 
-⚠️ No price available for Cane Rangers [[REDACTED]]
-⚠️ No price available for Pirith Horrors [[REDACTED]]
+⚠️ No price available for Ruffians [[REDACTED]]
+
 ⚠️ No price available for Simermites [[REDACTED]]
 ⚠️ No price available for Altari Infantry [[REDACTED]]
-
-⚠️ No price available for Flamethrowers [[REDACTED]]
-
-⚠️ No price available for Ruffians [[REDACTED]]
 ⚠️ No price available for Cannon Fodder [[REDACTED]]
+
+⚠️ No price available for Pirith Horrors [[REDACTED]]
+
 ⚠️ No price available for Luminara [[REDACTED]]
-⚠️ No price available for Jupiter (JUP) [[REDACTED]]
+⚠️ No price available for Flamethrowers [[REDACTED]]
+⚠️ No price available for Cane Rangers [[REDACTED]]
 ⚠️ No price available for $JUPITER DROP ($JUP) [[REDACTED]]
 
 ✅ Solmedia (MEDIA) [[REDACTED]]
 
    Amount: 10
-   Price: 0.000117 USD
+   Price: 0.000113 USD
    Total: 0.00 USD
 
+⚠️ No price available for Jupiter (JUP) [[REDACTED]]
 
 ✅ Roog (ROOG) [[REDACTED]]
 
    Amount: 5
-   Price: 0.000616 USD
+   Price: 0.000611 USD
    Total: 0.00 USD
-
 
 ⚠️ No price available for Dragon Breath (GDB) [[REDACTED]]
 ⚠️ No price available for RUSH (RUSH) [[REDACTED]]
+
 ✅ Pyth Network (PYTH) [[REDACTED]]
 
    Amount: 0.893082
-
-   Price: 0.045904 USD
+   Price: 0.044755 USD
    Total: 0.04 USD
 
 ✅ Parcl (PRCL) [[REDACTED]]
 
    Amount: 0.758439
-   Price: 0.013431 USD
+   Price: 0.014005 USD
 
    Total: 0.01 USD
 
 ✅ cat in a dogs world (MEW) [[REDACTED]]
 
    Amount: 0.69285
-   Price: 0.000576 USD
+   Price: 0.000567 USD
 
    Total: 0.00 USD
 
 ✅ tBTC v2 (tBTC) [[REDACTED]]
 
    Amount: 0.500786
-   Price: 79210.720968 USD
 
-   Total: 39667.61 USD
+   Price: 78089.619468 USD
+   Total: 39106.18 USD
 
 ✅ IO (IO) [[REDACTED]]
 
    Amount: 0.468574
-   Price: 0.138335 USD
-
+   Price: 0.134827 USD
    Total: 0.06 USD
 
-✅ Wen (WEN) [[REDACTED]]
 
+✅ Wen (WEN) [[REDACTED]]
    Amount: 0.08034
    Price: 0.000006 USD
    Total: 0.00 USD
 
-
 ✅ Wormhole Token (W) [[REDACTED]]
 
    Amount: 0.00317
-   Price: 0.013106 USD
+   Price: 0.012920 USD
    Total: 0.00 USD
 
+
 ✅ SOL (native)
+
    Amount: 116.393217
-   Price: 88.433314 USD
-   Total: 10293.04 USD
+   Price: 86.770132 USD
+   Total: 10099.45 USD
 
 
 📋 TOKEN VALUE SUMMARY:
 
-[REDACTED] - Bella Bumper Play 2 Earn (PISTA) - 87259.14 USD
+[REDACTED] - Bella Bumper Play 2 Earn (PISTA) - 84691.50 USD
 [REDACTED] - Punchy Puff (PUNCHY) - 543.70 USD
 
 [REDACTED] - WIMDY 2.0 (WIMDY 2.0) - 0.07 USD
-[REDACTED] - Nummus Aeternitas (NUMMUS) - 5328.24 USD
-[REDACTED] - Ondo US Dollar Yield (USDY) - 145127.66 USD
+[REDACTED] - Nummus Aeternitas (NUMMUS) - 5383.41 USD
+[REDACTED] - Ondo US Dollar Yield (USDY) - 145116.29 USD
 [REDACTED] - STEAK (STEAK) - 0.03 USD
-[REDACTED] - SynesisOne (SNS) - 4.69 USD
-[REDACTED] - Threshold Network Tok (Wormhole) (T) - 169.36 USD
-
-[REDACTED] - Jupiter (JUP) - 5602.96 USD
-[REDACTED] - Kamino (KMNO) - 363.36 USD
+[REDACTED] - SynesisOne (SNS) - 4.59 USD
+[REDACTED] - Threshold Network Tok (Wormhole) (T) - 166.19 USD
+[REDACTED] - Jupiter (JUP) - 5399.20 USD
+[REDACTED] - Kamino (KMNO) - 354.22 USD
 [REDACTED] - Yes Token (YES) - 0.12 USD
-[REDACTED] - Only1 (LIKE) (LIKE) - 9.74 USD
-[REDACTED] - Pudgy Penguins (PENGU) - 30.21 USD
-[REDACTED] - Lorm The Worm (L) - 0.03 USD
-
-[REDACTED] - USD Coin (USDC) - 1517.99 USD
-[REDACTED] - Jito Staked SOL (JitoSOL) - 52869.53 USD
+[REDACTED] - Only1 (LIKE) (LIKE) - 9.71 USD
+[REDACTED] - Pudgy Penguins (PENGU) - 29.51 USD
+[REDACTED] - Lorm The Worm (L) - 0.02 USD
+[REDACTED] - USD Coin (USDC) - 1518.01 USD
+[REDACTED] - Jito Staked SOL (JitoSOL) - 51946.48 USD
 [REDACTED] - Buttercat (BUTT) - 0.00 USD
-[REDACTED] - Zcash (ZEC) - 15320.22 USD
-[REDACTED] - SolCex  (SOLCEX) - 0.05 USD
+[REDACTED] - Zcash (ZEC) - 15757.19 USD
+[REDACTED] - SolCex  (SOLCEX) - 0.04 USD
 [REDACTED] - Lamas Finance (LMF) - 0.03 USD
 [REDACTED] - Solmedia (MEDIA) - 0.00 USD
 [REDACTED] - Roog (ROOG) - 0.00 USD
 [REDACTED] - Pyth Network (PYTH) - 0.04 USD
 [REDACTED] - Parcl (PRCL) - 0.01 USD
 [REDACTED] - cat in a dogs world (MEW) - 0.00 USD
-[REDACTED] - tBTC v2 (tBTC) - 39667.61 USD
+[REDACTED] - tBTC v2 (tBTC) - 39106.18 USD
 [REDACTED] - IO (IO) - 0.06 USD
 [REDACTED] - Wen (WEN) - 0.00 USD
 [REDACTED] - Wormhole Token (W) - 0.00 USD
-SOL - Solana (SOL) - 10293.04 USD
+SOL - Solana (SOL) - 10099.45 USD
 
-💰 TOTAL TREASURY VALUE: 364107.88 USD
-💵 TOTAL STABLECOIN VALUE: 146645.65 USD
+💰 TOTAL TREASURY VALUE: 360126.05 USD
+💵 TOTAL STABLECOIN VALUE: 146634.30 USD
 
 ✅ Detailed token data saved to data/tokens.json
 
 
-{"totaltokenvalue":364107.87859731173,"totalstablevalue":146645.64872576573}
+{"totaltokenvalue":360126.04837899964,"totalstablevalue":146634.29570907672}
 
-✅ Total value token.js: $364107.88 USD
-💵 Stablecoin value: $146645.65 USD
+✅ Total value token.js: $360126.05 USD
+💵 Stablecoin value: $146634.30 USD
 ▶️ Running staking.js...
 🔄 Fetching stake accounts from Helius...
 
@@ -321,75 +322,77 @@ SOL - Solana (SOL) - 10293.04 USD
 
 🔹 Stake Account: [REDACTED]
    Staked amount: 214.0024 SOL
-   USD value: $18907.30
+   USD value: $18597.60
    Delegated to: [REDACTED]
+
 
 🔹 Stake Account: [REDACTED]
    Staked amount: 2.7039 SOL
 
-   USD value: $238.89
+   USD value: $234.98
+
    Delegated to: [REDACTED]
 
 
 ✅ Detailed staking data saved to data/staking.json
 
-💰 Total staked value: $19146.18 USD
-{"totalStakedValue":19146.18446522402}
+💰 Total staked value: $18832.58 USD
+{"totalStakedValue":18832.576944666656}
+
 
 🔹 Staking process completed!
 
-✅ Total value staking.js: $19146.18 USD
+✅ Total value staking.js: $18832.58 USD
 ▶️ Running nft.js...
 🔄 Fetching NFTs from wallet via Helius...
 
 📜 Fetching page 1...
 
 🚫 Ignored scam: Snozzberries ([REDACTED])
-
 🚫 Ignored scam: Bоnkеr #2183 ([REDACTED])
+
 🚫 Ignored scam: Claim You BOME ([REDACTED])
 🚫 Ignored scam: Player1Taco at ETHdenver2024 ([REDACTED])
 🚫 Ignored scam: A Воnker #962 ([REDACTED])
 🚫 Ignored scam: AB Open #01 ([REDACTED])
-
 🚫 Ignored scam: 1800$ Lucky Ticket TAKESAGA.com ([REDACTED])
 🚫 Ignored scam: FOMO 0% HOUSE EDGE GAMES ([REDACTED])
 ✅ Valid NFT found: JupReward #612 ([REDACTED])
 
 🚫 Ignored scam: JUP Third round Drop ([REDACTED])
+
 🚫 Ignored scam: Claynosaurz Loot Box ([REDACTED])
 🚫 Ignored scam: Truck Coin Swap ([REDACTED])
-
 🚫 Ignored scam: Slеrf #303 ([REDACTED])
 🚫 Ignored scam: Slеrf #1187 ([REDACTED])
-
 🚫 Ignored scam: RAYD.PROMO Pass ([REDACTED])
+
 🚫 Ignored scam: JP Open #009 ([REDACTED])
+
 🚫 Ignored scam: AB Early #001 ([REDACTED])
 🚫 Ignored scam: A WОLF #1133 ([REDACTED])
 🚫 Ignored scam: Sharky Loot Box ([REDACTED])
-
 🚫 Ignored scam: BOX#{numbers} ([REDACTED])
 ✅ Valid NFT found: y00t #814 ([REDACTED])
+
 🚫 Ignored scam: SAGA.PROMO AIRDROP by Saga ([REDACTED])
 🚫 Ignored scam: For You 6000Jup ([REDACTED])
 🚫 Ignored scam: Daddy ([REDACTED])
 🚫 Ignored scam: SAGA.PROMO PASS ([REDACTED])
-
 🚫 Ignored scam: TENSOR.MARKETS PASS ([REDACTED])
 🚫 Ignored scam: Daddy ([REDACTED])
 🚫 Ignored scam: p.HarrisDesigns - The Journey ([REDACTED])
 🚫 Ignored scam: Primes Airdrop Box ([REDACTED])
+
 ✅ Valid NFT found: $GIFT #1312 ([REDACTED])
 🚫 Ignored scam: AB Early #01 ([REDACTED])
-
 🚫 Ignored scam: By raydium.pro ([REDACTED])
 ✅ Valid NFT found: JupPass #311 ([REDACTED])
 ✅ Valid NFT found: $GIFT #1051 ([REDACTED])
-
 🚫 Ignored scam: Daddy ([REDACTED])
 🚫 Ignored scam: Bоnkеr #1391 ([REDACTED])
 🚫 Ignored scam: A WОLF #1671 ([REDACTED])
+
 🚫 Ignored scam: Famous Fox Federation Loot Box ([REDACTED])
 🚫 Ignored scam: Daddy ([REDACTED])
 🚫 Ignored scam: Outstanding crate #271 ([REDACTED])
@@ -397,6 +400,7 @@ SOL - Solana (SOL) - 10293.04 USD
 🚫 Ignored scam: Limited Drop ([REDACTED])
 🚫 Ignored scam: BOX#{numbers} ([REDACTED])
 ✅ Valid NFT found: Okay Bear #3817 ([REDACTED])
+
 🚫 Ignored scam: Bоnkеr #45 ([REDACTED])
 🚫 Ignored scam: SAGABOX.io Community Drop ([REDACTED])
 🚫 Ignored scam: Famous Fox Federation Loot Box ([REDACTED])
@@ -404,6 +408,7 @@ SOL - Solana (SOL) - 10293.04 USD
 🚫 Ignored scam: Okay Bears Loot Box ([REDACTED])
 ✅ Valid NFT found: Permit #152 ([REDACTED])
 🚫 Ignored scam: claim $ai16z ([REDACTED])
+
 🚫 Ignored scam: Slеrf #698 ([REDACTED])
 🚫 Ignored scam: Okay Bears Loot Box ([REDACTED])
 🚫 Ignored scam: A WОLF #2891 ([REDACTED])
@@ -413,11 +418,9 @@ SOL - Solana (SOL) - 10293.04 USD
 🚫 Ignored scam: Limited Drop ([REDACTED])
 
 🚫 Ignored scam: Sаnctum #1441 ([REDACTED])
-
 🚫 Ignored scam: MFI.EXPERT WhiteList ([REDACTED])
 🚫 Ignored scam: Limited Drop ([REDACTED])
 🚫 Ignored scam: Outstanding crate #627 ([REDACTED])
-
 🚫 Ignored scam: Clоuds #2788 ([REDACTED])
 🚫 Ignored scam: CircleOnSol.com ([REDACTED])
 🚫 Ignored scam: Claim your WIF ([REDACTED])
@@ -425,7 +428,6 @@ SOL - Solana (SOL) - 10293.04 USD
 
 ✅ Valid NFT found: $GIFT #1312 ([REDACTED])
 🚫 Ignored scam: SAGA.PROMO PASS ([REDACTED])
-
 🚫 Ignored scam: Slеrf #822 ([REDACTED])
 🚫 Ignored scam: RAYD.PROMO Pass ([REDACTED])
 🚫 Ignored scam: Daddy ([REDACTED])
@@ -434,7 +436,6 @@ SOL - Solana (SOL) - 10293.04 USD
 🚫 Ignored scam: AWOLF ([REDACTED])
 🚫 Ignored scam: A WOLFS #1883 ([REDACTED])
 🚫 Ignored scam: BOX#{numbers} ([REDACTED])
-
 🚫 Ignored scam: Sаnctum #74 ([REDACTED])
 🚫 Ignored scam: AB Open #01 ([REDACTED])
 🚫 Ignored scam: Daddy ([REDACTED])
@@ -443,12 +444,11 @@ SOL - Solana (SOL) - 10293.04 USD
 🚫 Ignored scam: Slеrf #926 ([REDACTED])
 🚫 Ignored scam: Clоuds #1195 ([REDACTED])
 🚫 Ignored scam: Clоud #2027 ([REDACTED])
-
 🚫 Ignored scam: Claim You BOME ([REDACTED])
 🚫 Ignored scam: GGSG Loot Box ([REDACTED])
 ✅ Valid NFT found: Valannium Ring #73 ([REDACTED])
-
 🚫 Ignored scam: MAGICEDEN.LOL REWARD ([REDACTED])
+
 🚫 Ignored scam: Daddy ([REDACTED])
 🚫 Ignored scam: claim $ai16z ([REDACTED])
 🚫 Ignored scam: A WОLF #2469 ([REDACTED])
@@ -462,8 +462,8 @@ SOL - Solana (SOL) - 10293.04 USD
 🚫 Ignored scam: WASTEBIN #69 ([REDACTED])
 🚫 Ignored scam: dVIN Digital Cork #107228 ([REDACTED])
 🚫 Ignored scam: AB Open #002 ([REDACTED])
-🚫 Ignored scam: Third round Drop ([REDACTED])
 
+🚫 Ignored scam: Third round Drop ([REDACTED])
 🚫 Ignored scam: Rare Pass ([REDACTED])
 📦 Page 1: 100 NFTs found.
 
@@ -472,10 +472,10 @@ SOL - Solana (SOL) - 10293.04 USD
 🚫 Ignored scam: SAGA.PROMO PASS ([REDACTED])
 🚫 Ignored scam: JUPPI.io Super Drop ([REDACTED])
 🚫 Ignored scam: Claim You BOME ([REDACTED])
-
 🚫 Ignored scam: Rare Pass ([REDACTED])
 🚫 Ignored scam: BOX#{numbers} ([REDACTED])
 🚫 Ignored scam: Kahiho Copper 83 ([REDACTED])
+
 ✅ Valid NFT found: Unknown ([REDACTED])
 🚫 Ignored scam: AB Early #01 ([REDACTED])
 🚫 Ignored scam: Snozzberries ([REDACTED])
@@ -491,76 +491,71 @@ SOL - Solana (SOL) - 10293.04 USD
 🚫 Ignored scam: Sаnctum #516 ([REDACTED])
 ✅ Valid NFT found: AB Early #002 ([REDACTED])
 🚫 Ignored scam: Okay Bears Loot Box ([REDACTED])
-
 🚫 Ignored scam: Sаnctum #1888 ([REDACTED])
 🚫 Ignored scam: BOX#{numbers} ([REDACTED])
 🚫 Ignored scam: Bоnkеr #2435 ([REDACTED])
+
 🚫 Ignored scam: Outstanding crate #531 ([REDACTED])
 🚫 Ignored scam: Sharky Loot Box ([REDACTED])
 🚫 Ignored scam: By sol-drift.com ([REDACTED])
-
 🚫 Ignored scam: JUP.RED PASS ([REDACTED])
 🚫 Ignored scam: Bоnkеr #320 ([REDACTED])
 ✅ Valid NFT found: $GIFT #1312 ([REDACTED])
 🚫 Ignored scam: Mad Lads Week ([REDACTED])
-
 🚫 Ignored scam: Portals | Ivory #728 ([REDACTED])
 🚫 Ignored scam: A WOLF#2203 ([REDACTED])
+
 🚫 Ignored scam: RAYD.PROMO Luxury Pass ([REDACTED])
 🚫 Ignored scam: Bоnkеr #1287 ([REDACTED])
-
 🚫 Ignored scam: BACKPACK.PICS PASS ([REDACTED])
 🚫 Ignored scam: A WОLF #1808 ([REDACTED])
 🚫 Ignored scam: Clоud #2305 ([REDACTED])
 🚫 Ignored scam: Sharky Loot Box ([REDACTED])
 🚫 Ignored scam: Clоud #1205 ([REDACTED])
-
 🚫 Ignored scam: Clоuds #817 ([REDACTED])
 🚫 Ignored scam: Slеrf #1162 ([REDACTED])
 🚫 Ignored scam: JUPS.io Token Box ([REDACTED])
 🚫 Ignored scam: A WOLF #211 ([REDACTED])
-
 🚫 Ignored scam: AB Early #001 ([REDACTED])
 🚫 Ignored scam: AB Rare #1 ([REDACTED])
+
 ✅ Valid NFT found:  GIVEAWAY #1523 ([REDACTED])
 🚫 Ignored scam: 100 SOL JUPDAO.COM ([REDACTED])
-
 🚫 Ignored scam: SAGA.PROMO PASS ([REDACTED])
 🚫 Ignored scam: FOLLOW @SlerfPFPs ([REDACTED])
 🚫 Ignored scam: Claim You BOME ([REDACTED])
-
 🚫 Ignored scam: Clоud #813 ([REDACTED])
 🚫 Ignored scam: Limited Drop ([REDACTED])
 🚫 Ignored scam: $PENGU AIRDROP ([REDACTED])
-
 🚫 Ignored scam: Drop Pass ([REDACTED])
 🚫 Ignored scam: LADS USE SOLANA.FM ([REDACTED])
 🚫 Ignored scam: Primes Airdrop Box ([REDACTED])
+
 🚫 Ignored scam: MFI.EXPERT PASS ([REDACTED])
-
 🚫 Ignored scam: 3000$ WIF Drop 3000WIF.com ([REDACTED])
-
 🚫 Ignored scam: Claim You BOME ([REDACTED])
 🚫 Ignored scam: Bоnkеr #1993 ([REDACTED])
 🚫 Ignored scam: Clоud #352 ([REDACTED])
-
 🚫 Ignored scam: 2400JUP Lucky Box JUPCASE.io ([REDACTED])
 🚫 Ignored scam: 🎁2024 Jupiter AirDrop ([REDACTED])
 🚫 Ignored scam: v.watch ([REDACTED])
 🚫 Ignored scam: Clоuds #1674 ([REDACTED])
 🚫 Ignored scam: Claim your 5000WIF ([REDACTED])
 🚫 Ignored scam: Mitya ([REDACTED])
+
 ✅ Valid NFT found: Mad Lads Inth Pool #7228 ([REDACTED])
 🚫 Ignored scam: A WOLFS #1879 ([REDACTED])
 🚫 Ignored scam: MonkeDAO Loot Box ([REDACTED])
 🚫 Ignored scam: SAGA.PROMO PASS ([REDACTED])
 🚫 Ignored scam: Slеrf #1221 ([REDACTED])
 🚫 Ignored scam: Claim You BOME ([REDACTED])
+
 🚫 Ignored scam: Slеrf #343 ([REDACTED])
 
 🚫 Ignored scam: Claim your 5000WIF ([REDACTED])
 
 🚫 Ignored scam: 1000$ BOME Drop BOMEDROP.com ([REDACTED])
+
 🚫 Ignored scam: 100SOL mnde.network ([REDACTED])
 🚫 Ignored scam: SAGA.PROMO PASS ([REDACTED])
 🚫 Ignored scam: Bоnkеr #313 ([REDACTED])
@@ -568,8 +563,8 @@ SOL - Solana (SOL) - 10293.04 USD
 🚫 Ignored scam: JUP Third round Drop ([REDACTED])
 🚫 Ignored scam: Shiny Crate ([REDACTED])
 ✅ Valid NFT found: Okay Bear #9135 ([REDACTED])
-
 🚫 Ignored scam: Famous Fox Federation Loot Box ([REDACTED])
+
 ✅ Valid NFT found: AB Early #02 ([REDACTED])
 🚫 Ignored scam: Mad Lads Loot Box ([REDACTED])
 🚫 Ignored scam: Clоud #1947 ([REDACTED])
@@ -588,7 +583,7 @@ SOL - Solana (SOL) - 10293.04 USD
 
 🔍 Processing NFT: y00t #814 ([REDACTED])
 
-📝 NFT: y00t #814 | Collection: y00ts | Floor: 1.0290 SOL
+📝 NFT: y00t #814 | Collection: y00ts | Floor: 1.0090 SOL
 
 🔍 Processing NFT: $GIFT #1312 ([REDACTED])
 
@@ -604,7 +599,7 @@ SOL - Solana (SOL) - 10293.04 USD
 
 🔍 Processing NFT: Okay Bear #3817 ([REDACTED])
 
-📝 NFT: Okay Bear #3817 | Collection: okay_bears | Floor: 1.6844 SOL
+📝 NFT: Okay Bear #3817 | Collection: okay_bears | Floor: 1.6170 SOL
 
 🔍 Processing NFT: Permit #152 ([REDACTED])
 
@@ -620,11 +615,11 @@ SOL - Solana (SOL) - 10293.04 USD
 
 🔍 Processing NFT: Valannium Ring #73 ([REDACTED])
 
-📝 NFT: Valannium Ring #73 | Collection: valannium_ring | Floor: 2.2860 SOL
+📝 NFT: Valannium Ring #73 | Collection: valannium_ring | Floor: 2.2830 SOL
 
 🔍 Processing NFT: Okay Bear #1414 ([REDACTED])
 
-📝 NFT: Okay Bear #1414 | Collection: okay_bears | Floor: 1.6833 SOL
+📝 NFT: Okay Bear #1414 | Collection: okay_bears | Floor: 1.6130 SOL
 
 🔍 Processing NFT: SACHI NFT Jackpot #402166 ([REDACTED])
 
@@ -632,7 +627,7 @@ SOL - Solana (SOL) - 10293.04 USD
 
 🔍 Processing NFT: Claynosaurz #363 ([REDACTED])
 
-📝 NFT: Claynosaurz #363 | Collection: claynosaurz | Floor: 13.6190 SOL
+📝 NFT: Claynosaurz #363 | Collection: claynosaurz | Floor: 13.6780 SOL
 
 🔍 Processing NFT: Unknown ([REDACTED])
 
@@ -660,7 +655,7 @@ SOL - Solana (SOL) - 10293.04 USD
 
 🔍 Processing NFT: Okay Bear #9135 ([REDACTED])
 
-📝 NFT: Okay Bear #9135 | Collection: okay_bears | Floor: 1.6822 SOL
+📝 NFT: Okay Bear #9135 | Collection: okay_bears | Floor: 1.6110 SOL
 
 🔍 Processing NFT: AB Early #02 ([REDACTED])
 
@@ -670,62 +665,62 @@ SOL - Solana (SOL) - 10293.04 USD
 
 💎 **Summary** 💎
 
-📊 Total value in SOL: 22.3512 SOL
-💰 Total value in USD: $1974.06
+📊 Total value in SOL: 22.1783 SOL
+💰 Total value in USD: $1927.30
 
-🔹 Value recorded in totalNFTValue: $1974.06
+🔹 Value recorded in totalNFTValue: $1927.30
 --- JSON OUTPUT START ---
-{"totalNFTValue":1974.05937133056}
+{"totalNFTValue":1927.2956350252007}
 --- JSON OUTPUT END ---
 
-✅ Total value nft.js: $1974.06 USD
+✅ Total value nft.js: $1927.30 USD
 
 📝 **Treasury Summary**:
-💰 Tokens (ex-stable): $217462.23
-💵 Stablecoins: $146645.65
-🔹 Staking: $19146.18446522402
-🎨 NFT: $1974.05937133056
-🏦 Total treasury value: $385228.12 USD
+💰 Tokens (ex-stable): $213491.75
+💵 Stablecoins: $146634.30
+🔹 Staking: $18832.576944666656
+🎨 NFT: $1927.2956350252007
+🏦 Total treasury value: $380885.92 USD
 
 --- JSON OUTPUT START ---
-{"totalTreasury":"385228.12","tokenValue":364107.87859731173,"nonStableTokenValue":"217462.23","stakingValue":19146.18446522402,"nftValue":1974.05937133056,"totalstablevalue":"146645.65"}
+{"totalTreasury":"380885.92","tokenValue":360126.04837899964,"nonStableTokenValue":"213491.75","stakingValue":18832.576944666656,"nftValue":1927.2956350252007,"totalstablevalue":"146634.30"}
 --- JSON OUTPUT END ---
 ✅ `totalvalue_output.json` saved successfully!
 
 
 ----- calculate.js -----
 ✅ Data read from totalvalue_output.json: {
-  totalTreasury: '385228.12',
-  tokenValue: 364107.87859731173,
-  nonStableTokenValue: '217462.23',
-  stakingValue: 19146.18446522402,
-  nftValue: 1974.05937133056,
-  totalstablevalue: '146645.65'
+  totalTreasury: '380885.92',
+  tokenValue: 360126.04837899964,
+  nonStableTokenValue: '213491.75',
+  stakingValue: 18832.576944666656,
+  nftValue: 1927.2956350252007,
+  totalstablevalue: '146634.30'
 }
 ✅ data/summary.json updated successfully!
 ✅ data.json updated successfully!
 📂 Updated content: {
-  "lastUpdated": "16/05/26",
-  "treasuryValue": 385228,
-  "treasuryGen1": 346705,
-  "treasuryGen2": 38523,
-  "solPrice": 88,
-  "nftGen1Value": 693,
-  "nftGen1ValueSol": "7.85",
+  "lastUpdated": "17/05/26",
+  "treasuryValue": 380886,
+  "treasuryGen1": 342797,
+  "treasuryGen2": 38089,
+  "solPrice": 87,
+  "nftGen1Value": 686,
+  "nftGen1ValueSol": "7.89",
   "nftGen2Value": 43,
   "nftGen2ValueSol": "0.49",
-  "gen1ListingPrice": 335,
-  "gen1ListingPriceSol": "3.79",
+  "gen1ListingPrice": 315,
+  "gen1ListingPriceSol": "3.62",
   "gen2ListingPrice": 18,
   "gen2ListingPriceSol": "0.20",
-  "gen1Discount": "-51.73",
+  "gen1Discount": "-54.08",
   "gen1DiscountLabel": "Discounted",
-  "gen2Discount": "-59.00",
+  "gen2Discount": "-59.20",
   "gen2DiscountLabel": "Discounted",
-  "stableValue": 146646,
+  "stableValue": 146634,
   "stablePercentage": 38
 }
 
 
-Finished at: 2026-05-16T06:15:41Z
+Finished at: 2026-05-17T06:40:22Z
 Status: true
