@@ -183,40 +183,43 @@ async function fetchSolanaLabsTokenlistMap() {
   }
 }
 
-// Helius token metadata (fallback batch)
+// Helius DAS token metadata (fallback batch)
 async function fetchHeliusTokenMetaMap(mints = []) {
   const map = new Map();
   if (!mints.length) return map;
 
-  const CHUNK_SIZE = 200;
+  const CHUNK_SIZE = 1000;
   const chunks = chunk(mints, CHUNK_SIZE);
   for (const c of chunks) {
     try {
-      const url = `https://api.helius.xyz/v0/token-metadata?api-key=${HELIUS_API_KEY}`;
-      const body = { mintAccounts: c };
+      const url = `https://mainnet.helius-rpc.com/?api-key=${HELIUS_API_KEY}`;
+      const body = {
+        jsonrpc: '2.0',
+        id: 'token-metadata',
+        method: 'getAssetBatch',
+        params: { ids: c },
+      };
       const res = await postWithRetry(url, body, {
         headers: { 'Content-Type': 'application/json' },
       });
-      const arr = Array.isArray(res.data) ? res.data : [];
+      const arr = Array.isArray(res.data?.result) ? res.data.result : [];
       for (const it of arr) {
-        const mint = it?.mint ?? it?.account ?? it?.tokenAddress;
+        const mint = it?.id;
         if (!mint) continue;
         const name =
-          it?.name ||
-          it?.onChainMetadata?.metadata?.data?.name ||
-          it?.offChainMetadata?.metadata?.name ||
+          it?.content?.metadata?.name ||
+          it?.token_info?.name ||
           null;
         const symbol =
-          it?.symbol ||
-          it?.onChainMetadata?.metadata?.data?.symbol ||
-          it?.offChainMetadata?.metadata?.symbol ||
+          it?.content?.metadata?.symbol ||
+          it?.token_info?.symbol ||
           null;
         if (name || symbol) {
           map.set(mint, { name: name || null, symbol: symbol || null });
         }
       }
     } catch (e) {
-      console.warn('⚠️ Helius token-metadata fallback fallito:', e.message);
+      console.warn('⚠️ Helius DAS metadata fallback fallito:', e.message);
     }
   }
   return map;
@@ -252,10 +255,10 @@ async function buildTokenMetaMap(allMints) {
   return finalMap;
 }
 
-function getNiceNameSymbol(mint, fallbackName, metaMap) {
+function getNiceNameSymbol(mint, fallbackName, fallbackSymbol, metaMap) {
   const meta = metaMap.get(mint) || {};
   const name = meta.name || fallbackName || 'Unknown';
-  const symbol = meta.symbol || null;
+  const symbol = meta.symbol || fallbackSymbol || null;
   return { name, symbol };
 }
 
@@ -265,9 +268,45 @@ function writeJsonFile(filePath, payload) {
 }
 
 // ========== HELIUS / RPC ==========
-async function fetchBalancesFromHelius(address) {
-  const url = `https://api.helius.xyz/v0/addresses/${address}/balances?api-key=${HELIUS_API_KEY}`;
-  return fetchWithRetry(url);
+async function fetchAssetsByOwnerFromHelius(address) {
+  const url = `https://mainnet.helius-rpc.com/?api-key=${HELIUS_API_KEY}`;
+  const items = [];
+  let nativeBalance = null;
+  let page = 1;
+
+  while (true) {
+    const body = {
+      jsonrpc: '2.0',
+      id: `assets-page-${page}`,
+      method: 'getAssetsByOwner',
+      params: {
+        ownerAddress: address,
+        page,
+        limit: 1000,
+        displayOptions: {
+          showFungible: true,
+          showNativeBalance: true,
+          showGrandTotal: true,
+        },
+      },
+    };
+    const res = await postWithRetry(url, body, {
+      headers: { 'Content-Type': 'application/json' },
+    });
+    if (res.data?.error) {
+      throw new Error(res.data.error.message || 'Helius DAS getAssetsByOwner failed');
+    }
+
+    const result = res.data?.result || {};
+    if (!nativeBalance && result.nativeBalance) nativeBalance = result.nativeBalance;
+
+    const pageItems = Array.isArray(result.items) ? result.items : [];
+    items.push(...pageItems);
+    if (pageItems.length < 1000) break;
+    page += 1;
+  }
+
+  return { items, nativeBalance };
 }
 
 async function fetchNativeSolViaRpc(address) {
@@ -289,24 +328,24 @@ async function fetchNativeSolViaRpc(address) {
 async function getTokenAccounts() {
   try {
     console.log('🔄 Fetching tokens from Helius DAS API...');
-    const response = await fetchBalancesFromHelius(WALLET_ADDRESS);
+    const response = await fetchAssetsByOwnerFromHelius(WALLET_ADDRESS);
 
-    const tokens = (response.data.tokens || [])
-      .filter((t) => t.amount > 1) // lasciato invariato
+    const tokens = (response.items || [])
+      .filter((asset) => asset?.interface === 'FungibleToken' && asset?.token_info?.balance > 1)
       .map((t) => ({
-        mint: t.mint,
-        rawAmount: t.amount,
-        realAmount: calculateRealAmount(t.amount, t.decimals),
-        decimals: t.decimals,
-        tokenName: t.name || 'Unknown',
+        mint: t.id,
+        rawAmount: Number(t.token_info.balance),
+        realAmount: calculateRealAmount(Number(t.token_info.balance), Number(t.token_info.decimals || 0)),
+        decimals: Number(t.token_info.decimals || 0),
+        tokenName: t.content?.metadata?.name || 'Unknown',
+        tokenSymbol: t.content?.metadata?.symbol || t.token_info?.symbol || null,
       }))
       .sort((a, b) => b.realAmount - a.realAmount);
 
     // === SOL nativo ===
     let nativeLamports =
-      response.data?.nativeBalance?.lamports ??
-      response.data?.nativeBalance?.amount ??
-      response.data?.lamports ??
+      response.nativeBalance?.lamports ??
+      response.nativeBalance?.amount ??
       0;
     let nativeSOL = nativeLamports ? nativeLamports / 1e9 : 0;
     if (!nativeSOL) {
@@ -346,7 +385,7 @@ async function getTokenAccounts() {
         const tokenValue = token.realAmount * price;
         totalTreasuryValue += tokenValue;
 
-        const meta = getNiceNameSymbol(token.mint, token.tokenName, metaMap);
+        const meta = getNiceNameSymbol(token.mint, token.tokenName, token.tokenSymbol, metaMap);
         const isStable = Object.values(STABLE_TOKENS).includes(token.mint);
         tokenValues.push({
           mint: token.mint,
@@ -376,7 +415,7 @@ async function getTokenAccounts() {
         console.log(`   Price: ${price.toFixed(6)} USD`);
         console.log(`   Total: ${tokenValue.toFixed(2)} USD\n`);
       } else {
-        const meta = getNiceNameSymbol(token.mint, token.tokenName, metaMap);
+        const meta = getNiceNameSymbol(token.mint, token.tokenName, token.tokenSymbol, metaMap);
         const label = meta.symbol ? `${meta.name} (${meta.symbol})` : `${meta.name}`;
         console.log(`⚠️ No price available for ${label} [${token.mint}]`);
       }

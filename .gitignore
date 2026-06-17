@@ -1,5 +1,6 @@
 .DS_Store
 .env
+node_modules/
 credentials.json
 out_*.log
 totalvalue_output.json
