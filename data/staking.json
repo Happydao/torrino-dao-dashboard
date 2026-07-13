@@ -1,20 +1,20 @@
 {
-  "lastUpdated": "12/07/26",
-  "updatedAt": "2026-07-12T06:22:56.776Z",
+  "lastUpdated": "13/07/26",
+  "updatedAt": "2026-07-13T06:41:24.151Z",
   "wallet": "EKjb5grMX19c3cAZa5LQjqksDpqqVLTGZrswh79WkPdD",
-  "solPrice": 76.03825679411612,
-  "totalAmountSol": 217.615896571,
-  "totalValue": 16547.13342594751,
+  "solPrice": 76.39848853517576,
+  "totalAmountSol": 217.623102954,
+  "totalValue": 16626.07613602054,
   "positions": [
     {
-      "amountSol": 214.911986985,
-      "value": 16341.532854499172,
+      "amountSol": 214.919191658,
+      "value": 16419.501399872952,
       "stakeAccount": "CMuuxmyCYW32JS2ic4EqkVDGgCTrofGpmPDEPHqrj6xn",
       "validator": "SmithX2hngQMZXVN36C6TsyjthTU3YnsALAs1MaDghV"
     },
     {
-      "amountSol": 2.703909586,
-      "value": 205.60057144834022,
+      "amountSol": 2.703911296,
+      "value": 206.5747361475882,
       "stakeAccount": "HFZ5KTARCit1PhfuwvvihCjWLqeHEwWTocEjM3S4WzJk",
       "validator": "gangtRyGPTvYWb8K3xS2feJQaCks4iJ7rytFUPtVqSY"
     }
