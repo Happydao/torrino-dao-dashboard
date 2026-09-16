@@ -1,16 +1,16 @@
 {
-  "lastUpdated": "15/09/26",
-  "updatedAt": "2026-09-15T09:01:42.439Z",
+  "lastUpdated": "16/09/26",
+  "updatedAt": "2026-09-16T08:54:13.722Z",
   "wallet": "EKjb5grMX19c3cAZa5LQjqksDpqqVLTGZrswh79WkPdD",
-  "solPrice": 100.56,
-  "totalValueSol": 15.65162,
-  "totalValue": 1573.9269072,
+  "solPrice": 96.7,
+  "totalValueSol": 15.751619999999999,
+  "totalValue": 1523.181654,
   "nfts": [
     {
       "name": "Claynosaurz #363",
       "collection": "claynosaurz",
-      "floorSol": 8.097,
-      "value": 814.23432,
+      "floorSol": 8.037,
+      "value": 777.1779000000001,
       "mint": "9hanoN6tzWZ5ypwTUcUxEtj6jEkSyEWgQb94ZmoFqBQK",
       "hasPrice": true
     },
@@ -18,39 +18,39 @@
       "name": "Valannium Ring #73",
       "collection": "valannium_ring",
       "floorSol": 2.0159,
-      "value": 202.71890399999998,
+      "value": 194.93752999999998,
       "mint": "AhAJeBoeLSTxJg4AwGKAt3RboQ4PpBsiQqvjtVY2hdig",
       "hasPrice": true
     },
     {
       "name": "Okay Bear #3817",
       "collection": "okay_bears",
-      "floorSol": 1.5,
-      "value": 150.84,
+      "floorSol": 1.539,
+      "value": 148.8213,
       "mint": "Dz7h57SRzPM5UfoYBSoxbdd44iwNTrgDFeb42Ahqa1yU",
       "hasPrice": true
     },
     {
       "name": "Okay Bear #1414",
       "collection": "okay_bears",
-      "floorSol": 1.5,
-      "value": 150.84,
+      "floorSol": 1.539,
+      "value": 148.8213,
       "mint": "A8WSJbmXDuGeJewnJXrVJAoWtFRctiE5GyXVvarVNNWB",
       "hasPrice": true
     },
     {
       "name": "Okay Bear #9135",
       "collection": "okay_bears",
-      "floorSol": 1.5,
-      "value": 150.84,
+      "floorSol": 1.539,
+      "value": 148.8213,
       "mint": "2G69irHUmfcmc3rmQ1VdpTrdRXi3GbePuWWPxr6Lrqhw",
       "hasPrice": true
     },
     {
       "name": "y00t #814",
       "collection": "y00ts",
-      "floorSol": 0.81699,
-      "value": 82.1565144,
+      "floorSol": 0.85999,
+      "value": 83.161033,
       "mint": "GSwiKVPZDqc3GUjUxhBpB7s66zKiD8WwR1SAgAxCWEAA",
       "hasPrice": true
     },
@@ -58,7 +58,7 @@
       "name": "Portals #728",
       "collection": "portals",
       "floorSol": 0.13373,
-      "value": 13.4478888,
+      "value": 12.931690999999999,
       "mint": "8FwNXN2hccb2U957iuyupmAhzarWYSvcdHxPSRKuyHqy",
       "hasPrice": true
     },
@@ -66,7 +66,7 @@
       "name": "Mad Lads Inth Pool #7228",
       "collection": "mad_lads_inthpool",
       "floorSol": 0.088,
-      "value": 8.84928,
+      "value": 8.509599999999999,
       "mint": "3tuw2aqL4kL8CAhe8BGT7WtwaDmd28tawpkPZSGBfgvy",
       "hasPrice": true
     },
