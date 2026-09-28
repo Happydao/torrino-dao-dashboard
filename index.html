@@ -436,6 +436,19 @@
     .asset-table tr:last-child td{ border-bottom:0 }
     .asset-table tbody tr{ transition:background .16s ease, box-shadow .16s ease }
     .asset-table tbody tr.active{ background:rgba(255,255,255,.46); box-shadow:inset 4px 0 0 rgba(246,222,141,.95), inset 0 0 0 999px rgba(126,255,231,.08) }
+    .asset-table tbody tr.excluded{ opacity:.48; background:rgba(8,32,49,.05) }
+    .asset-check-cell{ text-align:center !important; overflow:visible !important }
+    .asset-check{
+      width:34px;
+      height:34px;
+      display:inline-flex;
+      align-items:center;
+      justify-content:center;
+      border-radius:10px;
+      cursor:pointer;
+      touch-action:manipulation;
+    }
+    .asset-check input{ width:20px; height:20px; margin:0; accent-color:#173d6a; cursor:pointer }
     .asset-name{ font-weight:800; color:#082031; overflow:hidden; text-overflow:ellipsis; white-space:nowrap }
     .asset-name a{ color:#082031; text-decoration:none }
     .asset-name a:hover{ color:#0b4f81; text-decoration:underline; text-underline-offset:3px }
@@ -456,8 +469,12 @@
       background:#ffffff;
       box-shadow:inset 3px 0 0 rgba(246,222,141,.95), inset 0 0 0 999px rgba(126,255,231,.08);
     }
+    .asset-mobile-card.excluded{ opacity:.55; background:rgba(8,32,49,.06) }
     .asset-mobile-head{ display:grid; gap:6px }
     .asset-mobile-top{ display:flex; align-items:flex-start; justify-content:space-between; gap:10px }
+    .asset-mobile-identity{ min-width:0; display:flex; align-items:flex-start; gap:8px }
+    .asset-mobile-identity .asset-check{ flex:0 0 38px; width:38px; height:38px; margin:-3px 0 -3px -4px }
+    .asset-mobile-copy{ min-width:0; padding-top:1px }
     .asset-mobile-name{ font-weight:800; color:#082031; line-height:1.2 }
     .asset-mobile-name a{ color:#082031; text-decoration:none }
     .asset-mobile-name a:hover{ color:#0b4f81; text-decoration:underline; text-underline-offset:3px }
@@ -792,6 +809,7 @@
       .chart-zoom-readout{ min-width:48px; font-size:10px }
       .portfolio-layout .table-card{ order:1 }
       .portfolio-layout .allocation-card{ order:2 }
+      .table-head{ align-items:flex-start; padding:12px }
       .asset-table,.asset-table thead,.asset-table tbody,.asset-table tr,.asset-table th,.asset-table td{ display:block }
       .asset-table{ table-layout:auto }
       .asset-table th,.asset-table td{ width:auto !important; overflow:visible }
@@ -813,6 +831,7 @@
       .asset-mobile-card{ padding:8px 9px; border-radius:12px }
       .asset-mobile-head{ gap:5px }
       .asset-mobile-top{ gap:8px }
+      .asset-mobile-identity{ gap:5px }
       .asset-mobile-name{ font-size:13px; line-height:1.2 }
       .asset-mobile-sub{ font-size:11px }
       .asset-mobile-value{ font-size:13px }
@@ -1213,6 +1232,8 @@
       hoveredAllocationKey: null,
       selectedAllocationKey: null,
       currentAllocation: null,
+      excludedAssetKeys: new Set(),
+      historyRedraws: new Map(),
     };
 
     const colors = {
@@ -1278,10 +1299,7 @@
       portfolioState.staking = staking || {};
       portfolioState.nfts = nfts || {};
 
-      renderOverview(portfolioState.summary);
-      renderAllocation();
-      renderAssetTable();
-      updateTabLabels();
+      renderFilteredDashboard();
     }
 
     function renderOverview(data) {
@@ -1304,19 +1322,121 @@
       setText('gen2Discount', fmtNum(data.gen2Discount, 2));
     }
 
-    function getAllocation() {
+    function rawPortfolioRows() {
+      const solPrice = Number(portfolioState.staking?.solPrice ?? portfolioState.summary?.solPrice ?? 0);
+      const tokens = (portfolioState.tokens?.tokens || []).map((token) => ({
+        key: `token:${token.mint || token.symbol || token.name}`,
+        type: token.isStable ? 'Stable' : 'Token',
+        name: token.name || token.symbol || 'Unknown token',
+        sub: token.symbol ? `${token.symbol} - ${shortAddress(token.mint)}` : shortAddress(token.mint),
+        amount: fmtNum(token.amount, 6),
+        price: fmtUsd(token.price, 6),
+        value: Number(token.value || 0),
+        technical: token.mint,
+        solscanType: 'token',
+        tab: token.isStable ? 'stables' : 'tokens',
+      }));
+      const staking = (portfolioState.staking?.positions || []).map((position) => ({
+        key: `staking:${position.stakeAccount}`,
+        type: 'Staking',
+        name: 'Staked SOL',
+        sub: `Validator ${shortAddress(position.validator)}`,
+        amount: fmtNum(position.amountSol, 4) + ' SOL',
+        price: Number.isFinite(solPrice) && solPrice > 0 ? fmtUsd(solPrice, 2) : '-',
+        value: Number(position.value || 0),
+        technical: position.stakeAccount,
+        solscanType: 'account',
+        tab: 'staking',
+      }));
+      const nfts = (portfolioState.nfts?.nfts || []).map((nft) => ({
+        key: `nft:${nft.mint}`,
+        type: 'NFT',
+        name: nft.name || 'Unknown NFT',
+        sub: nft.collection || (nft.hasPrice ? 'Collection' : 'No collection'),
+        amount: '1',
+        price: nft.floorSol ? fmtNum(nft.floorSol, 4) + ' SOL' : '-',
+        value: Number(nft.value || 0),
+        technical: nft.mint,
+        solscanType: 'token',
+        tab: 'nfts',
+      }));
+      return [...tokens, ...staking, ...nfts];
+    }
+
+    function getPortfolioMetrics() {
       const summary = portfolioState.summary || {};
-      const tokenValue = Number(portfolioState.tokens?.totalValue ?? summary.tokenValue ?? 0);
-      const stableValue = Number(portfolioState.tokens?.stableValue ?? summary.stableValueExact ?? summary.stableValue ?? 0);
-      const nonStableValue = Math.max(0, Number(portfolioState.tokens?.nonStableValue ?? (tokenValue - stableValue)));
-      const stakingValue = Number(portfolioState.staking?.totalValue ?? summary.stakingValue ?? 0);
-      const nftValue = Number(portfolioState.nfts?.totalValue ?? summary.nftValue ?? 0);
-      const total = Number(summary.treasuryValueExact ?? summary.treasuryValue ?? (nonStableValue + stableValue + stakingValue + nftValue));
+      const rows = rawPortfolioRows();
+      const excluded = rows.filter((row) => portfolioState.excludedAssetKeys.has(row.key));
+      const excludedValue = excluded.reduce((sum, row) => sum + row.value, 0);
+      const baseTotal = Number(summary.treasuryValueExact ?? summary.treasuryValue ?? rows.reduce((sum, row) => sum + row.value, 0));
+      const baseValues = {
+        tokens: Math.max(0, Number(portfolioState.tokens?.nonStableValue ?? summary.nonStableTokenValue ?? 0)),
+        stables: Math.max(0, Number(portfolioState.tokens?.stableValue ?? summary.stableValueExact ?? summary.stableValue ?? 0)),
+        staking: Math.max(0, Number(portfolioState.staking?.totalValue ?? summary.stakingValue ?? 0)),
+        nfts: Math.max(0, Number(portfolioState.nfts?.totalValue ?? summary.nftValue ?? 0)),
+      };
+      const categoryValues = { ...baseValues };
+      excluded.forEach((row) => {
+        categoryValues[row.tab] = Math.max(0, (categoryValues[row.tab] || 0) - row.value);
+      });
+      const total = Math.max(0, baseTotal - excludedValue);
+      return {
+        rows,
+        baseTotal,
+        total,
+        ratio: baseTotal > 0 ? total / baseTotal : 1,
+        categoryValues,
+        includedCount: rows.length - excluded.length,
+      };
+    }
+
+    function getFilteredOverview() {
+      const base = portfolioState.summary || {};
+      const metrics = getPortfolioMetrics();
+      const total = metrics.total;
+      const solPrice = Number(base.solPrice || portfolioState.staking?.solPrice || 0);
+      const treasuryGen1 = total * 0.9;
+      const treasuryGen2 = total * 0.1;
+      const nftGen1Value = treasuryGen1 / 500;
+      const nftGen2Value = treasuryGen2 / 888;
+      const gen1ListingPrice = Number(base.gen1ListingPrice);
+      const gen2ListingPrice = Number(base.gen2ListingPrice);
+      const difference = (listing, real) => Number.isFinite(listing) && real > 0 ? (listing - real) / real * 100 : '-';
+      return {
+        ...base,
+        treasuryValue: total,
+        treasuryValueExact: total,
+        stableValue: metrics.categoryValues.stables,
+        stableValueExact: metrics.categoryValues.stables,
+        stablePercentage: total > 0 ? Math.round(metrics.categoryValues.stables / total * 100) : 0,
+        treasuryGen1,
+        treasuryGen2,
+        nftGen1Value,
+        nftGen1ValueSol: solPrice > 0 ? nftGen1Value / solPrice : 0,
+        nftGen2Value,
+        nftGen2ValueSol: solPrice > 0 ? nftGen2Value / solPrice : 0,
+        gen1Discount: difference(gen1ListingPrice, nftGen1Value),
+        gen2Discount: difference(gen2ListingPrice, nftGen2Value),
+      };
+    }
+
+    function renderFilteredDashboard() {
+      renderOverview(getFilteredOverview());
+      renderAllocation();
+      renderAssetTable();
+      updateTabLabels();
+      portfolioState.historyRedraws.forEach((draw) => draw());
+      syncPortfolioCardHeights();
+    }
+
+    function getAllocation() {
+      const values = getPortfolioMetrics().categoryValues;
+      const total = Object.values(values).reduce((sum, value) => sum + value, 0);
       return [
-        { key: 'tokens', label: 'Tokens', value: nonStableValue, color: colors.tokens },
-        { key: 'stables', label: 'Stables', value: stableValue, color: colors.stables },
-        { key: 'staking', label: 'Staking', value: stakingValue, color: colors.staking },
-        { key: 'nfts', label: 'NFTs', value: nftValue, color: colors.nfts },
+        { key: 'tokens', label: 'Tokens', value: values.tokens, color: colors.tokens },
+        { key: 'stables', label: 'Stables', value: values.stables, color: colors.stables },
+        { key: 'staking', label: 'Staking', value: values.staking, color: colors.staking },
+        { key: 'nfts', label: 'NFTs', value: values.nfts, color: colors.nfts },
       ].map((item) => ({ ...item, pct: total > 0 ? item.value / total * 100 : 0, total }));
     }
 
@@ -1331,7 +1451,7 @@
         };
       }
 
-      const rows = buildRows().filter((row) => row.tab === tab);
+      const rows = buildRows().filter((row) => row.tab === tab && row.included);
       const titleMap = {
         tokens: 'Token Allocation',
         stables: 'Stable Allocation',
@@ -1366,7 +1486,7 @@
         pct: total > 0 ? row.value / total * 100 : 0,
         total,
         color: palette[index % palette.length],
-        rowKey: row.technical,
+        rowKey: row.key,
       }));
       const otherValue = Math.max(0, total - topValue);
       if (otherValue > 0.000001) {
@@ -1650,43 +1770,12 @@
     }
 
     function buildRows() {
-      const total = Number(portfolioState.summary?.treasuryValueExact ?? portfolioState.summary?.treasuryValue ?? 0);
-      const solPrice = Number(portfolioState.staking?.solPrice ?? portfolioState.summary?.solPrice ?? 0);
-      const tokens = (portfolioState.tokens?.tokens || []).map((token) => ({
-        type: token.isStable ? 'Stable' : 'Token',
-        name: token.name || token.symbol || 'Unknown token',
-        sub: token.symbol ? `${token.symbol} - ${shortAddress(token.mint)}` : shortAddress(token.mint),
-        amount: fmtNum(token.amount, 6),
-        price: fmtUsd(token.price, 6),
-        value: Number(token.value || 0),
-        technical: token.mint,
-        solscanType: 'token',
-        tab: token.isStable ? 'stables' : 'tokens',
-      }));
-      const staking = (portfolioState.staking?.positions || []).map((position) => ({
-        type: 'Staking',
-        name: 'Staked SOL',
-        sub: `Validator ${shortAddress(position.validator)}`,
-        amount: fmtNum(position.amountSol, 4) + ' SOL',
-        price: Number.isFinite(solPrice) && solPrice > 0 ? fmtUsd(solPrice, 2) : '-',
-        value: Number(position.value || 0),
-        technical: position.stakeAccount,
-        solscanType: 'account',
-        tab: 'staking',
-      }));
-      const nfts = (portfolioState.nfts?.nfts || []).map((nft) => ({
-        type: 'NFT',
-        name: nft.name || 'Unknown NFT',
-        sub: nft.collection || (nft.hasPrice ? 'Collection' : 'No collection'),
-        amount: '1',
-        price: nft.floorSol ? fmtNum(nft.floorSol, 4) + ' SOL' : '-',
-        value: Number(nft.value || 0),
-        technical: nft.mint,
-        solscanType: 'token',
-        tab: 'nfts',
-      }));
-      return [...tokens, ...staking, ...nfts]
-        .map((row) => ({ ...row, pct: total > 0 ? row.value / total * 100 : 0 }))
+      const metrics = getPortfolioMetrics();
+      return metrics.rows
+        .map((row) => {
+          const included = !portfolioState.excludedAssetKeys.has(row.key);
+          return { ...row, included, pct: included && metrics.total > 0 ? row.value / metrics.total * 100 : 0 };
+        })
         .sort((a, b) => b.value - a.value);
     }
 
@@ -1698,7 +1787,8 @@
       const otherAllocationKey = (scoped.items || []).find((item) => item.rowKey === '__other__')?.key || '';
       const titleMap = { all: 'All Assets', tokens: 'Tokens', stables: 'Stablecoins', staking: 'Staking Positions', nfts: 'NFT Holdings' };
       setText('assetTableTitle', titleMap[tab] || 'All Assets');
-      setText('assetTableMeta', `${rows.length} rows - sorted by value`);
+      const includedRows = rows.filter((row) => row.included).length;
+      setText('assetTableMeta', `${includedRows}/${rows.length} included - changes are temporary`);
 
       const wrap = document.getElementById('assetTableWrap');
       if (!wrap) return;
@@ -1720,15 +1810,20 @@
               const categoryKey = rowAllocationCategoryKey(row);
               const allocationKey = tab === 'all'
                 ? categoryKey
-                : (itemByRowKey.get(row.technical) || otherAllocationKey);
+                : (itemByRowKey.get(row.key) || otherAllocationKey);
               const assetName = url ? `<a href="${url}" target="_blank" rel="noopener">${name}</a>` : name;
               return `
-                <article class="asset-mobile-card" data-row-category="${escapeHtml(categoryKey)}" data-row-allocation-key="${escapeHtml(allocationKey)}">
+                <article class="asset-mobile-card${row.included ? '' : ' excluded'}" data-row-category="${escapeHtml(categoryKey)}" data-row-allocation-key="${escapeHtml(allocationKey)}">
                   <div class="asset-mobile-head">
                     <div class="asset-mobile-top">
-                      <div>
-                        <div class="asset-mobile-name">${assetName}</div>
-                        <div class="asset-mobile-sub">${escapeHtml(row.sub || '')}</div>
+                      <div class="asset-mobile-identity">
+                        <label class="asset-check" title="${row.included ? 'Exclude' : 'Include'} ${name}">
+                          <input type="checkbox" data-asset-toggle="${escapeHtml(row.key)}" ${row.included ? 'checked' : ''} aria-label="Include ${name} in dashboard calculations" />
+                        </label>
+                        <div class="asset-mobile-copy">
+                          <div class="asset-mobile-name">${assetName}</div>
+                          <div class="asset-mobile-sub">${escapeHtml(row.sub || '')}</div>
+                        </div>
                       </div>
                       <div class="asset-mobile-value">${fmtUsd(row.value, 2)}</div>
                     </div>
@@ -1766,6 +1861,7 @@
           portfolioState.mobileShowAllAssets = !portfolioState.mobileShowAllAssets;
           renderAssetTable();
         });
+        bindAssetFilterControls(wrap, rows);
         applyHoveredAllocationState();
         return;
       }
@@ -1774,7 +1870,7 @@
         <table class="asset-table">
           <thead>
             <tr>
-              <th>Asset</th>
+              <th><span style="padding-left:44px">Asset</span></th>
               <th>Type</th>
               <th>Amount</th>
               <th>Price / Floor</th>
@@ -1789,12 +1885,19 @@
               const categoryKey = rowAllocationCategoryKey(row);
               const allocationKey = tab === 'all'
                 ? categoryKey
-                : (itemByRowKey.get(row.technical) || otherAllocationKey);
+                : (itemByRowKey.get(row.key) || otherAllocationKey);
               return `
-              <tr data-row-category="${escapeHtml(categoryKey)}" data-row-allocation-key="${escapeHtml(allocationKey)}">
+              <tr class="${row.included ? '' : 'excluded'}" data-row-category="${escapeHtml(categoryKey)}" data-row-allocation-key="${escapeHtml(allocationKey)}">
                 <td data-label="Asset">
-                  <div class="asset-name">${url ? `<a href="${url}" target="_blank" rel="noopener">${name}</a>` : name}</div>
-                  <div class="asset-sub">${escapeHtml(row.sub || '')}</div>
+                  <div style="display:flex;align-items:center;gap:10px;min-width:0">
+                    <label class="asset-check" title="${row.included ? 'Exclude' : 'Include'} ${name}">
+                      <input type="checkbox" data-asset-toggle="${escapeHtml(row.key)}" ${row.included ? 'checked' : ''} aria-label="Include ${name} in dashboard calculations" />
+                    </label>
+                    <div style="min-width:0">
+                      <div class="asset-name">${url ? `<a href="${url}" target="_blank" rel="noopener">${name}</a>` : name}</div>
+                      <div class="asset-sub">${escapeHtml(row.sub || '')}</div>
+                    </div>
+                  </div>
                 </td>
                 <td data-label="Type"><span class="tag">${escapeHtml(row.type)}</span></td>
                 <td data-label="Amount" class="mono">${escapeHtml(row.amount)}</td>
@@ -1806,8 +1909,23 @@
           </tbody>
         </table>
       `;
+      bindAssetFilterControls(wrap, rows);
       applyHoveredAllocationState();
       syncPortfolioCardHeights();
+    }
+
+    function bindAssetFilterControls(container, visibleRows) {
+      container.querySelectorAll('[data-asset-toggle]').forEach((input) => {
+        input.addEventListener('change', () => {
+          const key = input.dataset.assetToggle;
+          if (!key) return;
+          if (input.checked) portfolioState.excludedAssetKeys.delete(key);
+          else portfolioState.excludedAssetKeys.add(key);
+          portfolioState.hoveredAllocationKey = null;
+          portfolioState.selectedAllocationKey = null;
+          renderFilteredDashboard();
+        });
+      });
     }
 
     function fmtPctTab(value) {
@@ -1819,7 +1937,7 @@
     function updateTabLabels() {
       const buttons = Array.from(document.querySelectorAll('.tab-btn'));
       if (!buttons.length) return;
-      const rows = buildRows();
+      const rows = buildRows().filter((row) => row.included);
       const total = rows.reduce((sum, row) => sum + Number(row.value || 0), 0);
       const byTab = {
         tokens: rows.filter((row) => row.tab === 'tokens').reduce((sum, row) => sum + Number(row.value || 0), 0),
@@ -1917,10 +2035,11 @@
     ];
     const chartEvents = {
       all: [
-        { date: '2025-05-20', label: '$NUMMUS', title: 'Lunch $NUMMUS', color: '#000000', side: 'left' },
-        { date: '2025-07-30', label: '$BUMPER', title: 'Lunch $BUMPER', color: '#000000' },
-        { date: '2025-11-23', label: '$PUNCHY', title: 'Lunch $PUNCHY', color: '#000000' },
-        { date: '2026-03-20', label: '$PISTA', title: 'Lunch $PISTA', color: '#000000' },
+        { date: '2025-05-20', label: '$NUMMUS', title: 'Launch $NUMMUS', color: '#000000', side: 'left' },
+        { date: '2025-07-30', label: '$BUMPER', title: 'Launch $BUMPER', color: '#000000' },
+        { date: '2025-11-23', label: '$PUNCHY', title: 'Launch $PUNCHY', color: '#000000' },
+        { date: '2026-03-20', label: '$PISTA', title: 'Launch $PISTA', color: '#000000' },
+        { date: '2026-09-21', label: '$QUANGO', title: 'Launch $QUANGO', color: '#000000', side: 'left' },
       ],
       treasury: [],
       gen1: [],
@@ -2313,6 +2432,18 @@
     }
 
     function drawHistoryChart(canvas, tip, card, config, data, state) {
+      const filterRatio = getPortfolioMetrics().ratio;
+      if (filterRatio < 0.999999) {
+        data = {
+          ...data,
+          points: data.points.map((point) => ({
+            ...point,
+            values: point.values.map((value, index) => (
+              config.key === 'treasury' || index === 0 ? Number(value || 0) * filterRatio : value
+            )),
+          })),
+        };
+      }
       const parent = canvas.parentElement;
       const rect = parent.getBoundingClientRect();
       const dpr = window.devicePixelRatio || 1;
@@ -2598,6 +2729,7 @@
         const data = parseChartData(html, config);
         const state = getHistoryViewState(config.key, data.points.length);
         const draw = () => drawHistoryChart(canvas, tip, card, config, data, state);
+        portfolioState.historyRedraws.set(config.key, draw);
         draw();
         bindHistoryInteractions(canvas, card, config, data, state, draw);
         if (!card.dataset.resizeBound) {
