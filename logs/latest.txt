@@ -1,5 +1,5 @@
 === Update Treasury Data ===
-Started at: 2026-09-28T10:11:53Z
+Started at: 2026-09-29T10:09:53Z
 
 ----- totalvalue.js -----
 ▶️ Running token.js...
@@ -21,21 +21,21 @@ Started at: 2026-09-28T10:11:53Z
 
 🔁 Fallback to DeFiLlama for 15 tokens without price…
 
-   ↳ DeFiLlama: [REDACTED] → 0.005319320127904519 USD
+   ↳ DeFiLlama: [REDACTED] → 0.005426617538090064 USD
 
 
 ✅ Bella Bumper Play 2 Earn (PISTA) [[REDACTED]]
 
    Amount: 277,504,349
 
-   Price: 0.001024 USD
-   Total: 284243.92 USD
+   Price: 0.000961 USD
+   Total: 266735.31 USD
 
 ⚠️ No price available for jupfinally.com 🎁 Airdrop (JUPDROP) [[REDACTED]]
 ✅ Quantum Rango (QUANGO) [[REDACTED]]
    Amount: 33,950,000
-   Price: 0.000095 USD
-   Total: 3209.43 USD
+   Price: 0.000086 USD
+   Total: 2906.70 USD
 
 ⚠️ No price available for Moon Dump (DUMP) [[REDACTED]]
 ✅ Punchy Puff (PUNCHY) [[REDACTED]]
@@ -53,63 +53,62 @@ Started at: 2026-09-28T10:11:53Z
    Total: 0.07 USD
 
 ✅ Bonklet (BNKLT) [[REDACTED]]
-
    Amount: 1,285,874
    Price: 0.000000 USD
    Total: 0.06 USD
 
-
 ⚠️ No price available for SpecterX (X) [[REDACTED]]
+
 ⚠️ No price available for Fock it. (Fock it.) [[REDACTED]]
 ⚠️ No price available for Moon Pump (MOONPUMP) [[REDACTED]]
 ✅ Nummus Aeternitas (NUMMUS) [[REDACTED]]
-
    Amount: 247,395.149829
 
-   Price: 0.014486 USD
-   Total: 3583.81 USD
+   Price: 0.013812 USD
+   Total: 3417.13 USD
 
 ⚠️ No price available for AIFANS (AADK) [[REDACTED]]
 ✅ STEAK (STEAK) [[REDACTED]]
 
    Amount: 103,639.665
+
    Price: 0.000000 USD
    Total: 0.04 USD
 
 ⚠️ No price available for DUMPER (DUMPER) [[REDACTED]]
 ✅ SynesisOne (SNS) [[REDACTED]]
-
    Amount: 77,779.580537
+   Price: 0.000015 USD
 
-   Price: 0.000017 USD
-   Total: 1.29 USD
+   Total: 1.15 USD
 
+💵 Stablecoin USDY: 39672.94 USD
 
-💵 Stablecoin USDY: 39760.34 USD
 ✅ Ondo US Dollar Yield (USDY) [[REDACTED]]
 
    Amount: 34,653.246163
-   Price: 1.147377 USD
+   Price: 1.144855 USD
 
-   Total: 39760.34 USD
+   Total: 39672.94 USD
 
 ✅ Threshold Network Tok (Wormhole) (T) [[REDACTED]]
 
    Amount: 29,151.444673
-   Price: 0.005319 USD
-   Total: 155.07 USD
+
+   Price: 0.005427 USD
+   Total: 158.19 USD
 
 ✅ Jupiter (JUP) [[REDACTED]]
 
    Amount: 27,013.923334
-   Price: 0.337905 USD
-   Total: 9128.15 USD
+   Price: 0.330813 USD
+   Total: 8936.55 USD
 
 ✅ Kamino (KMNO) [[REDACTED]]
-   Amount: 17,623.716087
 
-   Price: 0.045218 USD
-   Total: 796.90 USD
+   Amount: 17,623.716087
+   Price: 0.044185 USD
+   Total: 778.71 USD
 
 ✅ Yes Token (YES) [[REDACTED]]
 
@@ -117,22 +116,19 @@ Started at: 2026-09-28T10:11:53Z
    Price: 0.000013 USD
    Total: 0.15 USD
 
-
 ⚠️ No price available for GadZilla (GADZILLA) [[REDACTED]]
 ✅ Only1 (LIKE) (LIKE) [[REDACTED]]
 
    Amount: 7,456.12885
-   Price: 0.000517 USD
+   Price: 0.000528 USD
 
-   Total: 3.85 USD
+   Total: 3.94 USD
 
 ✅ Pudgy Penguins (PENGU) [[REDACTED]]
-
    Amount: 3,490.000266
+   Price: 0.009701 USD
 
-   Price: 0.009489 USD
-   Total: 33.12 USD
-
+   Total: 33.86 USD
 
 ✅ Lorm The Worm (L) [[REDACTED]]
 
@@ -141,89 +137,109 @@ Started at: 2026-09-28T10:11:53Z
    Total: 0.03 USD
 
 
-💵 Stablecoin USDC: 1268.10 USD
+💵 Stablecoin USDC: 1268.15 USD
 ✅ USD Coin (USDC) [[REDACTED]]
 
    Amount: 1,268.313667
-   Price: 0.999831 USD
-   Total: 1268.10 USD
+   Price: 0.999872 USD
+   Total: 1268.15 USD
+
 
 ✅ Jito Staked SOL (JitoSOL) [[REDACTED]]
 
    Amount: 737.116509
-   Price: 153.555257 USD
-   Total: 113188.12 USD
+   Price: 156.043699 USD
+   Total: 115022.39 USD
 
 ⚠️ No price available for orcawall.com (+700 ORСА) (ORCA) [[REDACTED]]
-
 ⚠️ No price available for Porn (PORN) [[REDACTED]]
+
 ✅ Buttercat (BUTT) [[REDACTED]]
+
    Amount: 300
    Price: 0.000012 USD
+
    Total: 0.00 USD
 
 ✅ Zcash (ZEC) [[REDACTED]]
 
    Amount: 115.504813
-   Price: 1544.593076 USD
-   Total: 178407.93 USD
+   Price: 1423.247440 USD
+   Total: 164391.93 USD
 
 ⚠️ No price available for jupfinally.com 🎁 Airdrop (JUPDROP) [[REDACTED]]
 ✅ SolCex  (SOLCEX) [[REDACTED]]
+
    Amount: 24.4434
-   Price: 0.002382 USD
+   Price: 0.002456 USD
    Total: 0.06 USD
 
+
 ✅ Lamas Finance (LMF) [[REDACTED]]
+
    Amount: 13
-   Price: 0.002501 USD
+   Price: 0.002526 USD
    Total: 0.03 USD
 
+
 ✅ Solmedia (MEDIA) [[REDACTED]]
+
    Amount: 10
    Price: 0.000138 USD
    Total: 0.00 USD
 
+
 ⚠️ No price available for Jupiter (JUP) [[REDACTED]]
 ✅ Intel xStock (INTCx) [[REDACTED]]
+
    Amount: 10
-   Price: 119.190672 USD
-   Total: 1191.91 USD
+
+   Price: 116.424346 USD
+   Total: 1164.24 USD
 
 ✅ Roog (ROOG) [[REDACTED]]
+
    Amount: 5
-   Price: 0.000692 USD
+
+   Price: 0.000684 USD
+
    Total: 0.00 USD
 
 ⚠️ No price available for RUSH (RUSH) [[REDACTED]]
 ✅ Pyth Network (PYTH) [[REDACTED]]
+
    Amount: 0.893082
-   Price: 0.081284 USD
+
+   Price: 0.079976 USD
    Total: 0.07 USD
 
 ✅ Parcl (PRCL) [[REDACTED]]
-   Amount: 0.758439
-   Price: 0.006258 USD
 
+   Amount: 0.758439
+
+   Price: 0.006136 USD
    Total: 0.00 USD
 
 ✅ cat in a dogs world (MEW) [[REDACTED]]
+
    Amount: 0.69285
-   Price: 0.000474 USD
+   Price: 0.000479 USD
+
    Total: 0.00 USD
 
-
 ✅ tBTC v2 (tBTC) [[REDACTED]]
+
    Amount: 0.500786
 
-   Price: 82721.803298 USD
-   Total: 41425.91 USD
+   Price: 83913.373910 USD
+   Total: 42022.63 USD
 
 ✅ IO (IO) [[REDACTED]]
 
    Amount: 0.468574
-   Price: 0.155484 USD
-   Total: 0.07 USD
+
+   Price: 0.161835 USD
+   Total: 0.08 USD
 
 ✅ Wen (WEN) [[REDACTED]]
 
@@ -231,71 +247,70 @@ Started at: 2026-09-28T10:11:53Z
    Price: 0.000007 USD
    Total: 0.00 USD
 
-
 ✅ Wormhole Token (W) [[REDACTED]]
-   Amount: 0.00317
 
-   Price: 0.014037 USD
+   Amount: 0.00317
+   Price: 0.014198 USD
    Total: 0.00 USD
+
 
 ✅ SOL (native)
 
    Amount: 11.391237
-   Price: 117.855854 USD
-   Total: 1342.52 USD
+   Price: 119.887331 USD
+
+   Total: 1365.66 USD
 
 
 📋 TOKEN VALUE SUMMARY:
 
-[REDACTED] - Bella Bumper Play 2 Earn (PISTA) - 284243.92 USD
-[REDACTED] - Quantum Rango (QUANGO) - 3209.43 USD
+[REDACTED] - Bella Bumper Play 2 Earn (PISTA) - 266735.31 USD
+
+[REDACTED] - Quantum Rango (QUANGO) - 2906.70 USD
 [REDACTED] - Punchy Puff (PUNCHY) - 125.37 USD
 [REDACTED] - WIMDY 2.0 (WIMDY 2.0) - 0.07 USD
 [REDACTED] - Bonklet (BNKLT) - 0.06 USD
-[REDACTED] - Nummus Aeternitas (NUMMUS) - 3583.81 USD
-
+[REDACTED] - Nummus Aeternitas (NUMMUS) - 3417.13 USD
 [REDACTED] - STEAK (STEAK) - 0.04 USD
-[REDACTED] - SynesisOne (SNS) - 1.29 USD
-[REDACTED] - Ondo US Dollar Yield (USDY) - 39760.34 USD
-[REDACTED] - Threshold Network Tok (Wormhole) (T) - 155.07 USD
-[REDACTED] - Jupiter (JUP) - 9128.15 USD
-[REDACTED] - Kamino (KMNO) - 796.90 USD
+[REDACTED] - SynesisOne (SNS) - 1.15 USD
+[REDACTED] - Ondo US Dollar Yield (USDY) - 39672.94 USD
+[REDACTED] - Threshold Network Tok (Wormhole) (T) - 158.19 USD
+[REDACTED] - Jupiter (JUP) - 8936.55 USD
+[REDACTED] - Kamino (KMNO) - 778.71 USD
 [REDACTED] - Yes Token (YES) - 0.15 USD
-[REDACTED] - Only1 (LIKE) (LIKE) - 3.85 USD
+[REDACTED] - Only1 (LIKE) (LIKE) - 3.94 USD
+[REDACTED] - Pudgy Penguins (PENGU) - 33.86 USD
 
-[REDACTED] - Pudgy Penguins (PENGU) - 33.12 USD
 [REDACTED] - Lorm The Worm (L) - 0.03 USD
-[REDACTED] - USD Coin (USDC) - 1268.10 USD
-[REDACTED] - Jito Staked SOL (JitoSOL) - 113188.12 USD
+[REDACTED] - USD Coin (USDC) - 1268.15 USD
+[REDACTED] - Jito Staked SOL (JitoSOL) - 115022.39 USD
 [REDACTED] - Buttercat (BUTT) - 0.00 USD
-[REDACTED] - Zcash (ZEC) - 178407.93 USD
-
+[REDACTED] - Zcash (ZEC) - 164391.93 USD
 [REDACTED] - SolCex  (SOLCEX) - 0.06 USD
 [REDACTED] - Lamas Finance (LMF) - 0.03 USD
 [REDACTED] - Solmedia (MEDIA) - 0.00 USD
-[REDACTED] - Intel xStock (INTCx) - 1191.91 USD
-[REDACTED] - Roog (ROOG) - 0.00 USD
+[REDACTED] - Intel xStock (INTCx) - 1164.24 USD
 
+[REDACTED] - Roog (ROOG) - 0.00 USD
 [REDACTED] - Pyth Network (PYTH) - 0.07 USD
 [REDACTED] - Parcl (PRCL) - 0.00 USD
 [REDACTED] - cat in a dogs world (MEW) - 0.00 USD
-[REDACTED] - tBTC v2 (tBTC) - 41425.91 USD
-[REDACTED] - IO (IO) - 0.07 USD
+[REDACTED] - tBTC v2 (tBTC) - 42022.63 USD
+[REDACTED] - IO (IO) - 0.08 USD
 [REDACTED] - Wen (WEN) - 0.00 USD
-
 [REDACTED] - Wormhole Token (W) - 0.00 USD
-SOL - Solana (SOL) - 1342.52 USD
+SOL - Solana (SOL) - 1365.66 USD
 
-💰 TOTAL TREASURY VALUE: 677866.32 USD
-💵 TOTAL STABLECOIN VALUE: 41028.44 USD
+💰 TOTAL TREASURY VALUE: 648005.47 USD
+💵 TOTAL STABLECOIN VALUE: 40941.09 USD
 
 ✅ Detailed token data saved to data/tokens.json
 
 
-{"totaltokenvalue":677866.3243448578,"totalstablevalue":41028.439515756734}
+{"totaltokenvalue":648005.4681014614,"totalstablevalue":40941.09137894671}
 
-✅ Total value token.js: $677866.32 USD
-💵 Stablecoin value: $41028.44 USD
+✅ Total value token.js: $648005.47 USD
+💵 Stablecoin value: $40941.09 USD
 ▶️ Running staking.js...
 🔄 Fetching stake accounts from Helius...
 
@@ -303,25 +318,25 @@ SOL - Solana (SOL) - 1342.52 USD
 
 🔹 Stake Account: [REDACTED]
    Staked amount: 214.9192 SOL
-   USD value: $25327.95
-   Delegated to: [REDACTED]
 
+   USD value: $25766.33
+   Delegated to: [REDACTED]
 
 🔹 Stake Account: [REDACTED]
 
    Staked amount: 2.7039 SOL
-   USD value: $318.66
+   USD value: $324.17
    Delegated to: [REDACTED]
 
 
 ✅ Detailed staking data saved to data/staking.json
 
-💰 Total staked value: $25646.61 USD
-{"totalStakedValue":25646.60535125468}
+💰 Total staked value: $26090.50 USD
+{"totalStakedValue":26090.499768640515}
 
 🔹 Staking process completed!
 
-✅ Total value staking.js: $25646.61 USD
+✅ Total value staking.js: $26090.50 USD
 ▶️ Running nft.js...
 🔄 Fetching NFTs from wallet via Helius...
 
@@ -335,7 +350,6 @@ SOL - Solana (SOL) - 1342.52 USD
 🚫 Ignored scam: A Воnker #962 ([REDACTED])
 🚫 Ignored scam: AB Open #01 ([REDACTED])
 🚫 Ignored scam: 1800$ Lucky Ticket TAKESAGA.com ([REDACTED])
-
 🚫 Ignored scam: FOMO 0% HOUSE EDGE GAMES ([REDACTED])
 ✅ Valid NFT found: JupReward #612 ([REDACTED])
 
@@ -343,9 +357,9 @@ SOL - Solana (SOL) - 1342.52 USD
 
 🚫 Ignored scam: Claynosaurz Loot Box ([REDACTED])
 🚫 Ignored scam: Truck Coin Swap ([REDACTED])
+
 🚫 Ignored scam: Slеrf #303 ([REDACTED])
 🚫 Ignored scam: Slеrf #1187 ([REDACTED])
-
 🚫 Ignored scam: RAYD.PROMO Pass ([REDACTED])
 
 🚫 Ignored scam: JP Open #009 ([REDACTED])
@@ -355,19 +369,18 @@ SOL - Solana (SOL) - 1342.52 USD
 🚫 Ignored scam: Sharky Loot Box ([REDACTED])
 🚫 Ignored scam: BOX#{numbers} ([REDACTED])
 ✅ Valid NFT found: y00t #814 ([REDACTED])
-
 🚫 Ignored scam: SAGA.PROMO AIRDROP by Saga ([REDACTED])
+
 🚫 Ignored scam: For You 6000Jup ([REDACTED])
 🚫 Ignored scam: Daddy ([REDACTED])
 🚫 Ignored scam: SAGA.PROMO PASS ([REDACTED])
 🚫 Ignored scam: TENSOR.MARKETS PASS ([REDACTED])
 🚫 Ignored scam: Daddy ([REDACTED])
-
 🚫 Ignored scam: p.HarrisDesigns - The Journey ([REDACTED])
 🚫 Ignored scam: Primes Airdrop Box ([REDACTED])
 ✅ Valid NFT found: $GIFT #1312 ([REDACTED])
-🚫 Ignored scam: AB Early #01 ([REDACTED])
 
+🚫 Ignored scam: AB Early #01 ([REDACTED])
 🚫 Ignored scam: By raydium.pro ([REDACTED])
 ✅ Valid NFT found: JupPass #311 ([REDACTED])
 ✅ Valid NFT found: $GIFT #1051 ([REDACTED])
@@ -376,35 +389,32 @@ SOL - Solana (SOL) - 1342.52 USD
 🚫 Ignored scam: Bоnkеr #1391 ([REDACTED])
 🚫 Ignored scam: A WОLF #1671 ([REDACTED])
 🚫 Ignored scam: Famous Fox Federation Loot Box ([REDACTED])
-
 🚫 Ignored scam: Daddy ([REDACTED])
 🚫 Ignored scam: Outstanding crate #271 ([REDACTED])
 🚫 Ignored scam: 🎁2024 Jupiter AirDrop ([REDACTED])
-🚫 Ignored scam: Limited Drop ([REDACTED])
 
+🚫 Ignored scam: Limited Drop ([REDACTED])
 🚫 Ignored scam: BOX#{numbers} ([REDACTED])
 ✅ Valid NFT found: Okay Bear #3817 ([REDACTED])
 🚫 Ignored scam: Bоnkеr #45 ([REDACTED])
 🚫 Ignored scam: SAGABOX.io Community Drop ([REDACTED])
-
 🚫 Ignored scam: Famous Fox Federation Loot Box ([REDACTED])
+
 🚫 Ignored scam: Key ([REDACTED])
 🚫 Ignored scam: Okay Bears Loot Box ([REDACTED])
 ✅ Valid NFT found: Permit #152 ([REDACTED])
 🚫 Ignored scam: claim $ai16z ([REDACTED])
-
 🚫 Ignored scam: Slеrf #698 ([REDACTED])
+
 🚫 Ignored scam: Okay Bears Loot Box ([REDACTED])
 🚫 Ignored scam: A WОLF #2891 ([REDACTED])
 ✅ Valid NFT found: Qualified #611 ([REDACTED])
-
 🚫 Ignored scam: Clоuds #1978 ([REDACTED])
 🚫 Ignored scam: Claynosaurz Loot Box ([REDACTED])
 🚫 Ignored scam: Limited Drop ([REDACTED])
 
 🚫 Ignored scam: Sаnctum #1441 ([REDACTED])
 🚫 Ignored scam: MFI.EXPERT WhiteList ([REDACTED])
-
 🚫 Ignored scam: Limited Drop ([REDACTED])
 🚫 Ignored scam: Outstanding crate #627 ([REDACTED])
 🚫 Ignored scam: Clоuds #2788 ([REDACTED])
@@ -412,52 +422,43 @@ SOL - Solana (SOL) - 1342.52 USD
 🚫 Ignored scam: CircleOnSol.com ([REDACTED])
 🚫 Ignored scam: Claim your WIF ([REDACTED])
 🚫 Ignored scam: 4000Jup For You 4000Jup.com ([REDACTED])
-
 ✅ Valid NFT found: $GIFT #1312 ([REDACTED])
 🚫 Ignored scam: SAGA.PROMO PASS ([REDACTED])
-
 🚫 Ignored scam: Slеrf #822 ([REDACTED])
+
 🚫 Ignored scam: RAYD.PROMO Pass ([REDACTED])
 🚫 Ignored scam: Daddy ([REDACTED])
-
 🚫 Ignored scam: Still Faster than ETH ([REDACTED])
 🚫 Ignored scam: AWOLF ([REDACTED])
 🚫 Ignored scam: A WOLFS #1883 ([REDACTED])
-
 🚫 Ignored scam: BOX#{numbers} ([REDACTED])
+
 🚫 Ignored scam: Sаnctum #74 ([REDACTED])
 🚫 Ignored scam: AB Open #01 ([REDACTED])
-
 🚫 Ignored scam: Daddy ([REDACTED])
 🚫 Ignored scam: Clоuds #1722 ([REDACTED])
-
 🚫 Ignored scam: Slеrf #926 ([REDACTED])
 🚫 Ignored scam: Clоuds #1195 ([REDACTED])
-
 🚫 Ignored scam: Clоud #2027 ([REDACTED])
-🚫 Ignored scam: Claim You BOME ([REDACTED])
 
+🚫 Ignored scam: Claim You BOME ([REDACTED])
 🚫 Ignored scam: GGSG Loot Box ([REDACTED])
 ✅ Valid NFT found: Valannium Ring #73 ([REDACTED])
 🚫 Ignored scam: MAGICEDEN.LOL REWARD ([REDACTED])
-
 🚫 Ignored scam: Daddy ([REDACTED])
 🚫 Ignored scam: claim $ai16z ([REDACTED])
-🚫 Ignored scam: A WОLF #2469 ([REDACTED])
 
+🚫 Ignored scam: A WОLF #2469 ([REDACTED])
 🚫 Ignored scam: Drift ([REDACTED])
 ✅ Valid NFT found: Okay Bear #1414 ([REDACTED])
-
 🚫 Ignored scam: Shiny Crate ([REDACTED])
 ✅ Valid NFT found: SACHI NFT Jackpot #402166 ([REDACTED])
-
 🚫 Ignored scam: !solusdt.fun 🎁$88,760 USDT ([REDACTED])
+
 ✅ Valid NFT found: Claynosaurz #363 ([REDACTED])
 🚫 Ignored scam: WASTEBIN #69 ([REDACTED])
-
 🚫 Ignored scam: dVIN Digital Cork #107228 ([REDACTED])
 🚫 Ignored scam: AB Open #002 ([REDACTED])
-
 🚫 Ignored scam: Third round Drop ([REDACTED])
 🚫 Ignored scam: Rare Pass ([REDACTED])
 
@@ -497,33 +498,38 @@ SOL - Solana (SOL) - 1342.52 USD
 🚫 Ignored scam: JUP.RED PASS ([REDACTED])
 🚫 Ignored scam: Bоnkеr #320 ([REDACTED])
 ✅ Valid NFT found: $GIFT #1312 ([REDACTED])
+
 🚫 Ignored scam: Mad Lads Week ([REDACTED])
 🚫 Ignored scam: Portals | Ivory #728 ([REDACTED])
-
 🚫 Ignored scam: A WOLF#2203 ([REDACTED])
 🚫 Ignored scam: RAYD.PROMO Luxury Pass ([REDACTED])
 🚫 Ignored scam: Bоnkеr #1287 ([REDACTED])
 🚫 Ignored scam: BACKPACK.PICS PASS ([REDACTED])
+
 🚫 Ignored scam: A WОLF #1808 ([REDACTED])
 🚫 Ignored scam: Clоud #2305 ([REDACTED])
 🚫 Ignored scam: Sharky Loot Box ([REDACTED])
 🚫 Ignored scam: Clоud #1205 ([REDACTED])
+
 🚫 Ignored scam: Clоuds #817 ([REDACTED])
 🚫 Ignored scam: Slеrf #1162 ([REDACTED])
 
 🚫 Ignored scam: JUPS.io Token Box ([REDACTED])
 🚫 Ignored scam: A WOLF #211 ([REDACTED])
 🚫 Ignored scam: AB Early #001 ([REDACTED])
+
 🚫 Ignored scam: AB Rare #1 ([REDACTED])
 ✅ Valid NFT found:  GIVEAWAY #1523 ([REDACTED])
 
 🚫 Ignored scam: 100 SOL JUPDAO.COM ([REDACTED])
 🚫 Ignored scam: SAGA.PROMO PASS ([REDACTED])
+
 🚫 Ignored scam: FOLLOW @SlerfPFPs ([REDACTED])
 🚫 Ignored scam: Claim You BOME ([REDACTED])
-🚫 Ignored scam: Clоud #813 ([REDACTED])
 
+🚫 Ignored scam: Clоud #813 ([REDACTED])
 🚫 Ignored scam: Limited Drop ([REDACTED])
+
 🚫 Ignored scam: $PENGU AIRDROP ([REDACTED])
 🚫 Ignored scam: Drop Pass ([REDACTED])
 🚫 Ignored scam: LADS USE SOLANA.FM ([REDACTED])
@@ -534,16 +540,18 @@ SOL - Solana (SOL) - 1342.52 USD
 🚫 Ignored scam: Claim You BOME ([REDACTED])
 🚫 Ignored scam: Bоnkеr #1993 ([REDACTED])
 🚫 Ignored scam: Clоud #352 ([REDACTED])
+
 🚫 Ignored scam: 2400JUP Lucky Box JUPCASE.io ([REDACTED])
 🚫 Ignored scam: 🎁2024 Jupiter AirDrop ([REDACTED])
 
 🚫 Ignored scam: v.watch ([REDACTED])
 🚫 Ignored scam: Clоuds #1674 ([REDACTED])
+
 🚫 Ignored scam: Claim your 5000WIF ([REDACTED])
 🚫 Ignored scam: Mitya ([REDACTED])
-
 ✅ Valid NFT found: Mad Lads Inth Pool #7228 ([REDACTED])
 🚫 Ignored scam: A WOLFS #1879 ([REDACTED])
+
 🚫 Ignored scam: MonkeDAO Loot Box ([REDACTED])
 🚫 Ignored scam: SAGA.PROMO PASS ([REDACTED])
 🚫 Ignored scam: Slеrf #1221 ([REDACTED])
@@ -552,21 +560,20 @@ SOL - Solana (SOL) - 1342.52 USD
 🚫 Ignored scam: Slеrf #343 ([REDACTED])
 
 🚫 Ignored scam: Claim your 5000WIF ([REDACTED])
-
 🚫 Ignored scam: 1000$ BOME Drop BOMEDROP.com ([REDACTED])
 🚫 Ignored scam: 100SOL mnde.network ([REDACTED])
-🚫 Ignored scam: SAGA.PROMO PASS ([REDACTED])
 
+🚫 Ignored scam: SAGA.PROMO PASS ([REDACTED])
 🚫 Ignored scam: Bоnkеr #313 ([REDACTED])
 🚫 Ignored scam: MonkeDAO Loot Box ([REDACTED])
-
 🚫 Ignored scam: JUP Third round Drop ([REDACTED])
+
 🚫 Ignored scam: Shiny Crate ([REDACTED])
 ✅ Valid NFT found: Okay Bear #9135 ([REDACTED])
 🚫 Ignored scam: Famous Fox Federation Loot Box ([REDACTED])
+
 ✅ Valid NFT found: AB Early #02 ([REDACTED])
 🚫 Ignored scam: Mad Lads Loot Box ([REDACTED])
-
 🚫 Ignored scam: Clоud #1947 ([REDACTED])
 🚫 Ignored scam: Limited Drop ([REDACTED])
 🚫 Ignored scam: Tensorians Week ([REDACTED])
@@ -583,7 +590,7 @@ SOL - Solana (SOL) - 1342.52 USD
 
 🔍 Processing NFT: y00t #814 ([REDACTED])
 
-📝 NFT: y00t #814 | Collection: y00ts | Floor: 0.7226 SOL
+📝 NFT: y00t #814 | Collection: y00ts | Floor: 0.7382 SOL
 
 🔍 Processing NFT: $GIFT #1312 ([REDACTED])
 
@@ -599,7 +606,7 @@ SOL - Solana (SOL) - 1342.52 USD
 
 🔍 Processing NFT: Okay Bear #3817 ([REDACTED])
 
-📝 NFT: Okay Bear #3817 | Collection: okay_bears | Floor: 1.5190 SOL
+📝 NFT: Okay Bear #3817 | Collection: okay_bears | Floor: 1.5000 SOL
 
 🔍 Processing NFT: Permit #152 ([REDACTED])
 
@@ -615,11 +622,11 @@ SOL - Solana (SOL) - 1342.52 USD
 
 🔍 Processing NFT: Valannium Ring #73 ([REDACTED])
 
-📝 NFT: Valannium Ring #73 | Collection: valannium_ring | Floor: 1.9799 SOL
+📝 NFT: Valannium Ring #73 | Collection: valannium_ring | Floor: 1.9789 SOL
 
 🔍 Processing NFT: Okay Bear #1414 ([REDACTED])
 
-📝 NFT: Okay Bear #1414 | Collection: okay_bears | Floor: 1.5190 SOL
+📝 NFT: Okay Bear #1414 | Collection: okay_bears | Floor: 1.5000 SOL
 
 🔍 Processing NFT: SACHI NFT Jackpot #402166 ([REDACTED])
 
@@ -627,7 +634,7 @@ SOL - Solana (SOL) - 1342.52 USD
 
 🔍 Processing NFT: Claynosaurz #363 ([REDACTED])
 
-📝 NFT: Claynosaurz #363 | Collection: claynosaurz | Floor: 8.4030 SOL
+📝 NFT: Claynosaurz #363 | Collection: claynosaurz | Floor: 7.7500 SOL
 
 🔍 Processing NFT: Unknown ([REDACTED])
 
@@ -655,72 +662,427 @@ SOL - Solana (SOL) - 1342.52 USD
 
 🔍 Processing NFT: Okay Bear #9135 ([REDACTED])
 
-📝 NFT: Okay Bear #9135 | Collection: okay_bears | Floor: 1.5190 SOL
+📝 NFT: Okay Bear #9135 | Collection: okay_bears | Floor: 1.5000 SOL
 
 🔍 Processing NFT: AB Early #02 ([REDACTED])
 
 ❌ Collection not found for AB Early #02 ([REDACTED])
 
+⚠️ Error in nft.js: ⚠️ API error: HTTP Error: 403 (Attempt 1/5)
+
+⚠️ Error in nft.js: ⚠️ API error: HTTP Error: 403 (Attempt 2/5)
+
+⚠️ Error in nft.js: ⚠️ API error: HTTP Error: 403 (Attempt 3/5)
+
+⚠️ Error in nft.js: ⚠️ API error: HTTP Error: 403 (Attempt 4/5)
+
+⚠️ Error in nft.js: ⚠️ API error: HTTP Error: 403 (Attempt 5/5)
+❌ API failed after 5 attempts.
+
 ✅ Detailed NFT data saved to data/nfts.json
 
 💎 **Summary** 💎
 
-📊 Total value in SOL: 15.8677 SOL
-💰 Total value in USD: $1870.49
+📊 Total value in SOL: 15.1723 SOL
+💰 Total value in USD: $0.00
 
-🔹 Value recorded in totalNFTValue: $1870.49
+🔹 Value recorded in totalNFTValue: $0.00
 --- JSON OUTPUT START ---
-{"totalNFTValue":1870.48709670816}
+{"totalNFTValue":0}
 --- JSON OUTPUT END ---
 
-✅ Total value nft.js: $1870.49 USD
+✅ Total value nft.js: $0.00 USD
 
 📝 **Treasury Summary**:
-💰 Tokens (ex-stable): $636837.88
-💵 Stablecoins: $41028.44
-🔹 Staking: $25646.60535125468
-🎨 NFT: $1870.48709670816
-🏦 Total treasury value: $705383.42 USD
+💰 Tokens (ex-stable): $607064.38
+💵 Stablecoins: $40941.09
+🔹 Staking: $26090.499768640515
+🎨 NFT: $0
+🏦 Total treasury value: $674095.97 USD
 
 --- JSON OUTPUT START ---
-{"totalTreasury":"705383.42","tokenValue":677866.3243448578,"nonStableTokenValue":"636837.88","stakingValue":25646.60535125468,"nftValue":1870.48709670816,"totalstablevalue":"41028.44"}
+{"totalTreasury":"674095.97","tokenValue":648005.4681014614,"nonStableTokenValue":"607064.38","stakingValue":26090.499768640515,"nftValue":0,"totalstablevalue":"40941.09"}
 --- JSON OUTPUT END ---
 ✅ `totalvalue_output.json` saved successfully!
 
 
 ----- calculate.js -----
 ✅ Data read from totalvalue_output.json: {
-  totalTreasury: '705383.42',
-  tokenValue: 677866.3243448578,
-  nonStableTokenValue: '636837.88',
-  stakingValue: 25646.60535125468,
-  nftValue: 1870.48709670816,
-  totalstablevalue: '41028.44'
+  totalTreasury: '674095.97',
+  tokenValue: 648005.4681014614,
+  nonStableTokenValue: '607064.38',
+  stakingValue: 26090.499768640515,
+  nftValue: 0,
+  totalstablevalue: '40941.09'
 }
-✅ data/summary.json updated successfully!
-✅ data.json updated successfully!
-📂 Updated content: {
-  "lastUpdated": "28/09/26",
-  "treasuryValue": 705383,
-  "treasuryGen1": 634845,
-  "treasuryGen2": 70538,
-  "solPrice": 118,
-  "nftGen1Value": 1270,
-  "nftGen1ValueSol": "10.77",
-  "nftGen2Value": 79,
-  "nftGen2ValueSol": "0.67",
-  "gen1ListingPrice": 575,
-  "gen1ListingPriceSol": "4.87",
-  "gen2ListingPrice": 29,
-  "gen2ListingPriceSol": "0.24",
-  "gen1Discount": "-54.75",
-  "gen1DiscountLabel": "Discounted",
-  "gen2Discount": "-63.83",
-  "gen2DiscountLabel": "Discounted",
-  "stableValue": 41028,
-  "stablePercentage": 6
+❌ Error fetching SOL price: AxiosError: Request failed with status code 403
+    at settle (/home/runner/work/torrino-dao-dashboard/torrino-dao-dashboard/node_modules/axios/dist/node/axios.cjs:2530:12)
+    at BrotliDecompress.handleStreamEnd (/home/runner/work/torrino-dao-dashboard/torrino-dao-dashboard/node_modules/axios/dist/node/axios.cjs:4772:11)
+    at BrotliDecompress.emit (node:events:517:28)
+    at endReadableNT (node:internal/streams/readable:1400:12)
+    at process.processTicksAndRejections (node:internal/process/task_queues:82:21)
+    at Axios.request (/home/runner/work/torrino-dao-dashboard/torrino-dao-dashboard/node_modules/axios/dist/node/axios.cjs:6308:43)
+    at process.processTicksAndRejections (node:internal/process/task_queues:95:5)
+    at async getSolPrice (/home/runner/work/torrino-dao-dashboard/torrino-dao-dashboard/scripts/calculate.js:14:26)
+    at async main (/home/runner/work/torrino-dao-dashboard/torrino-dao-dashboard/scripts/calculate.js:73:26) {
+  isAxiosError: true,
+  code: 'ERR_BAD_REQUEST',
+  config: [Object: null prototype] {
+    transitional: {
+      silentJSONParsing: true,
+      forcedJSONParsing: true,
+      clarifyTimeoutError: false,
+      legacyInterceptorReqResOrdering: true,
+      advertiseZstdAcceptEncoding: false,
+      validateStatusUndefinedResolves: true
+    },
+    adapter: [ 'xhr', 'http', 'fetch' ],
+    transformRequest: [ [Function: transformRequest] ],
+    transformResponse: [ [Function: transformResponse] ],
+    timeout: 0,
+    xsrfCookieName: 'XSRF-TOKEN',
+    xsrfHeaderName: 'X-XSRF-TOKEN',
+    maxContentLength: -1,
+    maxBodyLength: -1,
+    env: { FormData: [Function], Blob: [class Blob] },
+    validateStatus: [Function: validateStatus],
+    headers: Object [AxiosHeaders] {
+      Accept: 'application/json, text/plain, */*',
+      'Content-Type': undefined,
+      'User-Agent': 'axios/1.20.0',
+      'Accept-Encoding': 'gzip, compress, deflate, br'
+    },
+    method: 'get',
+    url: 'https://api.coingecko.com/api/v3/simple/price?ids=solana&vs_currencies=usd',
+    allowAbsoluteUrls: true,
+    data: undefined
+  },
+  request: <ref *1> ClientRequest {
+    _events: [Object: null prototype] {
+      abort: [Function (anonymous)],
+      aborted: [Function (anonymous)],
+      connect: [Function (anonymous)],
+      error: [Function (anonymous)],
+      socket: [Function (anonymous)],
+      timeout: [Function (anonymous)],
+      finish: [Function: requestOnFinish]
+    },
+    _eventsCount: 7,
+    _maxListeners: undefined,
+    outputData: [],
+    outputSize: 0,
+    writable: true,
+    destroyed: true,
+    _last: true,
+    chunkedEncoding: false,
+    shouldKeepAlive: false,
+    maxRequestsOnConnectionReached: false,
+    _defaultKeepAlive: true,
+    useChunkedEncodingByDefault: false,
+    sendDate: false,
+    _removedConnection: false,
+    _removedContLen: false,
+    _removedTE: false,
+    strictContentLength: false,
+    _contentLength: 0,
+    _hasBody: true,
+    _trailer: '',
+    finished: true,
+    _headerSent: true,
+    _closed: true,
+    socket: TLSSocket {
+      _tlsOptions: [Object],
+      _secureEstablished: true,
+      _securePending: false,
+      _newSessionPending: false,
+      _controlReleased: true,
+      secureConnecting: false,
+      _SNICallback: null,
+      servername: 'api.coingecko.com',
+      alpnProtocol: false,
+      authorized: true,
+      authorizationError: null,
+      encrypted: true,
+      _events: [Object: null prototype],
+      _eventsCount: 9,
+      connecting: false,
+      _hadError: false,
+      _parent: null,
+      _host: 'api.coingecko.com',
+      _closeAfterHandlingError: false,
+      _readableState: [ReadableState],
+      _maxListeners: undefined,
+      _writableState: [WritableState],
+      allowHalfOpen: false,
+      _sockname: null,
+      _pendingData: null,
+      _pendingEncoding: '',
+      server: undefined,
+      _server: null,
+      ssl: null,
+      _requestCert: true,
+      _rejectUnauthorized: true,
+      parser: null,
+      _httpMessage: [Circular *1],
+      timeout: 0,
+      write: [Function: writeAfterFIN],
+      [Symbol(alpncallback)]: null,
+      [Symbol(res)]: null,
+      [Symbol(verified)]: true,
+      [Symbol(pendingSession)]: null,
+      [Symbol(async_id_symbol)]: 6,
+      [Symbol(kHandle)]: null,
+      [Symbol(lastWriteQueueSize)]: 0,
+      [Symbol(timeout)]: null,
+      [Symbol(kBuffer)]: null,
+      [Symbol(kBufferCb)]: null,
+      [Symbol(kBufferGen)]: null,
+      [Symbol(kCapture)]: false,
+      [Symbol(kSetNoDelay)]: false,
+      [Symbol(kSetKeepAlive)]: true,
+      [Symbol(kSetKeepAliveInitialDelay)]: 60,
+      [Symbol(kBytesRead)]: 1026,
+      [Symbol(kBytesWritten)]: 225,
+      [Symbol(connect-options)]: [Object],
+      [Symbol(axios.http.socketListener)]: true,
+      [Symbol(axios.http.currentReq)]: [Writable]
+    },
+    _header: 'GET /api/v3/simple/price?ids=solana&vs_currencies=usd HTTP/1.1\r\n' +
+      'Accept: application/json, text/plain, */*\r\n' +
+      'User-Agent: axios/1.20.0\r\n' +
+      'Accept-Encoding: gzip, compress, deflate, br\r\n' +
+      'Host: api.coingecko.com\r\n' +
+      'Connection: close\r\n' +
+      '\r\n',
+    _keepAliveTimeout: 0,
+    _onPendingData: [Function: nop],
+    agent: Agent {
+      _events: [Object: null prototype],
+      _eventsCount: 2,
+      _maxListeners: undefined,
+      defaultPort: 443,
+      protocol: 'https:',
+      options: [Object: null prototype],
+      requests: [Object: null prototype] {},
+      sockets: [Object: null prototype] {},
+      freeSockets: [Object: null prototype] {},
+      keepAliveMsecs: 1000,
+      keepAlive: false,
+      maxSockets: Infinity,
+      maxFreeSockets: 256,
+      scheduling: 'lifo',
+      maxTotalSockets: Infinity,
+      totalSocketCount: 0,
+      maxCachedSessions: 100,
+      _sessionCache: [Object],
+      [Symbol(kCapture)]: false
+    },
+    socketPath: undefined,
+    method: 'GET',
+    maxHeaderSize: undefined,
+    insecureHTTPParser: false,
+    joinDuplicateHeaders: undefined,
+    path: '/api/v3/simple/price?ids=solana&vs_currencies=usd',
+    _ended: true,
+    res: IncomingMessage {
+      _readableState: [ReadableState],
+      _events: [Object: null prototype],
+      _eventsCount: 4,
+      _maxListeners: undefined,
+      socket: [TLSSocket],
+      httpVersionMajor: 1,
+      httpVersionMinor: 1,
+      httpVersion: '1.1',
+      complete: true,
+      rawHeaders: [Array],
+      rawTrailers: [],
+      joinDuplicateHeaders: undefined,
+      aborted: false,
+      upgrade: false,
+      url: '',
+      method: null,
+      statusCode: 403,
+      statusMessage: 'Forbidden',
+      client: [TLSSocket],
+      _consuming: true,
+      _dumped: false,
+      req: [Circular *1],
+      responseUrl: 'https://api.coingecko.com/api/v3/simple/price?ids=solana&vs_currencies=usd',
+      redirects: [],
+      [Symbol(kCapture)]: false,
+      [Symbol(kHeaders)]: [Object],
+      [Symbol(kHeadersCount)]: 28,
+      [Symbol(kTrailers)]: null,
+      [Symbol(kTrailersCount)]: 0
+    },
+    aborted: false,
+    timeoutCb: null,
+    upgradeOrConnect: false,
+    parser: null,
+    maxHeadersCount: null,
+    reusedSocket: false,
+    host: 'api.coingecko.com',
+    protocol: 'https:',
+    _redirectable: Writable {
+      _writableState: [WritableState],
+      _events: [Object: null prototype],
+      _eventsCount: 4,
+      _maxListeners: undefined,
+      _options: [Object],
+      _ended: true,
+      _ending: true,
+      _redirectCount: 0,
+      _redirects: [],
+      _requestBodyLength: 0,
+      _requestBodyBuffers: [],
+      _onNativeResponse: [Function (anonymous)],
+      _headerFilter: /^(?:Authorization|Proxy-Authorization|Cookie)$/i,
+      _currentRequest: [Circular *1],
+      _currentUrl: 'https://api.coingecko.com/api/v3/simple/price?ids=solana&vs_currencies=usd',
+      _timeout: null,
+      [Symbol(kCapture)]: false
+    },
+    [Symbol(kCapture)]: false,
+    [Symbol(kBytesWritten)]: 0,
+    [Symbol(kNeedDrain)]: false,
+    [Symbol(corked)]: 0,
+    [Symbol(kOutHeaders)]: [Object: null prototype] {
+      accept: [Array],
+      'user-agent': [Array],
+      'accept-encoding': [Array],
+      host: [Array]
+    },
+    [Symbol(errored)]: null,
+    [Symbol(kHighWaterMark)]: 16384,
+    [Symbol(kRejectNonStandardBodyWrites)]: false,
+    [Symbol(kUniqueHeaders)]: null
+  },
+  response: {
+    status: 403,
+    statusText: 'Forbidden',
+    headers: Object [AxiosHeaders] {
+      date: 'Tue, 29 Sep 2026 10:12:33 GMT',
+      'content-type': 'text/html',
+      'transfer-encoding': 'chunked',
+      connection: 'close',
+      'cf-ray': 'a42a35cb5b08be34-DUB',
+      'cf-cache-status': 'DYNAMIC',
+      server: 'cloudflare',
+      vary: 'Origin',
+      via: '1.1 [REDACTED].cloudfront.net (CloudFront)',
+      'alt-svc': 'h3=":443"; ma=86400',
+      'x-amz-cf-id': '[REDACTED]==',
+      'x-amz-cf-pop': 'LHR3-P2',
+      'x-cache': 'Error from cloudfront'
+    },
+    config: [Object: null prototype] {
+      transitional: [Object],
+      adapter: [Array],
+      transformRequest: [Array],
+      transformResponse: [Array],
+      timeout: 0,
+      xsrfCookieName: 'XSRF-TOKEN',
+      xsrfHeaderName: 'X-XSRF-TOKEN',
+      maxContentLength: -1,
+      maxBodyLength: -1,
+      env: [Object],
+      validateStatus: [Function: validateStatus],
+      headers: [Object [AxiosHeaders]],
+      method: 'get',
+      url: 'https://api.coingecko.com/api/v3/simple/price?ids=solana&vs_currencies=usd',
+      allowAbsoluteUrls: true,
+      data: undefined
+    },
+    request: <ref *1> ClientRequest {
+      _events: [Object: null prototype],
+      _eventsCount: 7,
+      _maxListeners: undefined,
+      outputData: [],
+      outputSize: 0,
+      writable: true,
+      destroyed: true,
+      _last: true,
+      chunkedEncoding: false,
+      shouldKeepAlive: false,
+      maxRequestsOnConnectionReached: false,
+      _defaultKeepAlive: true,
+      useChunkedEncodingByDefault: false,
+      sendDate: false,
+      _removedConnection: false,
+      _removedContLen: false,
+      _removedTE: false,
+      strictContentLength: false,
+      _contentLength: 0,
+      _hasBody: true,
+      _trailer: '',
+      finished: true,
+      _headerSent: true,
+      _closed: true,
+      socket: [TLSSocket],
+      _header: 'GET /api/v3/simple/price?ids=solana&vs_currencies=usd HTTP/1.1\r\n' +
+        'Accept: application/json, text/plain, */*\r\n' +
+        'User-Agent: axios/1.20.0\r\n' +
+        'Accept-Encoding: gzip, compress, deflate, br\r\n' +
+        'Host: api.coingecko.com\r\n' +
+        'Connection: close\r\n' +
+        '\r\n',
+      _keepAliveTimeout: 0,
+      _onPendingData: [Function: nop],
+      agent: [Agent],
+      socketPath: undefined,
+      method: 'GET',
+      maxHeaderSize: undefined,
+      insecureHTTPParser: false,
+      joinDuplicateHeaders: undefined,
+      path: '/api/v3/simple/price?ids=solana&vs_currencies=usd',
+      _ended: true,
+      res: [IncomingMessage],
+      aborted: false,
+      timeoutCb: null,
+      upgradeOrConnect: false,
+      parser: null,
+      maxHeadersCount: null,
+      reusedSocket: false,
+      host: 'api.coingecko.com',
+      protocol: 'https:',
+      _redirectable: [Writable],
+      [Symbol(kCapture)]: false,
+      [Symbol(kBytesWritten)]: 0,
+      [Symbol(kNeedDrain)]: false,
+      [Symbol(corked)]: 0,
+      [Symbol(kOutHeaders)]: [Object: null prototype],
+      [Symbol(errored)]: null,
+      [Symbol(kHighWaterMark)]: 16384,
+      [Symbol(kRejectNonStandardBodyWrites)]: false,
+      [Symbol(kUniqueHeaders)]: null
+    },
+    data: '<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">\n' +
+      '<HTML><HEAD><META HTTP-EQUIV="Content-Type" CONTENT="text/html; charset=iso-8859-1">\n' +
+      '<TITLE>ERROR: The request could not be satisfied</TITLE>\n' +
+      '</HEAD><BODY>\n' +
+      '<H1>403 ERROR</H1>\n' +
+      '<H2>The request could not be satisfied.</H2>\n' +
+      '<HR noshade size="1px">\n' +
+      'Request blocked.\n' +
+      "We can't connect to the server for this app or website at this time. There might be too much traffic or a configuration error. Try again later, or contact the app or website owner.\n" +
+      '<BR clear="all">\n' +
+      'If you provide content to customers through CloudFront, you can find steps to troubleshoot and help prevent this error by reviewing the CloudFront documentation.\n' +
+      '<BR clear="all">\n' +
+      '<HR noshade size="1px">\n' +
+      '<PRE>\n' +
+      'Generated by cloudfront (CloudFront)\n' +
+      'Request ID: [REDACTED]==\n' +
+      '</PRE>\n' +
+      '<ADDRESS>\n' +
+      '</ADDRESS>\n' +
+      '</BODY></HTML>'
+  },
+  status: 403
 }
+❌ General error: Error: SOL price unavailable
+    at main (/home/runner/work/torrino-dao-dashboard/torrino-dao-dashboard/scripts/calculate.js:74:30)
+    at process.processTicksAndRejections (node:internal/process/task_queues:95:5)
 
 
-Finished at: 2026-09-28T10:14:19Z
+Finished at: 2026-09-29T10:12:33Z
 Status: true
